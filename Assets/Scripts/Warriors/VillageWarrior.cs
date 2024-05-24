@@ -7,9 +7,9 @@ public class VillageWarrior : Warrior
     // Start is called before the first frame update
     void Awake()
     {
-        health = 200;
-        maxHealth = 200;
-        attackTime = 2.5f;
+        health = 80;
+        maxHealth = 80;
+        attackTime = 1.5f;
         direction = Vector2.right;
         inCombat = false;
         moveSpeed = 4f;
