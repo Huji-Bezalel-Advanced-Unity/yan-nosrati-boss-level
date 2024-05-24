@@ -1,37 +1,42 @@
+using System;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
-public class InputManager : MonoBehaviour
+public class InputManager
 {
-
     public static InputManager Instance;
-  
-    void Awake()
+    public static event Action<KeyCode> keyPressed;
+
+
+    public InputManager()
     {
         if (Instance == null)
         {
             Instance = this;
-        }     
+        }
+
     }
+
     public Vector3 GetMousePosition()
     {
         return Input.mousePosition;
     }
 
-    public KeyCode CheckKeyPressed()
+    
+    public void CheckKeyPressed()
     {
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            return KeyCode.Q;
+            keyPressed?.Invoke(KeyCode.Q);
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            return KeyCode.W;
+            keyPressed?.Invoke(KeyCode.W);
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            return KeyCode.R;
+            keyPressed?.Invoke(KeyCode.R);
         }
-
-        return KeyCode.None;
     }
 }

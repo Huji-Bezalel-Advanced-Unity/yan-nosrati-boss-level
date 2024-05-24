@@ -7,7 +7,8 @@ public class VillageWarrior : Warrior
     // Start is called before the first frame update
     void Awake()
     {
-        health = 100;
+        health = 200;
+        maxHealth = 200;
         attackTime = 2.5f;
         direction = Vector2.right;
         inCombat = false;
@@ -20,7 +21,15 @@ public class VillageWarrior : Warrior
     void FixedUpdate()
     {
         Move();
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            print("CALLLED -25");
+            RemoveHealth(25);
+            
+        }
     }
+    
+    
 
   
     

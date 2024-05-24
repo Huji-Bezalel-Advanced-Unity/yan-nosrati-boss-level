@@ -1,21 +1,41 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Entity
 {
 
-    [SerializeField] private CastManager castManager;
-    
+    private CastManager _castManager;
     private float currentAngle = 0f;
+    [SerializeField] private GameObject bow;
+    
 
+    
+    public void Init(CastManager castManager)
+    {
+        _castManager = castManager;
+        health = 500;
+        maxHealth = 500;
+        
+    }
     void Update()
     {
-        RotateTowardsMouse();
-        castManager.TryToShootBasicArrow(transform.rotation);
-        CheckIfSpellIsTriggered();
+        InputManager.Instance.CheckKeyPressed();
+        _castManager.UpdateSpellsCooldowns();
+        Move();
+        _castManager.TryToShootBasicArrow(bow.transform.rotation);
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            health -= 50;
+        }
+    }
+
+    private void OnEnable()
+    {
+        InputManager.keyPressed += ReactToKeyPress;
     }
     
 
-    private void RotateTowardsMouse()
+    public override void Move()
     {
         // Get the mouse position in world coordinates
         Vector3 mousePosition = MainCamera.Camera.MatchMouseCoordinatesToCamera(Input.mousePosition);
@@ -34,18 +54,16 @@ public class Player : Entity
         currentAngle = Mathf.LerpAngle(currentAngle, clampedAngle, Time.deltaTime * 10f);
 
         // Apply the rotation to the sprite
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
+        bow.transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
     }
-
-    private void CheckIfSpellIsTriggered()
+    
+    
+    private void ReactToKeyPress(KeyCode key)
     {
-        KeyCode key = InputManager.Instance.CheckKeyPressed();
-        if (key != KeyCode.None)
-        {
-            print("?");
-            castManager.TryToCastSpell(key);
-        }
-
+        _castManager.TryToCastSpell(key,bow.transform.rotation);
     }
+   
+
+    
     
 }

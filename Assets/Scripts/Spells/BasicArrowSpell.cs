@@ -10,7 +10,7 @@ public class BasicArrowSpell : Spell
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        DebuffsList = new List<Debuff> { new DamageDebuff(2) };
+        DebuffsList = new List<Debuff> { new DamageDebuff(10) };
         moveSpeed = 20f;
         coolDown = 1f;
 
@@ -29,15 +29,18 @@ public class BasicArrowSpell : Spell
     }
 
 
-    public override void Cast(Vector2 direction)
+    public override void Cast(Vector2 direction, Quaternion playerRotation)
     {
+        
+        BasicArrowSpell arrow  = Instantiate(this, Constants.BowPosition, playerRotation);
         // Convert screen coordinates to world coordinates
+        print("REACHED");
         Vector3 pos = MainCamera.Camera.MatchMouseCoordinatesToCamera(direction);
 
-
+        print("REACHED");
         // I did this calculation myself and chatgpt couldn't come up with it, im proud
         direction = (new Vector2(pos.x, pos.y) + (new Vector2(Constants.BowPosition.x, Constants.BowPosition.y)*-1)).normalized;
 
-        rb.AddForce(direction * moveSpeed, ForceMode2D.Impulse);
+        arrow.rb.AddForce(direction * moveSpeed, ForceMode2D.Impulse);
     }
 }
