@@ -52,6 +52,8 @@ MonoBehaviour:
   stunned: 0
   moveSpeed: 0
   healthBar: {fileID: 4318703948030729470}
+  isDead: 0
+  animator: {fileID: 2036534920114707647}
   rb: {fileID: 8877540813612796190}
   damage: 0
   attackTime: 0
@@ -94,7 +96,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3436722511864477883}
   - component: {fileID: 6523341149432752825}
-  - component: {fileID: 6136449329276442705}
+  - component: {fileID: 2747146197007610888}
+  - component: {fileID: 2036534920114707647}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -111,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 3612705647788924059}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -169,7 +172,74 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &6136449329276442705
+--- !u!60 &2747146197007610888
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3612705647788924059}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.972973, y: 3.7027028}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.081081085, y: -1.5810812}
+      - {x: 0.10810811, y: -1.5810812}
+      - {x: 0.21621622, y: -1.5540541}
+      - {x: 0.2972973, y: -0.8513514}
+      - {x: 0.6216216, y: -0.7702703}
+      - {x: 0.6756757, y: -0.6621622}
+      - {x: 0.6756757, y: -0.5540541}
+      - {x: 0.3783784, y: -0.3648649}
+      - {x: 0.21621622, y: 0.22972974}
+      - {x: 0.10810811, y: 0.6621622}
+      - {x: 0.027027028, y: 0.7162162}
+      - {x: -0.2972973, y: 0.7162162}
+      - {x: -0.5945946, y: 0.2837838}
+      - {x: -0.6216216, y: 0.12162162}
+      - {x: -0.6216216, y: -1.0135136}
+      - {x: -0.5945946, y: -1.1216216}
+      - {x: -0.5405406, y: -1.5540541}
+      - {x: -0.43243244, y: -1.5810812}
+      - {x: -0.1891892, y: -1.5810812}
+      - {x: -0.16216217, y: -1.527027}
+      - {x: -0.16216217, y: -1.472973}
+      - {x: -0.16216217, y: -1.5}
+  m_UseDelaunayMesh: 0
+--- !u!95 &2036534920114707647
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -208,7 +278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3754107508359370251, guid: 8cadc63e92b64af4aa61172fb05c24d1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.04
+      value: 3.44
       objectReference: {fileID: 0}
     - target: {fileID: 3754107508359370251, guid: 8cadc63e92b64af4aa61172fb05c24d1, type: 3}
       propertyPath: m_LocalPosition.z

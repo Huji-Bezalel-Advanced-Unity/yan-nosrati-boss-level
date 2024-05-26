@@ -9,7 +9,7 @@ public class SummonVillageWarriorSpell : Spell
 
     private void Awake()
     {
-        coolDown = 6f;
+        coolDown = 0f;
         DebuffsList = new List<Debuff>{};
     }
 

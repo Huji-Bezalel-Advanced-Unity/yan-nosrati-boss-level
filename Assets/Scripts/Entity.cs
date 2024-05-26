@@ -10,6 +10,8 @@ public abstract class Entity : MonoBehaviour
     public bool stunned;
     public float moveSpeed;
     public GameObject healthBar;
+    public bool isDead;
+    public Animator animator;
 
 
     
@@ -19,8 +21,18 @@ public abstract class Entity : MonoBehaviour
         float nextScale = (float) health / maxHealth;
         healthBar.transform.localScale =
             new Vector3(nextScale, healthBar.transform.localScale.y, 0);
-        print(healthBar.transform.localScale);
+        if (health == 0) Die();
+        
     }
+
+    public void Die()
+    {
+        isDead = true;
+        animator.SetTrigger("Die");
+    }
+    
+        
+    
 
     public abstract void Move();
 }

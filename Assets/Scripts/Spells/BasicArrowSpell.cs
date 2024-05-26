@@ -12,7 +12,7 @@ public class BasicArrowSpell : Spell
         rb = GetComponent<Rigidbody2D>();
         DebuffsList = new List<Debuff> { new DamageDebuff(10) };
         moveSpeed = 20f;
-        coolDown = 1f;
+        coolDown = 50f;
 
     }
 
@@ -23,7 +23,6 @@ public class BasicArrowSpell : Spell
         if (transform.position.x > Constants.OutOfBoundsXPos || transform.position.y > Constants.OutOfBoundsYPos ||
             transform.position.y < -Constants.OutOfBoundsYPos)
         {
-            print(transform.position);
             Destroy(this.gameObject);
         }
     }
@@ -34,10 +33,8 @@ public class BasicArrowSpell : Spell
         
         BasicArrowSpell arrow  = Instantiate(this, Constants.BowPosition, playerRotation);
         // Convert screen coordinates to world coordinates
-        print("REACHED");
         Vector3 pos = MainCamera.Camera.MatchMouseCoordinatesToCamera(direction);
 
-        print("REACHED");
         // I did this calculation myself and chatgpt couldn't come up with it, im proud
         direction = (new Vector2(pos.x, pos.y) + (new Vector2(Constants.BowPosition.x, Constants.BowPosition.y)*-1)).normalized;
 

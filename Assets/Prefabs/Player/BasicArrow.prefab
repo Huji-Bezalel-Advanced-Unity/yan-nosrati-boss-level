@@ -110,8 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  coolDown: 1
-  _playerBow: {fileID: 1354322261131916337, guid: a22968b0c1ccde94e86c874afedff7fa, type: 3}
+  coolDown: 50
 --- !u!1 &8651516065726720636
 GameObject:
   m_ObjectHideFlags: 0
