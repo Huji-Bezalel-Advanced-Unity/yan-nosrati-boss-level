@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using DefaultNamespace;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class VillageWarrior : Warrior
@@ -9,13 +12,13 @@ public class VillageWarrior : Warrior
 
     void Awake()
     {
-        health = 80;
-        maxHealth = 80;
-        attackTime = 1.5f;
+        health = 120;
+        maxHealth = 120;
+        attackTime = 2f;
         direction = Vector2.right;
         inCombat = false;
         moveSpeed = 4f;
-        damage = 15;
+        damage = 20;
         stunned = false;
         enemyToEngage = null;
         fittedEnemyPosition = false;
@@ -24,7 +27,11 @@ public class VillageWarrior : Warrior
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!inCombat)  Move();
+        if (inCombat)
+        {
+            return;
+        }
+        Move();
 
         if (enemyToEngage == null)
         {
@@ -33,40 +40,21 @@ public class VillageWarrior : Warrior
 
         if (enemyToEngage != null && !fittedEnemyPosition)
         {
-            print("calling engage");
             EngageEnemy();
         }
         else if (enemyToEngage != null && fittedEnemyPosition)
         {
             if (Vector3.Distance(this.transform.position, enemyToEngage.transform.position) < 1.6f)
             {
-                inCombat = true;
-                animator.SetBool("Move", false);
-                StartCoroutine(Battle(enemyToEngage));
+                WarriorBattle battle = new WarriorBattle(this, enemyToEngage);
+                if (enemyToEngage.inCombat) battle.Run1SidedBattle();
+                else battle.RunBattle();
             }
         }
 
         
 
     }
-
-    private IEnumerator Battle(Warrior enemy)
-    {
-        if (enemy.isDead)
-        {
-            direction = Vector2.right;
-            inCombat = false;
-            animator.SetBool("Move", true);
-
-        }
-        animator.SetBool("InCombat",true);
-
-        while (!this.isDead && !enemy.isDead)
-        {
-            yield return new WaitForSeconds(1);
-        }
-    }
-
     private void DetectEnemy()
     {
         Collider2D[] overlappingObjects =  Physics2D.OverlapCircleAll(transform.position, 7f);
@@ -77,8 +65,6 @@ public class VillageWarrior : Warrior
                 enemyToEngage = col.gameObject.GetComponent<Warrior>();
             }
         }
-
-
     }
 
     private void EngageEnemy()
@@ -96,23 +82,12 @@ public class VillageWarrior : Warrior
             fittedEnemyPosition = true;
             direction = Vector2.right;
         }
-         
-             
-         
+    }
 
-
+    private void OnCollisionEnter2D(Collision2D collision2D)
+    {
+        fittedEnemyPosition = true;
+        direction = Vector2.right;
     }
 }
-//
-// public class WarriorBattle
-// {
-//     public WarriorBattle(Warrior villageWarrior, Warrior enemyWarrior)
-//     {
-//     }
-//
-//     public IEnumerator run()
-//     {
-//         yield return null;
-//         
-//     }
-// }
+

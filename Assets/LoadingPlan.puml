@@ -1,0 +1,30 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+
+participant Loader
+participant LoaderUI
+participant CoreManager
+participant InputManager
+participant CastManager
+participant SoundManager
+entity Scene
+participant Player
+participant Boss
+
+
+Loader -> CoreManager : Initialize
+Loader-> SoundManager :Initialize
+Loader-> InputManager :Initialize
+Loader->CastManager:Initialize
+CoreManager -> Scene
+Scene->Player:Instantiates
+Scene->Boss:Instantiates
+Loader->LoaderUI: Updates
+
+
+
+
+
+@enduml
+

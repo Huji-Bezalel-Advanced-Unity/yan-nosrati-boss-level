@@ -8,6 +8,7 @@ public class HadesBoss : Boss
     private float _timeToChangeDirection;
     private Rigidbody2D rb;
     private float outOfBoundsTimer;
+    [SerializeField] private SkeletonWarrior _warrior;
     void Awake()
     {
         direction = Vector2.up;

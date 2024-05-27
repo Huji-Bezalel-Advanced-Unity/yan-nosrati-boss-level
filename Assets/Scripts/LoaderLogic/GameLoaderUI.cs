@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class GameLoaderUI : MonoBehaviour
 {
     
-    public Image loaderFG;
+    [SerializeField] Image loaderFG;
     
     private int _progress;
     private int _targetProgress;

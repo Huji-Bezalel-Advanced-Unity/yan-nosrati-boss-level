@@ -21,15 +21,22 @@ public abstract class Entity : MonoBehaviour
         float nextScale = (float) health / maxHealth;
         healthBar.transform.localScale =
             new Vector3(nextScale, healthBar.transform.localScale.y, 0);
-        if (health == 0) Die();
-        
+
+        if (health == 0)
+        {
+            print("dead");
+            isDead = true;
+        }
     }
 
-    public void Die()
-    {
-        isDead = true;
-        animator.SetTrigger("Die");
-    }
+    // public IEnumerator Die()
+    // {
+    //     isDead = true;
+    //     animator.SetTrigger("Die");
+    //     yield return new WaitForSeconds(2f);
+    //     Destroy(this.gameObject);
+    //
+    // }
     
         
     
