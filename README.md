@@ -1,10 +1,13 @@
 # Boss Level: The Wrath of Hades
-
+This is a 2D computer game.
+# controls
+use mouse to aim
+use Q, W, R for spell usage
 ## Story
 The Greek god Hades, furious with the sins of a village, descends upon it with his underworld army to exact punishment. As the commander in chief, you are tasked by the king to defend the village entrance with limited resources. Can you navigate through the onslaught and defeat Hades and his army?
 
 ## Boss Mechanics
-- Hades is invisible, moving unpredictably across the top of the screen.
+- Hades is invisible, moving unpredictably across the right edge of the screen.
 - Hades can summon:
   - QuickWarriors: Fast-moving, low-health units that deal minor damage.
   - MightyWarriors: Medium-paced units with moderate health and damage.
