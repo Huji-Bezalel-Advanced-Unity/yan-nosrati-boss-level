@@ -24,8 +24,8 @@ public abstract class Entity : MonoBehaviour
 
         if (health == 0)
         {
-            print("dead");
             isDead = true;
+            healthBar.gameObject.SetActive(false);
         }
     }
 

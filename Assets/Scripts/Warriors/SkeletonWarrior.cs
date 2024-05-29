@@ -8,7 +8,7 @@ public class SkeletonWarrior : Warrior
     {
         health = 1000;
         maxHealth = 100;
-        attackTime = 2f;
+        attackTime = 1f;
         direction = Vector2.left;
         inCombat = false;
         moveSpeed = 3f;

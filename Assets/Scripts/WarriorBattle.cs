@@ -15,14 +15,20 @@ namespace DefaultNamespace
         }
 
         public  async void RunBattle()
-        { 
+        {
+            bool first = true;
             _playerWarrior.EnterBattle();
             _enemyWarrior.EnterBattle();
             while (!_enemyWarrior.isDead && !_playerWarrior.isDead)
             {
-                Debug.Log(_playerWarrior.isDead);
-                DealDamage(_enemyWarrior, _playerWarrior.attackTime);
-                await DealDamage(_playerWarrior, _enemyWarrior.attackTime);
+                if (first)
+                {
+                    DealDamage(_enemyWarrior,_playerWarrior);
+                    DealDamage(_playerWarrior,_enemyWarrior);
+                    first = false;
+                }
+                await DealDamage(_enemyWarrior,_playerWarrior);
+               await DealDamage(_playerWarrior,_enemyWarrior);
             } 
             _playerWarrior.ExitBattle();
             _enemyWarrior.ExitBattle();
@@ -30,10 +36,10 @@ namespace DefaultNamespace
         }
 
         // DealDamage method needs to be async and awaitable
-        private async Task DealDamage(Warrior enemyWarrior, float attackTime)
+        private async Task DealDamage(Warrior attackedWarrior, Warrior attackingWarrior)
         {
-            enemyWarrior.RemoveHealth(_playerWarrior.damage);
-            await Task.Delay((int)(attackTime * 1000)); // Convert seconds to milliseconds
+            attackedWarrior.RemoveHealth(attackedWarrior.damage);
+            await Task.Delay((int)(attackingWarrior.attackTime * 1000)); // Convert seconds to milliseconds
         }
 
         public async void Run1SidedBattle()
@@ -44,9 +50,8 @@ namespace DefaultNamespace
                 if (!_enemyWarrior.inCombat)
                 {
                     RunBattle();
-                    Debug.Log("run fight!");
                 }
-                 await DealDamage(_enemyWarrior, _playerWarrior.attackTime);
+                 await DealDamage(_enemyWarrior, _playerWarrior);
                  
             }
             _playerWarrior.ExitBattle();
