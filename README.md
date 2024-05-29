@@ -3,6 +3,9 @@ This is a 2D computer game.
 # controls
 use mouse to aim
 use Q, W, R for spell usage
+
+# Plan
+https://drive.google.com/file/d/19fQX5iCFoHXjwprKPKEn_8Rg8FS-TKKh/view?usp=sharing 
 ## Story
 The Greek god Hades, furious with the sins of a village, descends upon it with his underworld army to exact punishment. As the commander in chief, you are tasked by the king to defend the village entrance with limited resources. Can you navigate through the onslaught and defeat Hades and his army?
 
