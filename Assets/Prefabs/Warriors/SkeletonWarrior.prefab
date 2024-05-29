@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 194860070638311804}
   m_Layer: 6
   m_Name: SkeletonWarrior
-  m_TagString: Enemy
+  m_TagString: SkeletonWarrior
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.48, y: -0.33, z: 0}
-  m_LocalScale: {x: 0.36, y: 0.36, z: 0.36}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2014675791246388}
@@ -133,8 +133,11 @@ MonoBehaviour:
   rb: {fileID: 194860070638311804}
   damage: 0
   attackTime: 0
-  direction: {x: 0, y: 0}
-  inCombat: 0
+  baseDirection: {x: 0, y: 0}
+  curDirection: {x: 0, y: 0}
+  inCombatWith: {fileID: 0}
+  enemyToEngage: {fileID: 0}
+  fittedEnemyPosition: 0
 --- !u!61 &2030147611523352427
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -387,7 +390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3754107508359370251, guid: 8cadc63e92b64af4aa61172fb05c24d1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.33
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3754107508359370251, guid: 8cadc63e92b64af4aa61172fb05c24d1, type: 3}
       propertyPath: m_LocalPosition.x

@@ -6,11 +6,12 @@ public class SkeletonWarrior : Warrior
 {
     void Awake()
     {
-        health = 1000;
+        health = 100;
         maxHealth = 100;
         attackTime = 1f;
-        direction = Vector2.left;
-        inCombat = false;
+        baseDirection = Vector2.left;
+        curDirection = Vector2.left;
+        inCombatWith = null;
         moveSpeed = 3f;
         damage = 20;
         stunned = false;
@@ -18,24 +19,24 @@ public class SkeletonWarrior : Warrior
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (inCombat) return;
-        Move();
-        
+        base.FixedUpdate();
+
     }
 
-    public void Battle()
-    {
-        inCombat = true;
-        animator.SetBool("Move", false);
-        animator.SetBool("InCombat", true);
-    }
+  
 
-    public void ExitBattle()
+
+    private void OnCollisionEnter2D(Collision2D collision2D)
     {
-        inCombat = false;
-        animator.SetBool("Move", true);
-        animator.SetBool("InCombat", false);
+        fittedEnemyPosition = true;
+        curDirection = baseDirection;
+    }
+    
+    public void AttackAnimationTriggered()
+    {
+        print(gameObject.tag);
+        DamageEnemy(inCombatWith,damage);
     }
 }

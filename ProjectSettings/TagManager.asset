@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - SkeletonWarrior
+  - VillageWarrior
   layers:
   - Default
   - TransparentFX

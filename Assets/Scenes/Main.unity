@@ -481,6 +481,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkeletonWarrior
       objectReference: {fileID: 0}
+    - target: {fileID: 7709173437330846572, guid: cfe3bd5a78aed5048b448a5c19777be9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

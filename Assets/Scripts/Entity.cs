@@ -21,11 +21,25 @@ public abstract class Entity : MonoBehaviour
         float nextScale = (float) health / maxHealth;
         healthBar.transform.localScale =
             new Vector3(nextScale, healthBar.transform.localScale.y, 0);
-
+    
         if (health == 0)
         {
             isDead = true;
             healthBar.gameObject.SetActive(false);
+        }
+    }
+
+    public void DamageEnemy(Entity unitTakingDamage, int damage)
+    {
+        unitTakingDamage.health = Mathf.Max(0, unitTakingDamage.health - damage);
+        float nextScale = (float) unitTakingDamage.health / unitTakingDamage.maxHealth;
+        unitTakingDamage.healthBar.transform.localScale =
+            new Vector3(nextScale, healthBar.transform.localScale.y, 0);
+
+        if (unitTakingDamage.health == 0)
+        {
+            unitTakingDamage.isDead = true;
+            unitTakingDamage.healthBar.gameObject.SetActive(false);
         }
     }
 
