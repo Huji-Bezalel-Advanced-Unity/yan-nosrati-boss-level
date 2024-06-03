@@ -38,7 +38,7 @@ public class VillageWarrior : Warrior
     
     public void AttackAnimationTriggered()
     {
-        print(gameObject.tag);
+        if (inCombatWith==null || inCombatWith.isDead) return;
         DamageEnemy(inCombatWith,damage);
     }
 }

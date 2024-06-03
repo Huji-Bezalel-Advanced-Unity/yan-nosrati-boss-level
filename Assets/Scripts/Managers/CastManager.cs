@@ -6,57 +6,20 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public class CastManager
+public abstract class CastManager
 {
-    private BasicArrowSpell _basicArrowSpell;
-    private SummonVillageWarriorSpell _summonVillageWarriorSpell;
-    private Dictionary<Spell, float> _spellCooldowns = new Dictionary<Spell, float>();
-    private Dictionary<KeyCode, Spell> _keyCodeToSpell = new Dictionary<KeyCode,Spell>();
-
     
+    protected Dictionary<Spell, float> _spellCooldowns = new Dictionary<Spell, float>();
 
-    public CastManager(BasicArrowSpell basicArrowSpell, SummonVillageWarriorSpell summonVillageWarriorSpell)
+    public CastManager(List<Spell> spellsList)
     {
-        _basicArrowSpell = basicArrowSpell;
-        _summonVillageWarriorSpell = summonVillageWarriorSpell;
-        InitiallizeData();
+        InitiallizeData(spellsList);
     }
-
- 
-
-    private void InitiallizeData()
+    private void InitiallizeData(List<Spell> spells)
     {
-        _spellCooldowns[_basicArrowSpell] = _basicArrowSpell.GetCooldown();
-        _spellCooldowns[_summonVillageWarriorSpell] = _summonVillageWarriorSpell.GetCooldown();
-        _keyCodeToSpell[KeyCode.Q] = _summonVillageWarriorSpell;
-    }
-
-    // Update is called once per frame
-    
-
-    public void TryToShootBasicArrow(Quaternion rotation)
-    {
-        if (_spellCooldowns[_basicArrowSpell] == 0)
+        foreach (var spell in spells)
         {
-            
-            _basicArrowSpell.Cast(InputManager.Instance.GetMousePosition(), rotation);
-            _spellCooldowns[_basicArrowSpell] = _basicArrowSpell.GetCooldown();
-        }
-    }
-
-    
-
-    public void TryToCastSpell(KeyCode keyCode, Quaternion rotation)
-    {
-        Spell spell = _keyCodeToSpell[keyCode];
-        if (_spellCooldowns[spell] == 0)
-        { 
-            spell.Cast(InputManager.Instance.GetMousePosition(), rotation);
             _spellCooldowns[spell] = spell.GetCooldown();
-        }
-        else
-        {
-            Debug.Log("COOLDDOWN!!");
         }
     }
 
@@ -70,5 +33,4 @@ public class CastManager
             _spellCooldowns[key] = Mathf.Max(0, _spellCooldowns[key] - Time.deltaTime);
         }
     }
-    
 }

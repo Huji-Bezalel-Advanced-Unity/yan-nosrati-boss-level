@@ -32,14 +32,13 @@ public abstract class Warrior : Entity
                 ExitBattle();
             }
         }
-        Move();
 
         if (enemyToEngage == null)
         {
             DetectEnemy();
         }
 
-        if (enemyToEngage != null && !fittedEnemyPosition)
+        if (enemyToEngage != null && !enemyToEngage.isDead && !fittedEnemyPosition)
         {
             EngageEnemy();
         }
@@ -52,6 +51,8 @@ public abstract class Warrior : Entity
                 EnterBattle(enemyToEngage);
             }
         }
+        Move();
+
 
         
 
@@ -67,18 +68,28 @@ public abstract class Warrior : Entity
             {
                 // print(gameObject.tag);
                 // print(col.gameObject.tag);
-                enemyToEngage = col.gameObject.GetComponent<Warrior>();
+                Warrior potentialEnemy = col.gameObject.GetComponent<Warrior>();
+                if (!potentialEnemy.isDead)
+                {
+                    enemyToEngage = potentialEnemy;
+                    return;
+                }
             }
         }
     }
 
     private void EngageEnemy()
     {
-        if (enemyToEngage.transform.position.y > 0.2f + transform.position.y)
+        if (enemyToEngage.isDead) // still buggy when warrior goes to attack something that will die before he reaches it
+        {
+            enemyToEngage = null;
+            curDirection = baseDirection;
+        }
+        if (enemyToEngage.transform.position.y > 0.07f + transform.position.y)
         {
             curDirection =  Vector2.up;
         }
-        else if (enemyToEngage.transform.position.y +0.2f < transform.position.y)
+        else if (enemyToEngage.transform.position.y +0.07f < transform.position.y)
         {
             curDirection = Vector2.down;
         }
@@ -109,14 +120,16 @@ public abstract class Warrior : Entity
     public void ExitBattle()
     {
         inCombatWith = null;
+        enemyToEngage = null;
+        fittedEnemyPosition = false;
         if (isDead)
         {
-            print("i am dead");
-            animator.SetBool("InCombat", false);
+            
             animator.SetTrigger("Die");
             StartCoroutine(Die());
             return;
         }
+        animator.SetBool("InCombat", false);
         animator.SetBool("Move", true);
     }
 

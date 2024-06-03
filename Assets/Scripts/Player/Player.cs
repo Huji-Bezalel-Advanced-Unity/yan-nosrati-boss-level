@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class Player : Entity
 {
-
-    private CastManager _castManager;
+    private CastManagerPlayer _castManager;
     private float currentAngle = 0f;
     [SerializeField] private GameObject bow;
     
 
     
-    public void Init(CastManager castManager)
+    public void Init(CastManagerPlayer castManager)
     {
         _castManager = castManager;
         health = 500;
@@ -22,7 +21,7 @@ public class Player : Entity
         InputManager.Instance.CheckKeyPressed();
         _castManager.UpdateSpellsCooldowns();
         Move();
-        _castManager.TryToShootBasicArrow(bow.transform.rotation);
+        _castManager.TryToShootBasicArrow(bow.transform.rotation, transform.position);
         if (Input.GetKeyDown(KeyCode.A))
         {
             health -= 50;
@@ -60,7 +59,10 @@ public class Player : Entity
     
     private void ReactToKeyPress(KeyCode key)
     {
-        _castManager.TryToCastSpell(key,bow.transform.rotation);
+        Vector3 mousePos = MainCamera.Camera.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+        _castManager.TryToCastSpell(key,
+             new Vector3(Constants.BowPosition.x, mousePos.y,0),
+            bow.transform.rotation);
     }
    
 

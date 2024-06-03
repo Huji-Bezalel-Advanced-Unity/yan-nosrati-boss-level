@@ -7,7 +7,7 @@ public abstract class Spell : MonoBehaviour
     public float moveSpeed;
     public float coolDown;
 
-    public abstract void Cast(Vector2 direction, Quaternion PlayerRotation);
+    public abstract void Cast(Vector2 direction,Vector3 startingPosition, Quaternion PlayerRotation);
 
     public List<Debuff> GetSpellsDebuffs()
     {

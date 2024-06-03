@@ -764,6 +764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loaderUI: {fileID: 1274933444}
   _summonVillageWarriorSpell: {fileID: 3290531370914722182, guid: 620c6a8d9bb68364d9a49daa7829e6cb, type: 3}
+  _summonSkeletonWarriorSpell: {fileID: 8007928211633436562, guid: bc32fd7d4848bab45a4944ce3d197414, type: 3}
   _basicArrowSpell: {fileID: 2473076067311038233, guid: 7464824ab7feb3e4fa7d3dfc98a42ee6, type: 3}
 --- !u!4 &2096662560
 Transform:

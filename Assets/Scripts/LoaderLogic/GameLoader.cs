@@ -2,6 +2,7 @@
  using System.Collections;
  using System.Collections.Generic;
  using Managers;
+ using Spells;
  using UnityEngine;
  using UnityEngine.SceneManagement;
  using Random = UnityEngine.Random;
@@ -12,8 +13,11 @@
         private GameLoaderUI loaderUI;
 
         private Player _player;
-        private CastManager _castManager;
+        private Boss _boss;
+        private CastManagerPlayer _playerCastManager;
+        private CastManagerBoss _bossCastManager;
         [SerializeField] private SummonVillageWarriorSpell _summonVillageWarriorSpell;
+        [SerializeField] private SummonSkeletonWarriorSpell _summonSkeletonWarriorSpell;
         [SerializeField] private BasicArrowSpell _basicArrowSpell;
 
         private void Start()
@@ -32,7 +36,7 @@
             loaderUI.Init(100);
 
             StartCoroutine(LoadCoreManager());
-            StartCoroutine(LoadCastManager());
+            StartCoroutine(LoadCastManagers());
             StartCoroutine(LoadInputManager());
         }
 
@@ -47,9 +51,12 @@
             
         }
 
-        private IEnumerator LoadCastManager()
+        private IEnumerator LoadCastManagers()
         {
-            _castManager = new CastManager(_basicArrowSpell, _summonVillageWarriorSpell);
+            List<Spell> playerSpellsList = new List<Spell>() { _summonVillageWarriorSpell, _basicArrowSpell };
+            List<Spell> bossSpellsList = new List<Spell>() { _summonSkeletonWarriorSpell};
+            _playerCastManager = new CastManagerPlayer(playerSpellsList);
+            _bossCastManager = new CastManagerBoss(bossSpellsList);
             yield return null;
         }
 
@@ -59,7 +66,7 @@
         {
             if (isSuccess)
             {
-                loaderUI.AddProgress(50);
+                loaderUI.AddProgress(20);
                 LoadMainScene();
             }
             else
@@ -71,7 +78,7 @@
 
         private void LoadMainScene()
         {
-            loaderUI.AddProgress(20);
+            loaderUI.AddProgress(30);
             SceneManager.sceneLoaded += OnMainSceneLoaded;
             SceneManager.LoadScene("Main");
 
@@ -83,30 +90,29 @@
             
             LoadPlayer();
             LoadBoss();
-            loaderUI.AddProgress(20);
-            print($"4loader ui: {loaderUI}");
-
+            loaderUI.AddProgress(30);
 
             OnLoadComplete();
         }
 
         private void LoadBoss()
         {
-            var boss = Resources.Load<GameObject>("Boss");
-            Instantiate(boss, new Vector2(Constants.BossXPossition, 0), Quaternion.identity);
+            var boss = Resources.Load<Boss>("HadesBoss");
+             _boss = Instantiate(boss, new Vector2(Constants.BossXPossition, 0), Quaternion.identity);
+             _boss.Init(_bossCastManager);
         }
 
         private void LoadPlayer()
         {
             var originalPlayer = Resources.Load<Player>("Player");
             _player = Instantiate(originalPlayer, Constants.BowPosition, Quaternion.identity);
-            _player.Init(_castManager);
+            _player.Init(_playerCastManager);
 
         }
 
         private void OnLoadComplete()
         {
-            loaderUI.AddProgress(10);
+            loaderUI.AddProgress(20);
             Destroy(loaderUI.transform.root.gameObject);
             Destroy(this.gameObject);
         }

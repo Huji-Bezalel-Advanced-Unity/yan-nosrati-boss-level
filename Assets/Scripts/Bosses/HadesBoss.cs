@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Spells;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,27 +9,36 @@ public class HadesBoss : Boss
     private float _timeToChangeDirection;
     private Rigidbody2D rb;
     private float outOfBoundsTimer;
-    [SerializeField] private SkeletonWarrior _warrior;
+    // [SerializeField] private SkeletonWarrior _warrior;
+
+     // [SerializeField] private SummonSkeletonWarriorSpell _skeletonWarriorSpell;
+
+   
     void Awake()
     {
         direction = Vector2.up;
-        spells = new Dictionary<Spell, float>() { };
         rb = GetComponent<Rigidbody2D>();
         _timeToChangeDirection = Random.value * 3;
         moveSpeed = 5f;
         outOfBoundsTimer = 0.5f;
         health = 100;
         maxHealth = 100;
-
-
     }
-
-    // Update is called once per frame
+    public override void Init(CastManagerBoss castManagerBoss)
+    {
+        castManager = castManagerBoss;
+    }
     void Update()
     {
+        //  movement
         HandleDirectionChange();
         Move();
         outOfBoundsTimer = Mathf.Max(0, outOfBoundsTimer - Time.deltaTime);
+        castManager.UpdateSpellsCooldowns();
+        castManager.TryToCastSpell(Vector2.left, transform.position + Vector3.left*1.5f, Quaternion.identity);
+        
+        // spells
+        
 
     }
 
@@ -53,10 +63,10 @@ public class HadesBoss : Boss
 
     public override void Move()
     {
- 
-      
         rb.MovePosition((Vector2)transform.position + direction*Mathf.Sin(Time.deltaTime*moveSpeed)*1.4f);
     }
+
+  
 
 
     private void OnTriggerEnter2D(Collider2D col)

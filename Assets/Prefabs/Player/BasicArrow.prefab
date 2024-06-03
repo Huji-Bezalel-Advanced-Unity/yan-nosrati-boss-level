@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  coolDown: 50
+  coolDown: 1
 --- !u!1 &8651516065726720636
 GameObject:
   m_ObjectHideFlags: 0

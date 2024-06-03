@@ -9,12 +9,12 @@ using Update = Unity.VisualScripting.Update;
 
 public abstract class Boss : Entity
 {
-    public Vector2 direction; 
-    public Dictionary<Spell,float> spells;
+    public Vector2 direction;
+    public CastManagerBoss castManager;
     public Phase currentPhase = Phase.HighHealth;
 
 
-    
+    public abstract void Init(CastManagerBoss castManagerBoss);
 }
 
 
