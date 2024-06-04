@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Entity
 {
@@ -9,11 +10,13 @@ public class Player : Entity
     
 
     
-    public void Init(CastManagerPlayer castManager)
+    public void Init(CastManagerPlayer castManager, Image healthBarUI)
     {
         _castManager = castManager;
+        healthBar = healthBarUI;
         health = 500;
         maxHealth = 500;
+        
         
     }
     void Update()

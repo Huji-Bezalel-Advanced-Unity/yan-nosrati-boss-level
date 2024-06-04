@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Spells;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HadesBoss : Boss
 {
@@ -23,10 +24,22 @@ public class HadesBoss : Boss
         outOfBoundsTimer = 0.5f;
         health = 100;
         maxHealth = 100;
+        GoInvisible();
     }
-    public override void Init(CastManagerBoss castManagerBoss)
+
+    private void GoInvisible()
+    {
+        var color = GetComponent<Renderer>();
+        Color c = color.material.color;
+        c.a = 0;
+        color.material.color = c;
+    }
+
+    public override void Init(CastManagerBoss castManagerBoss, Image healthBarUI)
     {
         castManager = castManagerBoss;
+        healthBar = healthBarUI;
+
     }
     void Update()
     {
@@ -80,7 +93,17 @@ public class HadesBoss : Boss
             }
         }
     }
-  
-    
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Spell>() != null)
+        {
+            Spell spell = collision.gameObject.GetComponent<Spell>();
+            foreach (Debuff debuff in spell.GetSpellsDebuffs())
+            {
+                debuff.Apply(this);
+            }
+        }
+    }
     
 }

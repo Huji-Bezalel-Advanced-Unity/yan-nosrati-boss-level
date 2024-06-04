@@ -21,12 +21,12 @@ public abstract class CastManager
         {
             _spellCooldowns[spell] = spell.GetCooldown();
         }
+
     }
 
     public void UpdateSpellsCooldowns()
     {
         List<Spell> keys = new List<Spell>(_spellCooldowns.Keys);
-
         // Iterate over the list of keys and update the values in the dictionary
         foreach (var key in keys)
         {

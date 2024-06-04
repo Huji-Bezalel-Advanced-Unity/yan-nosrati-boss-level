@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Bosses;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using Update = Unity.VisualScripting.Update;
 
@@ -14,7 +15,7 @@ public abstract class Boss : Entity
     public Phase currentPhase = Phase.HighHealth;
 
 
-    public abstract void Init(CastManagerBoss castManagerBoss);
+    public abstract void Init(CastManagerBoss castManagerBoss, Image healthBarUI);
 }
 
 

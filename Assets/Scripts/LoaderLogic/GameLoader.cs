@@ -1,10 +1,14 @@
  using System;
  using System.Collections;
  using System.Collections.Generic;
+ using System.Net.Mime;
  using Managers;
  using Spells;
+ using TMPro;
  using UnityEngine;
  using UnityEngine.SceneManagement;
+ using UnityEngine.UI;
+ using Button = UnityEngine.UIElements.Button;
  using Random = UnityEngine.Random;
 
  public class GameLoader : MonoBehaviour
@@ -16,12 +20,30 @@
         private Boss _boss;
         private CastManagerPlayer _playerCastManager;
         private CastManagerBoss _bossCastManager;
-        [SerializeField] private SummonVillageWarriorSpell _summonVillageWarriorSpell;
         [SerializeField] private SummonSkeletonWarriorSpell _summonSkeletonWarriorSpell;
+        public GameObject canvas;
+
+        // cast manager related
+        private Image warriorSpellImage;
+        private TextMeshProUGUI warriorSpellCD;
+        private Image fairyDustSpellImage;
+        private TextMeshProUGUI fairyDuskSpellCD;
+        // [SerializeField] private Image DivineArrowSpellImage;
+        // [SerializeField] private Text DivineArrowSpellCD;
+        
+        //HealthBars
+        private GameObject playerHealthBarUI;
+        private GameObject bossHealthBarUI;
+        
+        [SerializeField] private SummonVillageWarriorSpell _summonVillageWarriorSpell;
         [SerializeField] private BasicArrowSpell _basicArrowSpell;
+        [SerializeField] private FairyDustSpell _fairyDustSpell;
+        
+        
 
         private void Start()
         {
+            DontDestroyOnLoad(canvas);
             StartCoroutine(StartLoadingAsync());
         }
 
@@ -53,9 +75,16 @@
 
         private IEnumerator LoadCastManagers()
         {
-            List<Spell> playerSpellsList = new List<Spell>() { _summonVillageWarriorSpell, _basicArrowSpell };
+            LoadUI();
+            List<Spell> playerSpellsList = new List<Spell>() { _summonVillageWarriorSpell,_fairyDustSpell, _basicArrowSpell };
             List<Spell> bossSpellsList = new List<Spell>() { _summonSkeletonWarriorSpell};
-            _playerCastManager = new CastManagerPlayer(playerSpellsList);
+            Dictionary<Spell, ValueTuple<Image, TextMeshProUGUI>> UIElements = new Dictionary<Spell, ValueTuple<Image, TextMeshProUGUI>>()
+            {
+                {_summonVillageWarriorSpell, ( warriorSpellImage, warriorSpellCD )},
+                {_fairyDustSpell, ( fairyDustSpellImage, fairyDuskSpellCD )}
+            };
+
+            _playerCastManager = new CastManagerPlayer(playerSpellsList, UIElements);
             _bossCastManager = new CastManagerBoss(bossSpellsList);
             yield return null;
         }
@@ -95,18 +124,40 @@
             OnLoadComplete();
         }
 
+        private void LoadUI()
+        {
+
+            var fairy = Resources.Load<GameObject>("Button1");
+            var warrior = Resources.Load<GameObject>("Button");
+            var playerHealthBar = Resources.Load<GameObject>("HealthBar");
+            var bossHealthBar = Resources.Load<GameObject>("HealthBar");
+            bossHealthBarUI = Instantiate(bossHealthBar, new Vector3(0, -200, 0), Quaternion.identity);
+            playerHealthBarUI = Instantiate(playerHealthBar, new Vector3(0, 200, 0), Quaternion.identity);
+            fairyDustSpellImage = Instantiate(fairy.gameObject.GetComponentInChildren<Image>(), new Vector3(280,30,0), Quaternion.identity);
+            fairyDuskSpellCD = Instantiate(fairy.gameObject.GetComponentInChildren<TextMeshProUGUI>(), new Vector3(280,30,0), Quaternion.identity);
+            warriorSpellImage = Instantiate(warrior.gameObject.GetComponentInChildren<Image>(), new Vector3(230,30,0), Quaternion.identity);
+            warriorSpellCD = Instantiate(warrior.gameObject.GetComponentInChildren<TextMeshProUGUI>(), new Vector3(230,30,0), Quaternion.identity);
+            fairyDustSpellImage.transform.SetParent(canvas.transform, false);
+            fairyDuskSpellCD.transform.SetParent(canvas.transform, false);
+            warriorSpellImage.transform.SetParent(canvas.transform, false);
+            warriorSpellCD.transform.SetParent(canvas.transform, false);
+            playerHealthBarUI.transform.SetParent(canvas.transform, false);
+            bossHealthBarUI.transform.SetParent(canvas.transform, false);
+        }
+
         private void LoadBoss()
         {
             var boss = Resources.Load<Boss>("HadesBoss");
              _boss = Instantiate(boss, new Vector2(Constants.BossXPossition, 0), Quaternion.identity);
-             _boss.Init(_bossCastManager);
+             _boss.Init(_bossCastManager, bossHealthBarUI.transform.Find("MissingHealth").GetComponent<Image>());
+           
         }
 
         private void LoadPlayer()
         {
             var originalPlayer = Resources.Load<Player>("Player");
             _player = Instantiate(originalPlayer, Constants.BowPosition, Quaternion.identity);
-            _player.Init(_playerCastManager);
+            _player.Init(_playerCastManager, bossHealthBarUI.transform.Find("MissingHealth").GetComponent<Image>());
 
         }
 
