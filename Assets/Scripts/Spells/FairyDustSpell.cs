@@ -13,7 +13,7 @@ public class FairyDustSpell : Spell
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        DebuffsList = new List<Debuff> { new RevealDebuff(4), new SlowDebuff(15, 5)};
+        DebuffsList = new List<Debuff> { new RevealDebuff(4), new SlowDebuff(15, 5), new DamageDebuff(10)};
         moveSpeed = 50f;
         coolDown = 10f;
 

@@ -74,6 +74,11 @@ public class HadesBoss : Boss
     }
 
 
+    protected override IEnumerator Die()
+    {
+        yield return null;
+    }
+
     public override void Move()
     {
         rb.MovePosition((Vector2)transform.position + direction*Mathf.Sin(Time.deltaTime*moveSpeed)*1.4f);

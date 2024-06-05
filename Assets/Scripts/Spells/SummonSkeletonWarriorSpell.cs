@@ -10,7 +10,7 @@ namespace Spells
         [SerializeField] private Warrior warriorToSummon;
         private void Awake()
         {
-            coolDown = 10f;
+            coolDown = 5f;
             DebuffsList = new List<Debuff>{};
         }
 
@@ -20,6 +20,8 @@ namespace Spells
             Instantiate(warriorToSummon, startingPosition, Quaternion.identity);
         
         }
+
+     
     }
 
 }

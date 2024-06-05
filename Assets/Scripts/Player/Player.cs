@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +36,12 @@ public class Player : Entity
     {
         InputManager.keyPressed += ReactToKeyPress;
     }
-    
+
+
+    protected override IEnumerator Die()
+    {
+        yield return null;
+    }
 
     public override void Move()
     {
@@ -67,6 +73,8 @@ public class Player : Entity
              new Vector3(Constants.BowPosition.x, mousePos.y,0),
             bow.transform.rotation);
     }
+    
+    
    
 
     

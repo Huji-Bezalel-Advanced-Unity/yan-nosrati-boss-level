@@ -6,7 +6,7 @@ public class SkeletonWarrior : Warrior
 {
     void Awake()
     {
-        health = 100;
+        health = 30;
         maxHealth = 100;
         attackTime = 1f;
         baseDirection = Vector2.left;
@@ -15,7 +15,6 @@ public class SkeletonWarrior : Warrior
         moveSpeed = 3f;
         damage = 20;
         stunned = false;
-    
     }
 
     // Update is called once per frame
@@ -34,9 +33,22 @@ public class SkeletonWarrior : Warrior
         curDirection = baseDirection;
     }
     
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Spell spell = other.gameObject.GetComponent<Spell>();
+        if (!spell) return;
+
+        foreach (Debuff d in spell.GetSpellsDebuffs())
+        {
+            if (d is DamageDebuff) d.Apply(this);
+        }
+        
+    }
+    
     public void AttackAnimationTriggered()
     {
         if (inCombatWith==null || inCombatWith.isDead) return;
         DamageEnemy(inCombatWith,damage);
     }
+ 
 }

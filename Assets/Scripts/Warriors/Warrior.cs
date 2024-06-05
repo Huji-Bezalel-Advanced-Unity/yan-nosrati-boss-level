@@ -124,8 +124,6 @@ public abstract class Warrior : Entity
         fittedEnemyPosition = false;
         if (isDead)
         {
-            
-            animator.SetTrigger("Die");
             StartCoroutine(Die());
             return;
         }
@@ -133,12 +131,15 @@ public abstract class Warrior : Entity
         animator.SetBool("Move", true);
     }
 
-    private IEnumerator Die()
+    protected override IEnumerator Die()
     {
+        isDead = true;
+        animator.SetTrigger("Die");
         yield return new WaitForSeconds(2f);
         Destroy(this.gameObject);
         yield return null;
     }
+
     
     // will be triggered by attack animations
     

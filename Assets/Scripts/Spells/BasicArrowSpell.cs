@@ -13,7 +13,6 @@ public class BasicArrowSpell : Spell
         DebuffsList = new List<Debuff> { new DamageDebuff(10) };
         moveSpeed = 35f;
         coolDown = 1f;
-
     }
 
     

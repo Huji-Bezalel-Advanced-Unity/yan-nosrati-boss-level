@@ -131,8 +131,8 @@
             var warrior = Resources.Load<GameObject>("Button");
             var playerHealthBar = Resources.Load<GameObject>("HealthBar");
             var bossHealthBar = Resources.Load<GameObject>("HealthBar");
-            bossHealthBarUI = Instantiate(bossHealthBar, new Vector3(0, -200, 0), Quaternion.identity);
-            playerHealthBarUI = Instantiate(playerHealthBar, new Vector3(0, 200, 0), Quaternion.identity);
+            bossHealthBarUI = Instantiate(bossHealthBar, new Vector3(171, 276, 0), Quaternion.identity);
+            playerHealthBarUI = Instantiate(playerHealthBar, new Vector3(171, -130, 0), Quaternion.identity);
             fairyDustSpellImage = Instantiate(fairy.gameObject.GetComponentInChildren<Image>(), new Vector3(280,30,0), Quaternion.identity);
             fairyDuskSpellCD = Instantiate(fairy.gameObject.GetComponentInChildren<TextMeshProUGUI>(), new Vector3(280,30,0), Quaternion.identity);
             warriorSpellImage = Instantiate(warrior.gameObject.GetComponentInChildren<Image>(), new Vector3(230,30,0), Quaternion.identity);
@@ -157,7 +157,7 @@
         {
             var originalPlayer = Resources.Load<Player>("Player");
             _player = Instantiate(originalPlayer, Constants.BowPosition, Quaternion.identity);
-            _player.Init(_playerCastManager, bossHealthBarUI.transform.Find("MissingHealth").GetComponent<Image>());
+            _player.Init(_playerCastManager, playerHealthBarUI.transform.Find("MissingHealth").GetComponent<Image>());
 
         }
 

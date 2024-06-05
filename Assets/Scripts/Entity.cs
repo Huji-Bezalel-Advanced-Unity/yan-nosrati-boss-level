@@ -34,10 +34,13 @@ public abstract class Entity : MonoBehaviour
         healthBar.fillAmount = (float)health / maxHealth;
         if (health == 0)
         {
-            isDead = true;
-            healthBar.gameObject.SetActive(false);
+            StartCoroutine(Die());
+            print("dead");
         }
     }
+
+    protected abstract IEnumerator Die();
+
     //
     // public void DamageEnemy(Entity unitTakingDamage, int damage)
     // {
@@ -58,22 +61,15 @@ public abstract class Entity : MonoBehaviour
         healthBar.fillAmount = (float)health / maxHealth;
         if (unitTakingDamage.health == 0)
         {
-            unitTakingDamage.isDead = true;
-            unitTakingDamage.healthBar.gameObject.SetActive(false);
+            StartCoroutine(unitTakingDamage.Die());
+            print("dead");
         }
     }
 
-    // public IEnumerator Die()
-    // {
-    //     isDead = true;
-    //     animator.SetTrigger("Die");
-    //     yield return new WaitForSeconds(2f);
-    //     Destroy(this.gameObject);
-    //
-    // }
+  
     
         
     
 
-    public abstract void Move();
+     public abstract void Move();
 }
