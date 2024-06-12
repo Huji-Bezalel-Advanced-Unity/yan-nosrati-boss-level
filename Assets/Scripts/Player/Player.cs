@@ -11,9 +11,10 @@ public class Player : Entity
     
 
     
-    public void Init(CastManagerPlayer castManager, Image healthBarUI)
+    public void Init(CastManagerPlayer castManager, Transform healthBarUI)
     {
         _castManager = castManager;
+        print(_castManager);
         healthBar = healthBarUI;
         health = 500;
         maxHealth = 500;
@@ -72,6 +73,17 @@ public class Player : Entity
         _castManager.TryToCastSpell(key,
              new Vector3(Constants.BowPosition.x, mousePos.y,0),
             bow.transform.rotation);
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        print("iht");
+        SkeletonWarrior skeletonWarrior = col.gameObject.GetComponent<SkeletonWarrior>();
+        if (skeletonWarrior)
+        {
+            print("??????");
+            RemoveHealth(skeletonWarrior.damage);
+        }
     }
     
     

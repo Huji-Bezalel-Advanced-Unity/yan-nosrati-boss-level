@@ -1,15 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using System;
+using Bosses;
 using Spells;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+using DefaultNamespace;
+using Random = UnityEngine.Random;
 
 public class HadesBoss : Boss
 {
     private float _timeToChangeDirection;
     private Rigidbody2D rb;
     private float outOfBoundsTimer;
+
     // [SerializeField] private SkeletonWarrior _warrior;
 
      // [SerializeField] private SummonSkeletonWarriorSpell _skeletonWarriorSpell;
@@ -24,18 +30,21 @@ public class HadesBoss : Boss
         outOfBoundsTimer = 0.5f;
         health = 100;
         maxHealth = 100;
+        currentPhase = Phase.HighHealth;
+    }
+
+    private void Start()
+    {
         GoInvisible();
     }
 
-    private void GoInvisible()
+    private async void GoInvisible()
     {
-        var color = GetComponent<Renderer>();
-        Color c = color.material.color;
-        c.a = 0;
-        color.material.color = c;
+        var renderer = GetComponent<Renderer>();
+        await Util.DoFadeLerp(renderer, 1, 0,10f);
     }
 
-    public override void Init(CastManagerBoss castManagerBoss, Image healthBarUI)
+    public override void Init(CastManagerBoss castManagerBoss, Transform healthBarUI)
     {
         castManager = castManagerBoss;
         healthBar = healthBarUI;
@@ -48,11 +57,27 @@ public class HadesBoss : Boss
         Move();
         outOfBoundsTimer = Mathf.Max(0, outOfBoundsTimer - Time.deltaTime);
         castManager.UpdateSpellsCooldowns();
-        castManager.TryToCastSpell(Vector2.left, transform.position + Vector3.left*1.5f, Quaternion.identity);
+        castManager.TryToCastSpell(Vector2.left, GetSummonPosition(), Quaternion.identity);
         
         // spells
         
 
+    }
+
+    private Vector3 GetSummonPosition()
+    {
+        Vector3 defaultPos = transform.position + Vector3.left * 1.2f;
+        float _AlmostOutOfBoundsPos = 8f;
+        if (transform.position.y < -_AlmostOutOfBoundsPos)
+        {
+            defaultPos += Vector3.up*2;
+        }
+        else if (transform.position.y > _AlmostOutOfBoundsPos)
+        {
+            defaultPos += Vector3.down*2;
+
+        }
+        return defaultPos;
     }
 
     private void HandleDirectionChange()
@@ -110,5 +135,27 @@ public class HadesBoss : Boss
             }
         }
     }
-    
+
+    public override void RemoveHealth(int damage)
+    {
+        base.RemoveHealth(damage);
+        if (currentPhase == Phase.HighHealth && health <= maxHealth / 2)
+        {
+            currentPhase = Phase.MediumHealth;
+            ChangePhase();
+        }
+        else if (currentPhase == Phase.MediumHealth && health <= maxHealth / 4)
+        {
+            currentPhase = Phase.LowHealth;
+            ChangePhase();
+        }
+    }
+
+    private void ChangePhase()
+    {
+        print("called");
+        float precentChange = 0.2f;
+        moveSpeed = moveSpeed * (1+precentChange);
+        castManager.ChangeSpellsCooldown(1-precentChange);
+    }
 }

@@ -25,8 +25,8 @@ public class CastManagerBoss : CastManager
         foreach (var spell in renewCooldown)
         {
             _spellCooldowns[spell] = spell.GetCooldown();
+            Debug.Log($"cd: {spell.GetCooldown()}");
             
-            Debug.Log(spell.GetCooldown());
         }
     }
     

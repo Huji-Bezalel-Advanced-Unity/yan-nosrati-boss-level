@@ -33,4 +33,12 @@ public abstract class CastManager
             _spellCooldowns[key] = Mathf.Max(0, _spellCooldowns[key] - Time.deltaTime);
         }
     }
+
+    public void ChangeSpellsCooldown(float factor)
+    {
+        foreach (var item in _spellCooldowns)
+        {
+            item.Key.setCooldown(item.Key.GetCooldown()*factor);
+        }
+    }
 }

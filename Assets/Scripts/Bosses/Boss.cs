@@ -15,7 +15,7 @@ public abstract class Boss : Entity
     public Phase currentPhase = Phase.HighHealth;
 
 
-    public abstract void Init(CastManagerBoss castManagerBoss, Image healthBarUI);
+    public abstract void Init(CastManagerBoss castManagerBoss, Transform healthBarUI);
 }
 
 

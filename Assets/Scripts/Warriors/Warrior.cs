@@ -11,15 +11,16 @@ public abstract class Warrior : Entity
     public float attackTime;
     public Vector2 baseDirection;
     public Vector2 curDirection;
-    public Warrior inCombatWith = null;
-    public Warrior enemyToEngage = null;
-    public bool fittedEnemyPosition = false;
+    public Warrior inCombatWith;
+    public Warrior enemyToEngage;
+    public bool fittedEnemyPosition;
     
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+        fittedEnemyPosition = false; // why???????? shuld bef ailse by default
+
     }
     
     public void FixedUpdate()
@@ -37,6 +38,8 @@ public abstract class Warrior : Entity
         {
             DetectEnemy();
         }
+
+        
 
         if (enemyToEngage != null && !enemyToEngage.isDead && !fittedEnemyPosition)
         {
@@ -64,7 +67,7 @@ public abstract class Warrior : Entity
         Collider2D[] overlappingObjects =  Physics2D.OverlapCircleAll(transform.position, 7f);
         foreach (Collider2D col in overlappingObjects)
         {
-            if (col.gameObject.tag.Contains("Warrior") && !col.gameObject.CompareTag(gameObject.tag))
+            if (ValidWarrior(col))
             {
                 // print(gameObject.tag);
                 // print(col.gameObject.tag);
@@ -78,12 +81,19 @@ public abstract class Warrior : Entity
         }
     }
 
+    private bool ValidWarrior(Collider2D col)
+    {
+        return col.gameObject.tag.Contains("Warrior") &&
+               !col.gameObject.CompareTag(gameObject.tag); 
+    }
+
     private void EngageEnemy()
     {
         if (enemyToEngage.isDead) // still buggy when warrior goes to attack something that will die before he reaches it
         {
             enemyToEngage = null;
             curDirection = baseDirection;
+            print("he is dead");
         }
         if (enemyToEngage.transform.position.y > 0.07f + transform.position.y)
         {
@@ -95,6 +105,7 @@ public abstract class Warrior : Entity
         }
         else
         {
+           
             fittedEnemyPosition = true;
             curDirection = baseDirection;
         }
@@ -122,11 +133,6 @@ public abstract class Warrior : Entity
         inCombatWith = null;
         enemyToEngage = null;
         fittedEnemyPosition = false;
-        if (isDead)
-        {
-            StartCoroutine(Die());
-            return;
-        }
         animator.SetBool("InCombat", false);
         animator.SetBool("Move", true);
     }
@@ -134,6 +140,7 @@ public abstract class Warrior : Entity
     protected override IEnumerator Die()
     {
         isDead = true;
+        healthBar.parent.gameObject.SetActive(false);
         animator.SetTrigger("Die");
         yield return new WaitForSeconds(2f);
         Destroy(this.gameObject);

@@ -31,7 +31,10 @@ public class CastManagerPlayer : CastManager
             if (spell.GetComponent<BasicArrowSpell>() != null)
             {
                 _basicArrowSpell = (BasicArrowSpell)spell;
+                continue; //we continue since the basic arrow is attached o a UI component
             }
+            castManagerPlayerUI.DisplaySpellCD(spell);
+
         }
     }
 
@@ -59,6 +62,7 @@ public class CastManagerPlayer : CastManager
 
     public void  TryToCastSpell(KeyCode keyCode,Vector3 startingPosition, Quaternion rotation)
     {
+        
         Vector3 mousePos = MainCamera.Camera.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
 
         Spell spell = _keyCodeToSpell[keyCode];

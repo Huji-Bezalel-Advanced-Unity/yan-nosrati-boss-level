@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9102821440389803317}
   - component: {fileID: 8007928211633436562}
   m_Layer: 0
-  m_Name: SkeletonWarriorSpell
+  m_Name: BigSkeletonWarriorSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a82f57c4d74219aa8495d9b93b52f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  coolDown: 10
-  warriorToSummon: {fileID: 5465623450047739788, guid: cfe3bd5a78aed5048b448a5c19777be9, type: 3}
+  moveSpeed: 3
+  coolDown: 28
+  warriorToSummon: {fileID: 5465623450047739788, guid: b7fbae57feb6eee4ea1d9b071142f39a, type: 3}

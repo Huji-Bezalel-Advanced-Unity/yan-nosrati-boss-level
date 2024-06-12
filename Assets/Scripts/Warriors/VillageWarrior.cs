@@ -32,6 +32,7 @@ public class VillageWarrior : Warrior
 
     private void OnCollisionEnter2D(Collision2D collision2D)
     {
+        print(collision2D.gameObject.tag);  
         fittedEnemyPosition = true;
         curDirection = baseDirection;
     }

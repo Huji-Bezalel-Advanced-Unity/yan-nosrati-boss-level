@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2030147611523352427}
   - component: {fileID: 194860070638311804}
   m_Layer: 6
-  m_Name: SkeletonWarrior
+  m_Name: SkeletonWarriorBig
   m_TagString: SkeletonWarrior
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,10 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0584bc148254b45a66e326baf7e795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
-  maxHealth: 200
+  health: 400
+  maxHealth: 400
   stunned: 0
-  moveSpeed: 3
+  moveSpeed: 2
   healthBar: {fileID: 2639939986496892631}
   isDead: 0
   animator: {fileID: 775962543919734515}
@@ -236,11 +236,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -434,7 +434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2395085057997470851, guid: 93c0a9ef5269316458c977943b0b1edf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 0.51
       objectReference: {fileID: 0}
     - target: {fileID: 2395085057997470851, guid: 93c0a9ef5269316458c977943b0b1edf, type: 3}
       propertyPath: m_LocalPosition.x

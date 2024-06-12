@@ -18,4 +18,9 @@ public abstract class Spell : MonoBehaviour
     {
         return coolDown;
     }
+
+    public void setCooldown(float newCooldown)
+    {
+        coolDown = newCooldown;
+    }
 }

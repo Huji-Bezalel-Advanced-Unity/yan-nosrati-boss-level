@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Managers
 {
-    public class CastManagerPlayerUI
+    public class CastManagerPlayerUI : MonoBehaviour
     {
         private Dictionary<Spell, ValueTuple<Image, TextMeshProUGUI>> _UIElements;
 
@@ -34,7 +34,7 @@ namespace Managers
                 await Task.Delay(1000);
                 timer -= 1;
             }
-            t.gameObject.SetActive(false);
+            if (t)  t.gameObject.SetActive(false);  // i had to add if for somer eason
 
             
         }
