@@ -45,7 +45,6 @@ public class CastManagerPlayer : CastManager
 
     }
   
-    // Update is called once per frame
     
 
     public void TryToShootBasicArrow(Quaternion rotation, Vector3 startingPosition)

@@ -77,11 +77,9 @@ public class Player : Entity
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        print("iht");
         SkeletonWarrior skeletonWarrior = col.gameObject.GetComponent<SkeletonWarrior>();
         if (skeletonWarrior)
         {
-            print("??????");
             RemoveHealth(skeletonWarrior.damage);
         }
     }
