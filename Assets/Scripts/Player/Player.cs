@@ -14,7 +14,6 @@ public class Player : Entity
     public void Init(CastManagerPlayer castManager, Transform healthBarUI)
     {
         _castManager = castManager;
-        print(_castManager);
         healthBar = healthBarUI;
         health = 500;
         maxHealth = 500;
@@ -24,13 +23,9 @@ public class Player : Entity
     void Update()
     {
         InputManager.Instance.CheckKeyPressed();
-        _castManager.UpdateSpellsCooldowns();
+        // _castManager.UpdateSpellsCooldowns();
         Move();
         _castManager.TryToShootBasicArrow(bow.transform.rotation, transform.position);
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            health -= 50;
-        }
     }
 
     private void OnEnable()
@@ -81,6 +76,7 @@ public class Player : Entity
         if (skeletonWarrior)
         {
             RemoveHealth(skeletonWarrior.damage);
+            Destroy(skeletonWarrior.gameObject);
         }
     }
     

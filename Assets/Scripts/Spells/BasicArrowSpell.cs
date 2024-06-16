@@ -6,18 +6,16 @@ using UnityEngine.Serialization;
 
 public class BasicArrowSpell : Spell
 {
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        DebuffsList = new List<Debuff> { new DamageDebuff(10) };
-        moveSpeed = 35f;
-        coolDown = 1f;
+        DebuffsList = new List<Debuff> {new DamageDebuff(10)};
     }
 
     
 
-    private void Update()
+    public void Update()
     {
         if (transform.position.x > Constants.OutOfBoundsXPos || transform.position.y > Constants.OutOfBoundsYPos ||
             transform.position.y < -Constants.OutOfBoundsYPos)
@@ -29,7 +27,6 @@ public class BasicArrowSpell : Spell
 
     public override void Cast(Vector2 direction,Vector3 startingPosition, Quaternion playerRotation)
     {
-        
         // BasicArrowSpell arrow  = Instantiate(this, Constants.BowPosition, playerRotation);
         // // Convert screen coordinates to world coordinates
         // Vector3 pos = MainCamera.Camera.MatchMouseCoordinatesToCamera(direction);

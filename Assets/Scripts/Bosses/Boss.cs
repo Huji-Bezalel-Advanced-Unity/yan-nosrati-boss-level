@@ -10,12 +10,22 @@ using Update = Unity.VisualScripting.Update;
 
 public abstract class Boss : Entity
 {
-    public Vector2 direction;
-    public CastManagerBoss castManager;
-    public Phase currentPhase = Phase.HighHealth;
+    protected Vector2 direction;
+    protected CastManagerBoss castManager;
+    protected Phase currentPhase = Phase.HighHealth;
+    protected List<Spell> LowHealthSpells;
 
 
     public abstract void Init(CastManagerBoss castManagerBoss, Transform healthBarUI);
+
+    protected override IEnumerator Die()
+    {
+        animator.SetTrigger("Die");
+        yield return null;
+        // end game
+    }
+    
+    
 }
 
 

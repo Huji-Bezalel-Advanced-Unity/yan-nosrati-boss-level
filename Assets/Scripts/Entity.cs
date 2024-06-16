@@ -17,6 +17,7 @@ public abstract class Entity : MonoBehaviour
     
     public virtual void RemoveHealth(int damage)
     {
+        if (isDead)return;
         health = Mathf.Max(0, health - damage);
         float nextScale = (float) health / maxHealth;
         healthBar.transform.localScale =
@@ -43,6 +44,7 @@ public abstract class Entity : MonoBehaviour
     
     public void DamageEnemy(Entity unitTakingDamage, int damage)
     {
+        if(unitTakingDamage.isDead) return;
         unitTakingDamage.health = Mathf.Max(0, unitTakingDamage.health - damage);
         float nextScale = (float) unitTakingDamage.health / unitTakingDamage.maxHealth;
         unitTakingDamage.healthBar.transform.localScale =
@@ -53,6 +55,8 @@ public abstract class Entity : MonoBehaviour
             StartCoroutine(unitTakingDamage.Die());
         }
     }
+
+  
     // public void DamageEnemy(Entity unitTakingDamage, int damage)
     // {
     //     unitTakingDamage.health = Mathf.Max(0, unitTakingDamage.health - damage);

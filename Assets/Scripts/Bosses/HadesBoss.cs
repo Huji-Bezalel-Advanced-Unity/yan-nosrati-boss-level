@@ -15,6 +15,7 @@ public class HadesBoss : Boss
     private float _timeToChangeDirection;
     private Rigidbody2D rb;
     private float outOfBoundsTimer;
+    [SerializeField] private RockThrowSpell rockThrowSpell;
 
     // [SerializeField] private SkeletonWarrior _warrior;
 
@@ -25,17 +26,20 @@ public class HadesBoss : Boss
     {
         direction = Vector2.up;
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         _timeToChangeDirection = Random.value * 3;
         moveSpeed = 5f;
         outOfBoundsTimer = 0.5f;
         health = 100;
         maxHealth = 100;
         currentPhase = Phase.HighHealth;
+        LowHealthSpells = new List<Spell>() { rockThrowSpell };
     }
 
     private void Start()
     {
-        GoInvisible();
+        // GoInvisible();
+       
     }
 
     private async void GoInvisible()
@@ -52,16 +56,12 @@ public class HadesBoss : Boss
     }
     void Update()
     {
-        //  movement
+        if (stunned) return;
         HandleDirectionChange();
         Move();
         outOfBoundsTimer = Mathf.Max(0, outOfBoundsTimer - Time.deltaTime);
-        castManager.UpdateSpellsCooldowns();
-        castManager.TryToCastSpell(Vector2.left, GetSummonPosition(), Quaternion.identity);
-        
-        // spells
-        
-
+        Spell casted = castManager.TryToCastSpell(Vector2.left, GetSummonPosition(), Quaternion.identity);
+        if (casted is not null) animator.SetTrigger(casted.tag); 
     }
 
     private Vector3 GetSummonPosition()
@@ -153,9 +153,9 @@ public class HadesBoss : Boss
 
     private void ChangePhase()
     {
-        print("called");
         float precentChange = 0.2f;
         moveSpeed = moveSpeed * (1+precentChange);
         castManager.ChangeSpellsCooldown(1-precentChange);
+        if (currentPhase == Phase.LowHealth) castManager.AddSpell(rockThrowSpell);
     }
 }

@@ -123,8 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0584bc148254b45a66e326baf7e795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
-  maxHealth: 200
+  health: 100
+  maxHealth: 100
   stunned: 0
   moveSpeed: 3
   healthBar: {fileID: 2639939986496892631}
@@ -132,11 +132,9 @@ MonoBehaviour:
   animator: {fileID: 775962543919734515}
   rb: {fileID: 194860070638311804}
   damage: 20
-  attackTime: 0
+  inCombat: 0
   baseDirection: {x: -1, y: 0}
   curDirection: {x: -1, y: 0}
-  inCombatWith: {fileID: 0}
-  enemyToEngage: {fileID: 0}
   fittedEnemyPosition: 0
 --- !u!61 &2030147611523352427
 BoxCollider2D:
@@ -191,11 +189,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7709173437330846572}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -209,7 +207,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1001 &1668863338882928106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -248,7 +246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.27
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -442,7 +440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2395085057997470851, guid: 93c0a9ef5269316458c977943b0b1edf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.45
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2395085057997470851, guid: 93c0a9ef5269316458c977943b0b1edf, type: 3}
       propertyPath: m_LocalPosition.z

@@ -11,23 +11,26 @@ public class CastManagerBoss : CastManager
 {
     public CastManagerBoss(List<Spell> spellsList) : base(spellsList){}
 
-    public void  TryToCastSpell(Vector2 direction, Vector3 startingPosition, Quaternion rotation)
+    public Spell TryToCastSpell(Vector2 direction, Vector3 startingPosition, Quaternion rotation)
     {
-        List<Spell> renewCooldown = new List<Spell>();
+        Spell spellCasted = null;
         foreach (var (spell,cd) in _spellCooldowns)
         {
-            if (cd == 0)
-            {
+            if ((DateTime.UtcNow - cd).TotalSeconds > spell.GetCooldown())
+            {  
+                spellCasted = spell;
                 spell.Cast(direction,startingPosition,rotation);
-                renewCooldown.Add(spell);
+                break;
             }
         }
-        foreach (var spell in renewCooldown)
+
+        if (spellCasted is not null)
         {
-            _spellCooldowns[spell] = spell.GetCooldown();
-            Debug.Log($"cd: {spell.GetCooldown()}");
-            
+            Debug.Log(spellCasted.GetCooldown());
+            _spellCooldowns[spellCasted] = DateTime.UtcNow;
         }
+        return spellCasted;
+
     }
     
  

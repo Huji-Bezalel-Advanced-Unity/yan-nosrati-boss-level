@@ -9,6 +9,8 @@ TagManager:
   - VillageWarrior
   - MissingHealthBar
   - HealthBarPivot
+  - SkeletonSpell
+  - BasicArrow
   layers:
   - Default
   - TransparentFX

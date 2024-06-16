@@ -1,12 +1,22 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Spell : MonoBehaviour
 {
-    public List<Debuff> DebuffsList;
-    public float moveSpeed;
-    public float coolDown;
+    protected List<Debuff> DebuffsList;
+    [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float baseCoolDown;
+    [SerializeField] protected float coolDown;
+    protected bool FirstCast;
 
+    
+    public void Init()
+    {
+        coolDown = baseCoolDown;
+        FirstCast = true;
+    }
     public abstract void Cast(Vector2 direction,Vector3 startingPosition, Quaternion PlayerRotation);
 
     public List<Debuff> GetSpellsDebuffs()
@@ -22,5 +32,15 @@ public abstract class Spell : MonoBehaviour
     public void setCooldown(float newCooldown)
     {
         coolDown = newCooldown;
+    }
+
+    public void SetFirstCast()
+    {
+        FirstCast = false;
+    }
+
+    public bool GetFirstCast()
+    {
+        return FirstCast;
     }
 }

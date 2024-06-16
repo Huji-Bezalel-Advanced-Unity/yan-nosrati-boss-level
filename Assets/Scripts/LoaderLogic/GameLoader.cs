@@ -2,6 +2,7 @@
  using System.Collections;
  using System.Collections.Generic;
  using System.Net.Mime;
+ using DefaultNamespace;
  using Managers;
  using Spells;
  using TMPro;
@@ -20,8 +21,7 @@
         private Boss _boss;
         private CastManagerPlayer _playerCastManager;
         private CastManagerBoss _bossCastManager;
-        [SerializeField] private SummonSkeletonWarriorSpell _summonSkeletonWarriorSpell;
-        [SerializeField] private SummonSkeletonWarriorSpell _summonBigSkeletonWarriorSpell;
+     
         public GameObject canvas;
 
         // cast manager related
@@ -29,38 +29,52 @@
         private TextMeshProUGUI warriorSpellCD;
         private Image fairyDustSpellImage;
         private TextMeshProUGUI fairyDuskSpellCD;
-        // [SerializeField] private Image DivineArrowSpellImage;
-        // [SerializeField] private Text DivineArrowSpellCD;
+        private Image divineArrowSpellImage;
+        private TextMeshProUGUI divineArrowSpellCD;
         
         //HealthBars
         private GameObject playerHealthBarUI;
         private GameObject bossHealthBarUI;
         
+        //spells
         [SerializeField] private SummonVillageWarriorSpell _summonVillageWarriorSpell;
         [SerializeField] private BasicArrowSpell _basicArrowSpell;
         [SerializeField] private FairyDustSpell _fairyDustSpell;
-        
-        
+        [SerializeField] private DivineArrowSpell _divineArrowSpell;
+        [SerializeField] private SummonSkeletonWarriorSpell _summonSkeletonWarriorSpell;
+        [SerializeField] private SummonSkeletonWarriorSpell _summonBigSkeletonWarriorSpell;
 
+        private GameObject _tutorialPanel;
+        
         private void Start()
         {
             DontDestroyOnLoad(canvas);
-            StartCoroutine(StartLoadingAsync());
+            StartLoadingAsync();
         }
 
-        private IEnumerator StartLoadingAsync()
+        private void StartLoadingAsync()
         {
-            yield return new WaitForSeconds(0.1f);
-            
-            
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(loaderUI.transform.root.gameObject);
 
             loaderUI.Init(100);
 
             StartCoroutine(LoadCoreManager());
+            StartCoroutine(LoadGameManager());
             StartCoroutine(LoadCastManagers());
             StartCoroutine(LoadInputManager());
+            StartCoroutine(LoadTutorialManager());
+
+        }
+
+        private IEnumerator LoadGameManager()
+        {
+            yield return new GameManager();
+        }
+
+        private IEnumerator LoadTutorialManager()
+        {
+            yield return new TutorialManager(_tutorialPanel);
         }
 
         private IEnumerator LoadInputManager()
@@ -77,24 +91,19 @@
         private IEnumerator LoadCastManagers()
         {
             LoadUI();
-            List<Spell> playerSpellsList = new List<Spell>() { _summonVillageWarriorSpell,_fairyDustSpell, _basicArrowSpell };
-            List<Spell> bossSpellsList = new List<Spell>() { Instantiate(_summonSkeletonWarriorSpell), Instantiate(_summonBigSkeletonWarriorSpell)};
+            List<Spell> playerSpellsList = new List<Spell>() { _summonVillageWarriorSpell,_fairyDustSpell, _divineArrowSpell, _basicArrowSpell};
+            List<Spell> bossSpellsList = new List<Spell>() { _summonSkeletonWarriorSpell,_summonBigSkeletonWarriorSpell};
             Dictionary<Spell, ValueTuple<Image, TextMeshProUGUI>> UIElements = new Dictionary<Spell, ValueTuple<Image, TextMeshProUGUI>>()
             {
                 {_summonVillageWarriorSpell, ( warriorSpellImage, warriorSpellCD )},
-                {_fairyDustSpell, ( fairyDustSpellImage, fairyDuskSpellCD )}
+                {_fairyDustSpell, ( fairyDustSpellImage, fairyDuskSpellCD )},
+                {_divineArrowSpell, (divineArrowSpellImage, divineArrowSpellCD)}
             };
-            foreach (var x in UIElements)
-            {
-                print(x.Key);
-                print(x.Value);
-                print("--");
-            }
-
             _playerCastManager = new CastManagerPlayer(playerSpellsList, UIElements);
             _bossCastManager = new CastManagerBoss(bossSpellsList);
-            print(playerHealthBarUI);
+
             yield return null;
+
         }
 
       
@@ -129,27 +138,36 @@
             LoadBoss();
             loaderUI.AddProgress(30);
 
-            OnLoadComplete();
+            StartCoroutine(OnLoadComplete()); //dummy coroutine
         }
 
         private void LoadUI()
         {
+            var fairy = Resources.Load<GameObject>("FairyDustUI");
+            var warrior = Resources.Load<GameObject>("WarriorUI");
+            var divine = Resources.Load<GameObject>("DivineArrowUI");
+            var panel = Resources.Load<GameObject>("TutorialPanel");
 
-            var fairy = Resources.Load<GameObject>("Button1");
-            var warrior = Resources.Load<GameObject>("Button");
 
             var instantiatedFairy = Instantiate(fairy, new Vector3(250, 25, 0), Quaternion.identity);
             var instantiatedWarrior = Instantiate(warrior, new Vector3(180, 25, 0), Quaternion.identity);
+            var instantiatedDivne = Instantiate(divine, new Vector3(320, 25, 0), Quaternion.identity);
+            _tutorialPanel = Instantiate(panel, new Vector3(0, 0, 0), Quaternion.identity);
 
             instantiatedFairy.transform.SetParent(canvas.transform, false);
             instantiatedWarrior.transform.SetParent(canvas.transform, false);
+            instantiatedDivne.transform.SetParent(canvas.transform, false);
+            _tutorialPanel.transform.SetParent(canvas.transform, true);
+
             
             fairyDustSpellImage = instantiatedFairy.transform.GetChild(0).GetComponent<Image>();
             fairyDuskSpellCD = instantiatedFairy.GetComponentInChildren<TextMeshProUGUI>();
 
             warriorSpellImage = instantiatedWarrior.transform.GetChild(0).GetComponent<Image>();
             warriorSpellCD = instantiatedWarrior.GetComponentInChildren<TextMeshProUGUI>();
-
+            
+            divineArrowSpellImage = instantiatedDivne.transform.GetChild(0).GetComponent<Image>();
+            divineArrowSpellCD = instantiatedDivne.GetComponentInChildren<TextMeshProUGUI>();
         }
 
         private void LoadBoss()
@@ -167,17 +185,22 @@
             var playerHealthBar = Resources.Load<GameObject>("HealthBarMain");
           
             playerHealthBarUI = Instantiate(playerHealthBar, new Vector3(8, -9.5f, 0), Quaternion.identity);
-            print(playerHealthBarUI);
             var originalPlayer = Resources.Load<Player>("Player");
             _player = Instantiate(originalPlayer, Constants.BowPosition, Quaternion.identity);
-            print(playerHealthBarUI);
             _player.Init(_playerCastManager, playerHealthBarUI.transform.GetChild(2));
 
         }
 
-        private void OnLoadComplete()
+        private IEnumerator OnLoadComplete()
         {
-            loaderUI.AddProgress(20);
+            int count = 0;
+            while (count < 20)
+            {
+                loaderUI.AddProgress(1);
+                count++;
+                yield return new WaitForSeconds(0.1f);
+            }
+
             Destroy(loaderUI.transform.root.gameObject);
             Destroy(this.gameObject);
         }

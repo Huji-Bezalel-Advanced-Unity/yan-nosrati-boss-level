@@ -13,10 +13,12 @@ public class SkeletonWarrior : Warrior
 
     private void OnCollisionEnter2D(Collision2D collision2D)
     {
-        if (collision2D.gameObject.GetComponent<Warrior>())
+        if (inCombat || isDead) return;
+        Warrior warrior = collision2D.gameObject.GetComponent<Warrior>();
+        if (warrior && !inCombatWith.Contains(warrior)&& !warrior.isDead)
         {
-            fittedEnemyPosition = true;
-            curDirection = baseDirection;
+            EnterBattle(warrior);
+            warrior.EnterBattle(this);
         }
     }
     
@@ -34,9 +36,20 @@ public class SkeletonWarrior : Warrior
     
     public void AttackAnimationTriggered()
     {
-        
-        if (inCombatWith==null || inCombatWith.isDead) return;
-        DamageEnemy(inCombatWith,damage);
+        if (inCombatWith.Count ==0 || inCombatWith.Peek().isDead) return;
+        DamageEnemy(inCombatWith.Peek(),damage);
     }
- 
+
+    public override void ExitBattle()
+    {
+        base.ExitBattle();
+        FightNext();
+    }
+    public void FightNext()
+    {
+        if (inCombatWith.Count > 0)
+        {
+            Fight();
+        }
+    }
 }
