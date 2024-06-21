@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Bosses;
+using DefaultNamespace.MovementStrategies;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
@@ -10,10 +11,10 @@ using Update = Unity.VisualScripting.Update;
 
 public abstract class Boss : Entity
 {
-    protected Vector2 direction;
-    protected CastManagerBoss castManager;
-    protected Phase currentPhase = Phase.HighHealth;
-    protected List<Spell> LowHealthSpells;
+    public Vector2 direction;
+    public CastManagerBoss castManager;
+    public MovementStrategy _movementStrategy;
+    public List<Spell> LowHealthSpells;
 
 
     public abstract void Init(CastManagerBoss castManagerBoss, Transform healthBarUI);
@@ -27,5 +28,7 @@ public abstract class Boss : Entity
     
     
 }
+
+
 
 

@@ -6,6 +6,7 @@
  using Managers;
  using Spells;
  using TMPro;
+ using Unity.Mathematics;
  using UnityEngine;
  using UnityEngine.SceneManagement;
  using UnityEngine.UI;
@@ -13,15 +14,16 @@
  using Random = UnityEngine.Random;
 
  public class GameLoader : MonoBehaviour
-    {
-        [SerializeField]
-        private GameLoaderUI loaderUI;
+ {
+     [SerializeField] private GameLoaderUI loaderUI;
+     [SerializeField] private MapManager mapManager;
+
+        
 
         private Player _player;
         private Boss _boss;
         private CastManagerPlayer _playerCastManager;
         private CastManagerBoss _bossCastManager;
-     
         public GameObject canvas;
 
         // cast manager related
@@ -56,7 +58,7 @@
         {
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(loaderUI.transform.root.gameObject);
-
+           
             loaderUI.Init(100);
 
             StartCoroutine(LoadCoreManager());
@@ -72,6 +74,7 @@
             yield return new GameManager();
         }
 
+      
         private IEnumerator LoadTutorialManager()
         {
             yield return new TutorialManager(_tutorialPanel);
@@ -136,6 +139,7 @@
             
             LoadPlayer();
             LoadBoss();
+            LoadMapManager();
             loaderUI.AddProgress(30);
 
             StartCoroutine(OnLoadComplete()); //dummy coroutine
@@ -157,7 +161,7 @@
             instantiatedFairy.transform.SetParent(canvas.transform, false);
             instantiatedWarrior.transform.SetParent(canvas.transform, false);
             instantiatedDivne.transform.SetParent(canvas.transform, false);
-            _tutorialPanel.transform.SetParent(canvas.transform, true);
+            _tutorialPanel.transform.SetParent(canvas.transform,false);
 
             
             fairyDustSpellImage = instantiatedFairy.transform.GetChild(0).GetComponent<Image>();
@@ -175,7 +179,7 @@
             var bossHealthBar = Resources.Load<GameObject>("HealthBarMain");
             bossHealthBarUI = Instantiate(bossHealthBar, new Vector3(8, 9.5f, 0), Quaternion.identity);
             var boss = Resources.Load<Boss>("HadesBoss");
-             _boss = Instantiate(boss, new Vector2(Constants.BossXPossition, 0), Quaternion.identity);
+             _boss = Instantiate(boss, new Vector2(Constants.StartingBossXPossition, 0), Quaternion.identity);
              _boss.Init(_bossCastManager, bossHealthBarUI.transform.GetChild(2));
            
         }
@@ -189,6 +193,11 @@
             _player = Instantiate(originalPlayer, Constants.BowPosition, Quaternion.identity);
             _player.Init(_playerCastManager, playerHealthBarUI.transform.GetChild(2));
 
+        }
+        private void LoadMapManager()
+        {
+            MapManager _mapManager = Resources.Load<MapManager>("MapManager");
+            mapManager = Instantiate(_mapManager, Vector3.zero, Quaternion.identity);
         }
 
         private IEnumerator OnLoadComplete()

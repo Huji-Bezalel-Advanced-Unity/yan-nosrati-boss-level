@@ -8,11 +8,13 @@ public class SkeletonWarrior : Warrior
     void FixedUpdate()
     {
         base.FixedUpdate();
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision2D)
     {
+        if (isDead) return;
+        Spell spell = collision2D.gameObject.GetComponent<Spell>();
+        if (spell) spell.ApllySpellDebuffs(this);
         if (inCombat || isDead) return;
         Warrior warrior = collision2D.gameObject.GetComponent<Warrior>();
         if (warrior && !inCombatWith.Contains(warrior)&& !warrior.isDead)
@@ -20,24 +22,15 @@ public class SkeletonWarrior : Warrior
             EnterBattle(warrior);
             warrior.EnterBattle(this);
         }
-    }
-    
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Spell spell = other.gameObject.GetComponent<Spell>();
-        if (!spell) return;
-
-        foreach (Debuff d in spell.GetSpellsDebuffs())
-        {
-            if (d is not RevealDebuff) d.Apply(this);
-        }
-        
+      
     }
     
     public void AttackAnimationTriggered()
     {
         if (inCombatWith.Count ==0 || inCombatWith.Peek().isDead) return;
+        inCombatWith.Peek().damageFlash.CallFlasher();
         DamageEnemy(inCombatWith.Peek(),damage);
+        
     }
 
     public override void ExitBattle()

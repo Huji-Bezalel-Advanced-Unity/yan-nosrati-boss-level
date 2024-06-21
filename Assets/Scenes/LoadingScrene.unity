@@ -341,7 +341,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -984,6 +984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loaderUI: {fileID: 1274933444}
+  mapManager: {fileID: -8299201168269073640, guid: 1549398be09d33f4fb47470d01167750, type: 3}
   canvas: {fileID: 535974797}
   _summonVillageWarriorSpell: {fileID: 3290531370914722182, guid: 620c6a8d9bb68364d9a49daa7829e6cb, type: 3}
   _basicArrowSpell: {fileID: 2473076067311038233, guid: 7464824ab7feb3e4fa7d3dfc98a42ee6, type: 3}

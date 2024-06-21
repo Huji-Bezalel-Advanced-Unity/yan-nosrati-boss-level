@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
+using DefaultNamespace.MovementStrategies;
 using Random = UnityEngine.Random;
 
 public class HadesBoss : Boss
@@ -16,6 +17,8 @@ public class HadesBoss : Boss
     private Rigidbody2D rb;
     private float outOfBoundsTimer;
     [SerializeField] private RockThrowSpell rockThrowSpell;
+    //REMVove
+    private float angle;
 
     // [SerializeField] private SkeletonWarrior _warrior;
 
@@ -28,12 +31,14 @@ public class HadesBoss : Boss
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         _timeToChangeDirection = Random.value * 3;
-        moveSpeed = 5f;
         outOfBoundsTimer = 0.5f;
         health = 100;
         maxHealth = 100;
         currentPhase = Phase.HighHealth;
         LowHealthSpells = new List<Spell>() { rockThrowSpell };
+        _movementStrategy = new LinearMovementStrategy();
+    
+
     }
 
     private void Start()
@@ -61,7 +66,7 @@ public class HadesBoss : Boss
         Move();
         outOfBoundsTimer = Mathf.Max(0, outOfBoundsTimer - Time.deltaTime);
         Spell casted = castManager.TryToCastSpell(Vector2.left, GetSummonPosition(), Quaternion.identity);
-        if (casted is not null) animator.SetTrigger(casted.tag); 
+        // if (casted is not null) animator.SetTrigger(casted.tag); 
     }
 
     private Vector3 GetSummonPosition()
@@ -106,7 +111,7 @@ public class HadesBoss : Boss
 
     public override void Move()
     {
-        rb.MovePosition((Vector2)transform.position + direction*Mathf.Sin(Time.deltaTime*moveSpeed)*1.4f);
+        _movementStrategy.Move(this, rb,transform,direction,moveSpeed);
     }
 
   
@@ -129,10 +134,8 @@ public class HadesBoss : Boss
         if (collision.gameObject.GetComponent<Spell>() != null)
         {
             Spell spell = collision.gameObject.GetComponent<Spell>();
-            foreach (Debuff debuff in spell.GetSpellsDebuffs())
-            {
-                debuff.Apply(this);
-            }
+            if (spell) spell.ApllySpellDebuffs(this);
+          
         }
     }
 
@@ -156,6 +159,10 @@ public class HadesBoss : Boss
         float precentChange = 0.2f;
         moveSpeed = moveSpeed * (1+precentChange);
         castManager.ChangeSpellsCooldown(1-precentChange);
-        if (currentPhase == Phase.LowHealth) castManager.AddSpell(rockThrowSpell);
+        if (currentPhase == Phase.LowHealth)
+        {
+            castManager.AddSpell(rockThrowSpell);
+            _movementStrategy = new CircularMovementStrategy();
+        }
     }
 }

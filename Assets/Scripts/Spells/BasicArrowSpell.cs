@@ -42,6 +42,12 @@ public class BasicArrowSpell : Spell
         // I did this calculation myself and chatgpt couldn't come up with it, im proud
         // Vector2 d = (direction + (new Vector2(startingPosition.x,startingPosition.y)*-1)).normalized;
         Vector2 d = (direction +(Vector2) Constants.BowPosition*-1).normalized;
+        
         arrow.rb.AddForce(d * moveSpeed, ForceMode2D.Impulse);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        Destroy(this.gameObject);
     }
 }

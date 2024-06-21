@@ -15,6 +15,7 @@ public abstract class Warrior : Entity
     public Vector2 curDirection;
     public Queue<Warrior> inCombatWith;
     public bool fittedEnemyPosition;
+    public DamageFlash damageFlash;
     
 
     private void Awake()
@@ -22,6 +23,7 @@ public abstract class Warrior : Entity
         inCombatWith = new Queue<Warrior>();
         rb = GetComponent<Rigidbody2D>();
         fittedEnemyPosition = false; // why???????? shuld bef ailse by default
+        damageFlash = GetComponent<DamageFlash>();
 
     }
     

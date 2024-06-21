@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6052464548133552762}
   - component: {fileID: 3290531370914722182}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: VillageWarriorSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}

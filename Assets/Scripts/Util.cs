@@ -25,17 +25,7 @@ namespace DefaultNamespace
             }
         }
 
-        // public static async Task DoFillLerp(Image imageToFill, float startValue, float endValue, float duration)
-        // {
-        //     float elapsedTime = 0;
-        //     while (elapsedTime < duration)
-        //     {
-        //         elapsedTime += Time.deltaTime;
-        //         float precentageCompleted = elapsedTime / duration;
-        //         imageToFill.fillAmount = Mathf.Lerp(startValue, endValue, precentageCompleted);
-        //         await Task.Yield();
-        //     }
-        // }
+    
             public static async Task DoFillLerp(Image imageToFill, float startValue, float endValue, float duration)
             {
                 float elapsedTime = 0;

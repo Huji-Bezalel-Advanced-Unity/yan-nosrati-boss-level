@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4089847820354860857}
   - component: {fileID: 8327015984569800219}
   - component: {fileID: 8269376120794124687}
+  - component: {fileID: -5519406515329633441}
   m_Layer: 3
   m_Name: VillageWarrior
   m_TagString: VillageWarrior
@@ -50,8 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb5e8a433d65e844b2dfd2a12c261f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 40
-  maxHealth: 40
+  health: 331
+  maxHealth: 319
   stunned: 0
   moveSpeed: 4
   healthBar: {fileID: 1122287726484588751}
@@ -63,6 +64,7 @@ MonoBehaviour:
   baseDirection: {x: 1, y: 0}
   curDirection: {x: 1, y: 0}
   fittedEnemyPosition: 0
+  damageFlash: {fileID: 0}
 --- !u!50 &8877540813612796190
 Rigidbody2D:
   serializedVersion: 4
@@ -176,7 +178,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -208,6 +210,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5519406515329633441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2704556178030680337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ec6543b209591b4b810f0adce15dea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashTime: 0.25
 --- !u!1 &6599982173256923382
 GameObject:
   m_ObjectHideFlags: 0

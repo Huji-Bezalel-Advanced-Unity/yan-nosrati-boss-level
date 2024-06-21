@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Bosses;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class Entity : MonoBehaviour
 {
+    protected Phase currentPhase = Phase.HighHealth;
     public int health;
     public int maxHealth;
     public bool stunned;

@@ -29,10 +29,18 @@ public class CastManagerPlayer : CastManager
             if (spell.CompareTag("BasicArrow"))
             {
                 _basicArrowSpell = (BasicArrowSpell)spell;
-                continue; //we continue since the basic arrow is attached o a UI component
+                continue; //we continue since the basic arrow has no UI component
             }
             castManagerPlayerUI.DisplaySpellCD(spell);
         }
+        WarriorCrossUpgrade.OnWarriorCross += UpgradeBow;
+
+    }
+
+    private void UpgradeBow()
+    {
+        float reductionRate = 0.05f;
+        _basicArrowSpell.setCooldown(_basicArrowSpell.GetCooldown() - reductionRate);
     }
 
     private void InitializeKeysToSpellsDict(List<Spell> spellsList)
@@ -55,7 +63,7 @@ public class CastManagerPlayer : CastManager
         {
             if (GameManager.Instance.GetRunTutorial() && spell.GetFirstCast())
             {
-                TutorialManager.Instance.runSpellTutorial(GetKeyFromMap(spell),castManagerPlayerUI.GetUIPosition(spell));
+                TutorialManager.Instance.RunSpellTutorial(GetKeyFromMap(spell),castManagerPlayerUI.GetUIPosition(spell));
                 spell.SetFirstCast();
             }
             castManagerPlayerUI.DisplaySpellCD(spell);
@@ -74,7 +82,7 @@ public class CastManagerPlayer : CastManager
     private bool CastSpellIfReady(Spell spell, Quaternion rotation, Vector3 startingPosition)
     {
         if ((DateTime.UtcNow - _spellCooldowns[spell]).TotalSeconds < spell.GetCooldown()) return false;
-        Vector3 mousePos = MainCamera.Camera.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+        Vector3 mousePos = MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
         spell.Cast(mousePos,startingPosition, rotation);
         _spellCooldowns[spell] = DateTime.UtcNow;
         return true;

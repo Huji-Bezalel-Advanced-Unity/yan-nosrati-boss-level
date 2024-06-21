@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8044488403272400490}
-  - component: {fileID: 1368804979212785273}
   - component: {fileID: 2473076067311038233}
   - component: {fileID: 6094137598874204287}
-  m_Layer: 3
+  - component: {fileID: 8384526411818985991}
+  m_Layer: 8
   m_Name: BasicArrow
   m_TagString: BasicArrow
   m_Icon: {fileID: 0}
@@ -35,33 +35,6 @@ Transform:
   - {fileID: 6868559691896581212}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &1368804979212785273
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2302856351281971754}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &2473076067311038233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,9 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c96e2f8f552d049bade771536404ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 40
+  moveSpeed: 0.62
   baseCoolDown: 1
-  coolDown: 1
+  coolDown: 0.79999995
 --- !u!61 &6094137598874204287
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -106,7 +79,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.01}
@@ -122,6 +95,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.93, y: 0.13}
   m_EdgeRadius: 0
+--- !u!50 &8384526411818985991
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2302856351281971754}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.01
+  m_LinearDrag: 0.9
+  m_AngularDrag: 1.31
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &8402866630983829200
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6868559691896581212}
   - component: {fileID: 2364659825054018430}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Arrowvisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}

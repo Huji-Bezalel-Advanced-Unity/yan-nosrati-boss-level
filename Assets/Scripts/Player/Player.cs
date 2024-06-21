@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
+using Bosses;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : Entity
 {
+    public static Action<Phase> OnPlayerChangePhase;
+    public static Action <Phase> OnTakingDamage;
     private CastManagerPlayer _castManager;
-    private float currentAngle = 0f;
+    private float currentAngle;
     [SerializeField] private GameObject bow;
     
 
@@ -15,11 +19,10 @@ public class Player : Entity
     {
         _castManager = castManager;
         healthBar = healthBarUI;
-        health = 500;
-        maxHealth = 500;
-        
-        
     }
+
+   
+
     void Update()
     {
         InputManager.Instance.CheckKeyPressed();
@@ -32,8 +35,6 @@ public class Player : Entity
     {
         InputManager.keyPressed += ReactToKeyPress;
     }
-
-
     protected override IEnumerator Die()
     {
         yield return null;
@@ -42,12 +43,10 @@ public class Player : Entity
     public override void Move()
     {
         // Get the mouse position in world coordinates
-        Vector3 mousePosition = MainCamera.Camera.MatchMouseCoordinatesToCamera(Input.mousePosition);
+        Vector3 mousePosition = MainCamera.Instance.MatchMouseCoordinatesToCamera(Input.mousePosition);
 
         // Calculate the direction from the sprite to the mouse position
         Vector3 direction = mousePosition - transform.position;
-
-
         // Calculate the angle between the sprite's current direction and the target direction
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
@@ -64,7 +63,7 @@ public class Player : Entity
     
     private void ReactToKeyPress(KeyCode key)
     {
-        Vector3 mousePos = MainCamera.Camera.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+        Vector3 mousePos = MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
         _castManager.TryToCastSpell(key,
              new Vector3(Constants.BowPosition.x, mousePos.y,0),
             bow.transform.rotation);
@@ -78,6 +77,44 @@ public class Player : Entity
             RemoveHealth(skeletonWarrior.damage);
             Destroy(skeletonWarrior.gameObject);
         }
+        print(col.tag);
+        Spell spell = col.gameObject.GetComponent<Spell>();
+        if (spell)
+        {
+            spell.ApllySpellDebuffs(this);
+            Destroy(spell.gameObject);
+            print("DESTROY");
+        }
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        Spell spell = other.gameObject.GetComponent<Spell>();
+        print(spell);
+        if (spell)
+        {
+            spell.ApllySpellDebuffs(this);
+            Destroy(spell.gameObject);
+            print("DESTROY");
+        }
+    }
+
+    public override void RemoveHealth(int damage)
+    {
+        base.RemoveHealth(damage);
+        if (currentPhase == Phase.HighHealth && health <= maxHealth / 2)
+        {
+            currentPhase = Phase.MediumHealth;
+            OnPlayerChangePhase?.Invoke(currentPhase);
+        }
+        else if (currentPhase == Phase.MediumHealth && health <= maxHealth / 4)
+        {
+            currentPhase = Phase.LowHealth;
+            OnPlayerChangePhase?.Invoke(currentPhase);
+        }
+        OnTakingDamage?.Invoke(currentPhase);
+
     }
     
     

@@ -19,6 +19,14 @@ public abstract class Spell : MonoBehaviour
     }
     public abstract void Cast(Vector2 direction,Vector3 startingPosition, Quaternion PlayerRotation);
 
+
+    public void ApllySpellDebuffs(Entity entity)
+    {
+        foreach (Debuff debuff in DebuffsList)
+        {
+            debuff.Apply(entity);
+        }
+    }
     public List<Debuff> GetSpellsDebuffs()
     {
         return DebuffsList;

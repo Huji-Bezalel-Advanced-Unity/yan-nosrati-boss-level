@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5465623450047739788}
   - component: {fileID: 2030147611523352427}
   - component: {fileID: 194860070638311804}
+  - component: {fileID: -3752691116633559796}
   m_Layer: 6
   m_Name: SkeletonWarriorBig
   m_TagString: SkeletonWarrior
@@ -136,6 +137,7 @@ MonoBehaviour:
   baseDirection: {x: -1, y: 0}
   curDirection: {x: -1, y: 0}
   fittedEnemyPosition: 0
+  damageFlash: {fileID: 0}
 --- !u!61 &2030147611523352427
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -208,6 +210,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-3752691116633559796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7709173437330846572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ec6543b209591b4b810f0adce15dea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashTime: 0.25
 --- !u!1001 &1668863338882928106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -220,6 +236,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: -8913533962594999635, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
     - target: {fileID: -8653719598885068355, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_Name
       value: SkeletonWarriorPSB
@@ -228,6 +248,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: -8089108032486474258, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
     - target: {fileID: -7552582706839291426, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -308,14 +332,26 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: -5220851208984371554, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
     - target: {fileID: -4457772106480614152, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_SortingOrder
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: -4457772106480614152, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
     - target: {fileID: -3007667185037498341, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_SortingOrder
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: -3007667185037498341, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
     - target: {fileID: -2925370357911809791, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: 0.006095469
@@ -348,6 +384,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: -1952965845441256203, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
     - target: {fileID: -1152263794579118782, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: 0.00028508902
@@ -392,10 +432,18 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: 3929451477958215980, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
     - target: {fileID: 5359103177601667974, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_SortingOrder
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: 5359103177601667974, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 072d442cdac4dc54fbf82935dcf868ec, type: 2}
     - target: {fileID: 7865728278067164518, guid: 00c875278ffc1df4a964f827d0ce626f, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: 0.001275003

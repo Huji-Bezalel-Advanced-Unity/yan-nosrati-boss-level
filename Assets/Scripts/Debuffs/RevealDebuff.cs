@@ -24,9 +24,9 @@ public class RevealDebuff : Debuff
     // Example of how to call the async function
     public async void StartFade(Renderer renderer)
     {
-        if (renderer != null)
+        if (renderer != null && renderer.material.color.a < 1f)
         {
-            await Util.DoFadeLerp(renderer, 0f, 1f, Duration); // Example values for startValue, endValue, and duration
+            await Util.DoFadeLerp(renderer, renderer.material.color.a, 1f, Duration); // Example values for startValue, endValue, and duration
             await Task.Delay(Duration*1000);
             await Util.DoFadeLerp(renderer, 1f, 0f, Duration);
             
