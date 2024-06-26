@@ -4,6 +4,7 @@ using Bosses;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Warriors;
 
 namespace Managers
 {
@@ -13,13 +14,13 @@ namespace Managers
         [SerializeField] private SpriteRenderer _renderer;
         [SerializeField]private Sprite mediumHealthSprite;
         [SerializeField]private Sprite lowHealthSprite;
-        private Dictionary<Phase, Sprite> phaseToImageMap;
+        private Dictionary<Phase, Sprite> _phaseToImageMap;
 
         public void Awake()
         {
             if (instance == null) instance =this;
             
-            phaseToImageMap = new Dictionary<Phase, Sprite>()
+            _phaseToImageMap = new Dictionary<Phase, Sprite>()
             {
                 { Phase.MediumHealth, mediumHealthSprite },
                 { Phase.LowHealth, lowHealthSprite }
@@ -33,7 +34,7 @@ namespace Managers
 
         public void ChangeMapImage(Phase phase)
         {
-            _renderer.sprite = phaseToImageMap[phase];
+            _renderer.sprite = _phaseToImageMap[phase];
 
         }
     }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SummonVillageWarriorSpell : Spell
+public class SummonWarriorSpell : Spell
 {
     [SerializeField] private Warrior warriorToSummon;
 

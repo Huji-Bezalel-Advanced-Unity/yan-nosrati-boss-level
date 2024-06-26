@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4111949656210420797}
   - component: {fileID: 2861355931164073259}
   - component: {fileID: -986474442072662592}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DivineArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 60
-  baseCoolDown: 25
-  coolDown: 25
+  baseCoolDown: 2
+  coolDown: 2
 --- !u!50 &2861355931164073259
 Rigidbody2D:
   serializedVersion: 4
@@ -132,7 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7982498358889013837}
   - component: {fileID: 9151225338603862186}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

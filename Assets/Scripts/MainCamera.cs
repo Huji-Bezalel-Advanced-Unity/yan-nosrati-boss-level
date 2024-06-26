@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using Bosses;
 using Unity.VisualScripting;
 using UnityEngine;
+using Warriors;
 using Random = UnityEngine.Random;
 
 public class MainCamera : MonoBehaviour
 {
 
-    private Transform cameraTransform;
-    private Vector3 originalPosition;
-    private float currentShakeDuration = 0f;
+    private Transform _cameraTransform;
+    private Vector3 _originalPosition;
     
     public static MainCamera Instance { get; private set; }
     private Camera _camera;
@@ -30,8 +30,8 @@ public class MainCamera : MonoBehaviour
         }
 
         _camera = GetComponent<Camera>();
-        cameraTransform = transform;
-        originalPosition = cameraTransform.localPosition;
+        _cameraTransform = transform;
+        _originalPosition = _cameraTransform.localPosition;
     }
 
     public Vector3 MatchMouseCoordinatesToCamera(Vector2 direction)
@@ -49,15 +49,15 @@ public class MainCamera : MonoBehaviour
 
         while (elapsed < duration)
         {
-            Vector3 randomPoint = originalPosition + Random.insideUnitSphere * magnitude;
+            Vector3 randomPoint = _originalPosition + Random.insideUnitSphere * magnitude;
 
-            cameraTransform.localPosition = randomPoint;
+            _cameraTransform.localPosition = randomPoint;
 
             elapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        cameraTransform.localPosition = originalPosition;
+        _cameraTransform.localPosition = _originalPosition;
     }
 }

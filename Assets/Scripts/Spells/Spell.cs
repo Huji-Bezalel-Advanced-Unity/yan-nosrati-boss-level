@@ -22,6 +22,8 @@ public abstract class Spell : MonoBehaviour
 
     public void ApllySpellDebuffs(Entity entity)
     {
+        print(entity);
+        print(DebuffsList);
         foreach (Debuff debuff in DebuffsList)
         {
             debuff.Apply(entity);

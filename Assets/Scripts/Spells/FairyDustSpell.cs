@@ -13,7 +13,7 @@ public class FairyDustSpell : BasicArrowSpell
         DebuffsList = new List<Debuff> { new RevealDebuff(4), new SlowDebuff(25, 5), new DamageDebuff(10)};
     }
 
-    private void Update()
+    private new void Update()
     {
         base.Update();
     }

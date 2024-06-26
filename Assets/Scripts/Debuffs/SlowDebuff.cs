@@ -19,7 +19,7 @@ public class SlowDebuff : Debuff
         DoSlowForSeconds(entity);
     }
 
-    private async Task DoSlowForSeconds(Entity entity)
+    private async void DoSlowForSeconds(Entity entity)
     {
         float speed = entity.moveSpeed;
         entity.moveSpeed = (float)(100 - Slow)/100 * entity.moveSpeed;

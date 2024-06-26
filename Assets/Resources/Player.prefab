@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5063057456933146845}
   - component: {fileID: 4883785832526597987}
   - component: {fileID: 3017066487098441342}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,6 +192,10 @@ PrefabInstance:
       value: Repeating Crossbow
       objectReference: {fileID: 0}
     - target: {fileID: 8664952214554562511, guid: b10e6ee15d94ae14cb2cac3f0d14824d, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8664952214554562511, guid: b10e6ee15d94ae14cb2cac3f0d14824d, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 1
       objectReference: {fileID: 0}
@@ -213,6 +217,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5063057456933146845}
     m_Modifications:
+    - target: {fileID: 1586954596967560425, guid: 4de8b9efc75de2049885b95cac462d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1586954596967560425, guid: 4de8b9efc75de2049885b95cac462d9a, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -260,6 +268,10 @@ PrefabInstance:
     - target: {fileID: 7996720805945019163, guid: 4de8b9efc75de2049885b95cac462d9a, type: 3}
       propertyPath: m_Name
       value: Bow 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996720805945019163, guid: 4de8b9efc75de2049885b95cac462d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

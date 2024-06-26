@@ -9,24 +9,24 @@ using UnityEngine.UI;
 
 namespace Managers
 {
-    public class CastManagerPlayerUI : MonoBehaviour
+    public class CastManagerPlayerUI 
     {
-        private Dictionary<Spell, ValueTuple<Image, TextMeshProUGUI>> _UIElements;
+        private Dictionary<Spell, ValueTuple<Image, TextMeshProUGUI>> _uiElements;
         public CastManagerPlayerUI(Dictionary<Spell, ValueTuple<Image, TextMeshProUGUI>> UIElements)
         {
-            _UIElements = UIElements;
+            _uiElements = UIElements;
         }
 
-        public void DisplaySpellCD(Spell spell)
+        public void DisplaySpellCd(Spell spell)
         {
-            _UIElements[spell].Item1.fillAmount = 0.5f;
-            Util.DoFillLerp(_UIElements[spell].Item1, 1, 0, spell.GetCooldown());
-            StartCountdown(_UIElements[spell].Item2, spell.GetCooldown());
+            _uiElements[spell].Item1.fillAmount = 0.5f;
+            Util.DoFillLerp(_uiElements[spell].Item1, 1, 0, spell.GetCooldown());
+            StartCountdown(_uiElements[spell].Item2, spell.GetCooldown());
         }
 
         public Vector3 GetUIPosition(Spell spell)
         {
-            return _UIElements[spell].Item1.transform.position;
+            return _uiElements[spell].Item1.transform.position;
         }
 
         private async void StartCountdown(TextMeshProUGUI t, float countFrom)

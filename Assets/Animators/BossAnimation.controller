@@ -122,7 +122,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CastSkeleton
-  m_Speed: 1
+  m_Speed: 13.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5650368705264150443}
@@ -135,7 +135,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 5064597851218756214, guid: 6bd4c9b15b3df784481ca5e9089d529c, type: 3}
+  m_Motion: {fileID: 7400000, guid: 02b6e4d0ed23b9f4ea14724e01182a61, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7524955598197804789}
   - component: {fileID: 4263761496823544659}
   - component: {fileID: 2974664609147260681}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: FairyDustArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 2055211621577152824}
   - component: {fileID: 1998864657232843322}
   - component: {fileID: 641573918278310313}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}

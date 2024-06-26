@@ -14,16 +14,16 @@ namespace Managers
                 Instance = this;
             }
         }
-        private bool runTutorial = true;
+        private bool _runTutorial = true;
         
-        public void setRunTutorial()
+        public void SetRunTutorial()
         {
-            runTutorial = !runTutorial;
+            _runTutorial = !_runTutorial;
         }
 
         public bool GetRunTutorial()
         {
-            return runTutorial;
+            return _runTutorial;
         }
         
     }

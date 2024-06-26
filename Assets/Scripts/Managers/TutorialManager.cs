@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net.Mime;
 using System.Threading.Tasks;
-using Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DefaultNamespace
+namespace Managers
 {
     public class TutorialManager
     {
@@ -18,7 +15,7 @@ namespace DefaultNamespace
         private TextMeshProUGUI _text;
         private Image _image;
         private Dictionary<KeyCode, ValueTuple<int,string>> spellToDescriptionMap;
-        private bool running;
+        private bool _running;
 
 
         
@@ -29,7 +26,7 @@ namespace DefaultNamespace
                 Instance = this;
             }
 
-            running = false;
+            _running = false;
             _tutorialPanel = tutorialPanel;
             _image = tutorialPanel.transform.GetChild(0).GetComponent<Image>();
             _tutorialPanel.SetActive(false);
@@ -39,10 +36,10 @@ namespace DefaultNamespace
                 { { KeyCode.Q, (1000,"WARRIORS") }, { KeyCode.W, (300,"FAIRY") }, { KeyCode.R, (100,"DIVINE") } };
         }
 
-        public async Task RunSpellTutorial(KeyCode spell, Vector3 position)
+        public async void RunSpellTutorial(KeyCode spell, Vector3 position)
         {
-            if (running) return;
-            running = true;
+            if (_running) return;
+            _running = true;
             _image.transform.position = position;
             _text.text = spellToDescriptionMap[spell].Item2;
             await Task.Delay(spellToDescriptionMap[spell].Item1);
@@ -52,7 +49,7 @@ namespace DefaultNamespace
             _animator.SetTrigger("PopOut");
             await Task.Delay(300);
             _tutorialPanel.SetActive(false);
-            running = false;
+            _running = false;
 
         }
 

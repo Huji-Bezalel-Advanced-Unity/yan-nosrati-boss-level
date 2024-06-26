@@ -12,7 +12,7 @@ namespace Spells
             DebuffsList = new List<Debuff> { new RevealDebuff(4), new SlowDebuff(30, 5),
                 new DamageDebuff(50), new StunDebuff(3f), new InstantKillDebuff()};
         }
-        private void Update()
+        private new void Update()
         {
             base.Update();
         }

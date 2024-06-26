@@ -1,17 +1,14 @@
  using System;
  using System.Collections;
  using System.Collections.Generic;
- using System.Net.Mime;
- using DefaultNamespace;
  using Managers;
  using Spells;
  using TMPro;
- using Unity.Mathematics;
  using UnityEngine;
  using UnityEngine.SceneManagement;
  using UnityEngine.UI;
- using Button = UnityEngine.UIElements.Button;
- using Random = UnityEngine.Random;
+ using Warriors;
+
 
  public class GameLoader : MonoBehaviour
  {
@@ -39,12 +36,12 @@
         private GameObject bossHealthBarUI;
         
         //spells
-        [SerializeField] private SummonVillageWarriorSpell _summonVillageWarriorSpell;
+        [SerializeField] private SummonWarriorSpell _summonVillageWarriorSpell;
         [SerializeField] private BasicArrowSpell _basicArrowSpell;
         [SerializeField] private FairyDustSpell _fairyDustSpell;
         [SerializeField] private DivineArrowSpell _divineArrowSpell;
-        [SerializeField] private SummonSkeletonWarriorSpell _summonSkeletonWarriorSpell;
-        [SerializeField] private SummonSkeletonWarriorSpell _summonBigSkeletonWarriorSpell;
+        [SerializeField] private SummonWarriorSpell _summonSkeletonWarriorSpell;
+        [SerializeField] private SummonWarriorSpell _summonBigSkeletonWarriorSpell;
 
         private GameObject _tutorialPanel;
         
@@ -63,9 +60,7 @@
 
             StartCoroutine(LoadCoreManager());
             StartCoroutine(LoadGameManager());
-            StartCoroutine(LoadCastManagers());
             StartCoroutine(LoadInputManager());
-            StartCoroutine(LoadTutorialManager());
 
         }
 
@@ -91,7 +86,7 @@
             
         }
 
-        private IEnumerator LoadCastManagers()
+        private void LoadCastManagers()
         {
             LoadUI();
             List<Spell> playerSpellsList = new List<Spell>() { _summonVillageWarriorSpell,_fairyDustSpell, _divineArrowSpell, _basicArrowSpell};
@@ -104,9 +99,7 @@
             };
             _playerCastManager = new CastManagerPlayer(playerSpellsList, UIElements);
             _bossCastManager = new CastManagerBoss(bossSpellsList);
-
-            yield return null;
-
+            
         }
 
       
@@ -116,7 +109,8 @@
             if (isSuccess)
             {
                 loaderUI.AddProgress(20);
-                LoadMainScene();
+                
+                StartCoroutine(LoadMainScene());
             }
             else
             {
@@ -125,9 +119,16 @@
         }
         
 
-        private void LoadMainScene()
+        private IEnumerator LoadMainScene()
         {
-            loaderUI.AddProgress(30);
+            int count = 0;
+
+            while (count < 30)
+            {
+                loaderUI.AddProgress(1);
+                yield return new WaitForSeconds(0.1f);
+                count++;
+            }
             SceneManager.sceneLoaded += OnMainSceneLoaded;
             SceneManager.LoadScene("Main");
 
@@ -136,13 +137,16 @@
         private void OnMainSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             SceneManager.sceneLoaded -= OnMainSceneLoaded;
-            
+            LoadCastManagers();
             LoadPlayer();
             LoadBoss();
             LoadMapManager();
+            StartCoroutine(LoadTutorialManager());
+
+
             loaderUI.AddProgress(30);
 
-            StartCoroutine(OnLoadComplete()); //dummy coroutine
+            OnLoadComplete(); //dummy coroutine
         }
 
         private void LoadUI()
@@ -156,7 +160,7 @@
             var instantiatedFairy = Instantiate(fairy, new Vector3(250, 25, 0), Quaternion.identity);
             var instantiatedWarrior = Instantiate(warrior, new Vector3(180, 25, 0), Quaternion.identity);
             var instantiatedDivne = Instantiate(divine, new Vector3(320, 25, 0), Quaternion.identity);
-            _tutorialPanel = Instantiate(panel, new Vector3(0, 0, 0), Quaternion.identity);
+            _tutorialPanel = Instantiate(panel, new Vector3(40, 0, 0), Quaternion.identity);
 
             instantiatedFairy.transform.SetParent(canvas.transform, false);
             instantiatedWarrior.transform.SetParent(canvas.transform, false);
@@ -200,16 +204,8 @@
             mapManager = Instantiate(_mapManager, Vector3.zero, Quaternion.identity);
         }
 
-        private IEnumerator OnLoadComplete()
+        private void OnLoadComplete()
         {
-            int count = 0;
-            while (count < 20)
-            {
-                loaderUI.AddProgress(1);
-                count++;
-                yield return new WaitForSeconds(0.1f);
-            }
-
             Destroy(loaderUI.transform.root.gameObject);
             Destroy(this.gameObject);
         }

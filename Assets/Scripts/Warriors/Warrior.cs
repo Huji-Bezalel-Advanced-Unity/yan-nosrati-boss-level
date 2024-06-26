@@ -59,7 +59,6 @@ public abstract class Warrior : Entity
 
     public virtual void ExitBattle()
     {
-        print(inCombatWith.Count);
         inCombatWith.Dequeue();
         if (inCombatWith.Count == 0)
         {
@@ -71,9 +70,11 @@ public abstract class Warrior : Entity
         
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     protected override IEnumerator Die()
     {
         isDead = true;
+        gameObject.GetComponent<Collider2D>().enabled = false;
         animator.SetTrigger("Die");
         foreach (var warrior in inCombatWith)
         {

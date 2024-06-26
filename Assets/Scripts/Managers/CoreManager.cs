@@ -5,16 +5,16 @@ namespace Managers
     public class CoreManager
     {
         private Action<bool> _onComplete;
-        public static CoreManager instance;
+        public static CoreManager Instance;
         
         public CoreManager(Action<bool> onComplete)
         {
-            if (instance != null)
+            if (Instance != null)
             {
                 return;
             }
             
-            instance = this;
+            Instance = this;
             _onComplete = onComplete;
             OnLoadSuccess();
         }
