@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.36470592, g: 0.5264671, b: 0.83137256, a: 1}
+  m_Color: {r: 0.91372555, g: 0.5137255, b: 0.10980393, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -898,7 +898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.47378963, g: 0.7887729, b: 0.8584906, a: 1}
+  m_Color: {r: 0.6981132, g: 0.48466927, b: 0.2733179, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1017,15 +1017,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 858980763494956804, guid: 9ed4fab812b62c142839b867dd0b1079, type: 3}
       propertyPath: m_Color.b
-      value: 0.8584906
+      value: 0.2733179
       objectReference: {fileID: 0}
     - target: {fileID: 858980763494956804, guid: 9ed4fab812b62c142839b867dd0b1079, type: 3}
       propertyPath: m_Color.g
-      value: 0.7887729
+      value: 0.48466927
       objectReference: {fileID: 0}
     - target: {fileID: 858980763494956804, guid: 9ed4fab812b62c142839b867dd0b1079, type: 3}
       propertyPath: m_Color.r
-      value: 0.47378963
+      value: 0.6981132
       objectReference: {fileID: 0}
     - target: {fileID: 1702225050949420624, guid: 9ed4fab812b62c142839b867dd0b1079, type: 3}
       propertyPath: m_Name
@@ -1037,15 +1037,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2945035068182591184, guid: 9ed4fab812b62c142839b867dd0b1079, type: 3}
       propertyPath: m_Color.b
-      value: 0.83137256
+      value: 0.10980393
       objectReference: {fileID: 0}
     - target: {fileID: 2945035068182591184, guid: 9ed4fab812b62c142839b867dd0b1079, type: 3}
       propertyPath: m_Color.g
-      value: 0.5264671
+      value: 0.5137255
       objectReference: {fileID: 0}
     - target: {fileID: 2945035068182591184, guid: 9ed4fab812b62c142839b867dd0b1079, type: 3}
       propertyPath: m_Color.r
-      value: 0.36470592
+      value: 0.91372555
       objectReference: {fileID: 0}
     - target: {fileID: 2945035068182591184, guid: 9ed4fab812b62c142839b867dd0b1079, type: 3}
       propertyPath: m_FillAmount

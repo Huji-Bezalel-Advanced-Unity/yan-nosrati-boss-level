@@ -94,7 +94,6 @@ namespace Warriors
         private void OnCollisionEnter2D(Collision2D other)
         {
             Spell spell = other.gameObject.GetComponent<Spell>();
-            print(spell);
             if (spell)
             {
                 spell.ApllySpellDebuffs(this);
