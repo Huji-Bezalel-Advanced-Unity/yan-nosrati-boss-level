@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc9f56dbdc8e1f439bbc760d431b7bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  electricLine: {fileID: 3135849669258429205, guid: 65844ac92bed55749aedbdcfb5955f67, type: 3}
+  electricLinePrefab: {fileID: 3135849669258429205, guid: 65844ac92bed55749aedbdcfb5955f67, type: 3}
 --- !u!61 &249715976
 BoxCollider2D:
   m_ObjectHideFlags: 0

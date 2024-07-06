@@ -62,7 +62,6 @@ public abstract class Warrior : Entity
         inCombatWith.Dequeue();
         if (inCombatWith.Count == 0)
         {
-            print("entered");
             inCombat = false;
             animator.SetBool("InCombat", false);
             animator.SetBool("Move", true);

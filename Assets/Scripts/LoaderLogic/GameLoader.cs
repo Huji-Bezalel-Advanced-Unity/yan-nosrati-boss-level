@@ -155,8 +155,7 @@
             var warrior = Resources.Load<GameObject>("WarriorUI");
             var divine = Resources.Load<GameObject>("DivineArrowUI");
             var panel = Resources.Load<GameObject>("TutorialPanel");
-
-
+            
             var instantiatedFairy = Instantiate(fairy, new Vector3(250, 25, 0), Quaternion.identity);
             var instantiatedWarrior = Instantiate(warrior, new Vector3(180, 25, 0), Quaternion.identity);
             var instantiatedDivne = Instantiate(divine, new Vector3(320, 25, 0), Quaternion.identity);

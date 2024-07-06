@@ -9,6 +9,7 @@ public abstract class Spell : MonoBehaviour
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float baseCoolDown;
     [SerializeField] protected float coolDown;
+    [SerializeField] private KeyCode keyCode;
     protected bool FirstCast;
 
     
@@ -17,13 +18,17 @@ public abstract class Spell : MonoBehaviour
         coolDown = baseCoolDown;
         FirstCast = true;
     }
+
+    public KeyCode GetKeyCode()
+    {
+        return keyCode;
+    }
     public abstract void Cast(Vector2 direction,Vector3 startingPosition, Quaternion PlayerRotation);
 
 
     public void ApllySpellDebuffs(Entity entity)
     {
-        print(entity);
-        print(DebuffsList);
+     
         foreach (Debuff debuff in DebuffsList)
         {
             debuff.Apply(entity);

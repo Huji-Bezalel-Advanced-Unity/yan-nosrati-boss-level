@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  baseCoolDown: 28
-  coolDown: 28
+  baseCoolDown: 25
+  coolDown: 25
   warriorToSummon: {fileID: 5465623450047739788, guid: b7fbae57feb6eee4ea1d9b071142f39a, type: 3}

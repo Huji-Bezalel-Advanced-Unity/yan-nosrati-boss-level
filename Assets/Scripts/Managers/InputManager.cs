@@ -24,7 +24,6 @@ public class InputManager
     
     public void CheckKeyPressed()
     {
-        
         if (Input.GetKeyDown(KeyCode.Q))
         {
             KeyPressed?.Invoke(KeyCode.Q);

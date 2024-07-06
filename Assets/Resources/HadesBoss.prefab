@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae14c26d6eaf4d94083a81406b05da83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 0
+  health: 500
+  maxHealth: 500
   stunned: 0
   moveSpeed: 2.5
   healthBar: {fileID: 0}

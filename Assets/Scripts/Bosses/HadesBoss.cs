@@ -25,20 +25,12 @@ namespace Bosses
             animator = GetComponent<Animator>();
             _timeToChangeDirection = Random.value * 3;
             _outOfBoundsTimer = 0.5f;
-            health = 100;
-            maxHealth = 100;
             currentPhase = Phase.HighHealth;
             LowHealthSpells = new List<Spell>() { rockThrowSpell };
             _movementStrategy = new LinearMovementStrategy();
     
 
         }
-
-        // private void Start()
-        // {
-        //     GoInvisible();
-        //
-        // }
 
         private async void ChangeVisibility(float start, float end, float duration)
         {

@@ -51,15 +51,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb5e8a433d65e844b2dfd2a12c261f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 331
-  maxHealth: 319
+  health: 75
+  maxHealth: 75
   stunned: 0
   moveSpeed: 4
   healthBar: {fileID: 1122287726484588751}
   isDead: 0
   animator: {fileID: 8327015984569800219}
   rb: {fileID: 8877540813612796190}
-  damage: 30
+  damage: 20
   inCombat: 0
   baseDirection: {x: 1, y: 0}
   curDirection: {x: 1, y: 0}

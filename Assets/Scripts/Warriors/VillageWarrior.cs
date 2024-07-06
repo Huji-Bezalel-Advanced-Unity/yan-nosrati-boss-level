@@ -36,27 +36,23 @@ namespace Warriors
         }
         private void EngageEnemy()
         {
-            if (_enemyToEngage.isDead || _enemyToEngage.transform.position.x +0.2f < transform.position.x) // still buggy when warrior goes to attack something that will die before he reaches it
+            if (_enemyToEngage.isDead || _enemyToEngage.transform.position.x +0.2f < transform.position.x)
             {
                 _enemyToEngage = null;
                 curDirection = baseDirection;
-                print("get ficled");
                 return;
             }
             if (_enemyToEngage.transform.position.y > 0.07f + transform.position.y)
             {
-                print(1);
                 curDirection =  Vector2.up;
             }
             else if (_enemyToEngage.transform.position.y +0.07f < transform.position.y)
             {
-                print(2);
 
                 curDirection = Vector2.down;
             }
             else
             {
-                print(3);
                 fittedEnemyPosition = true;
                 curDirection = baseDirection;
             }
@@ -101,6 +97,7 @@ namespace Warriors
             fittedEnemyPosition = false;
             inCombat = false;
             _enemyToEngage = null;
+            curDirection = baseDirection;
         }
 
         public void AttackAnimationTriggered()
