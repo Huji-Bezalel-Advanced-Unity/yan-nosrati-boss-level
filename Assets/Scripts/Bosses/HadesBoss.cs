@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.MovementStrategies;
+using Managers;
 using Spells;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Warriors;
@@ -17,7 +19,7 @@ namespace Bosses
         private float _outOfBoundsTimer;
         [SerializeField] private RockThrowSpell rockThrowSpell; // will active only in boss Phase.LowHealth
         [SerializeField] private Renderer _renderer; // will active only in boss Phase.LowHealth
-   
+
         void Awake()
         {
             direction = Vector2.up;
@@ -28,42 +30,54 @@ namespace Bosses
             currentPhase = Phase.HighHealth;
             LowHealthSpells = new List<Spell>() { rockThrowSpell };
             _movementStrategy = new LinearMovementStrategy();
-    
+
 
         }
 
         private async void ChangeVisibility(float start, float end, float duration)
         {
-            await Util.DoFadeLerp(_renderer, start, end,duration);
+            await Util.DoFadeLerp(_renderer, start, end, duration);
         }
 
-        public override void Init(CastManagerBoss castManagerBoss, Transform healthBarUI)
+        public override void Init(Transform healthBarUI)
         {
-            castManager = castManagerBoss;
             healthBar = healthBarUI;
-            ChangeVisibility(1,0,10);
+            spellsCaster = Instantiate(spellsCaster, Vector3.zero,Quaternion.identity);
+            spellsCaster.Init();
+            ChangeVisibility(1, 0, 10);
+            StartCoroutine(SelfUpdate());
 
         }
+
+        // this is like a clock that is ticking every 1 second and casting spells that are ready.
+        private IEnumerator SelfUpdate()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
+                List<Spell> spellsToCast = spellsCaster.CastSpellsOffCooldown();
+                foreach (var spell in spellsToCast)
+                {
+                    spell.Cast(Vector2.left, GetSummonPosition(), Quaternion.identity);
+                    StartCoroutine(RevealShortly());
+                }
+            }
+        }
+
         void Update()
         {
             if (stunned) return;
             HandleDirectionChange();
             Move();
             _outOfBoundsTimer = Mathf.Max(0, _outOfBoundsTimer - Time.deltaTime);
-            Spell casted = castManager.TryToCastSpell(Vector2.left, GetSummonPosition(), Quaternion.identity);
-            if (casted is not null)
-            {
-                animator.SetTrigger(casted.tag);
-                StartCoroutine(RevealShortly());
-            } 
         }
 
         private IEnumerator RevealShortly()
         {
             float duration = (Random.value + 1);
-            ChangeVisibility(_renderer.material.color.a,1,duration);
+            ChangeVisibility(_renderer.material.color.a, 1, duration);
             yield return new WaitForSeconds(duration);
-            ChangeVisibility(1,0,duration);
+            ChangeVisibility(1, 0, duration);
 
 
         }
@@ -74,13 +88,14 @@ namespace Bosses
             const float almostOutOfBoundsPos = 8f;
             if (transform.position.y < -almostOutOfBoundsPos)
             {
-                defaultPos += Vector3.up*2;
+                defaultPos += Vector3.up * 2;
             }
             else if (transform.position.y > almostOutOfBoundsPos)
             {
-                defaultPos += Vector3.down*2;
+                defaultPos += Vector3.down * 2;
 
             }
+
             return defaultPos;
         }
 
@@ -99,17 +114,18 @@ namespace Bosses
 
         private bool BossOutOfBounds()
         {
-            return transform.position.y < -Constants.OutOfBoundsYPos || transform.position.y > Constants.OutOfBoundsYPos;
+            return transform.position.y < -Constants.OutOfBoundsYPos ||
+                   transform.position.y > Constants.OutOfBoundsYPos;
         }
 
-        
+
 
         public override void Move()
         {
-            _movementStrategy.Move(this, _rb,transform,direction,moveSpeed);
+            _movementStrategy.Move(this, _rb, transform, direction, moveSpeed);
         }
 
-  
+
 
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -152,13 +168,16 @@ namespace Bosses
         private void ChangePhase()
         {
             float precentChange = 0.2f;
-            moveSpeed = moveSpeed * (1+precentChange);
-            castManager.ChangeSpellsCooldown(1-precentChange);
+            moveSpeed = moveSpeed * (1 + precentChange);
+            spellsCaster.ChangeSpellsCooldown(1 - precentChange);
             if (currentPhase == Phase.LowHealth)
             {
-                castManager.AddSpell(rockThrowSpell);
+                spellsCaster.AddSpell(rockThrowSpell);
                 _movementStrategy = new CircularMovementStrategy();
             }
         }
+
+
+
     }
 }

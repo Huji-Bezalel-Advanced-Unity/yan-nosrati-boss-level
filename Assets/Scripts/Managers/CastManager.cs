@@ -1,50 +1,165 @@
+﻿// using System;
+// using System.Collections.Generic;
+// using System.Diagnostics;
+// using DefaultNamespace;
+// using TMPro;
+// using Unity.VisualScripting;
+// using UnityEngine;
+// using UnityEngine.UI;
+//
+// namespace Managers
+// {
+//     public class CastManager
+//     {
+//         public static CastManager Instance;
+//         private Dictionary<KeyCode, ValueTuple<Spell,float>> _spells = new Dictionary<KeyCode, ValueTuple<Spell,float>>();
+//         private Dictionary<Spell, Stopwatch> _spellsCooldowns = new Dictionary<Spell, Stopwatch>();
+//
+//
+//         public CastManager()
+//         {
+//             if (Instance == null)
+//             {
+//                 Instance = this;
+//             }
+//             LoadSpells();
+//         }
+//
+//         private void LoadSpells()
+//         {
+//             var _villageWarriorSpell = Resources.Load<Spell>("VillageWarriorSpell");
+//             _spells.Add(_villageWarriorSpell.GetKeyCode(),(_villageWarriorSpell,_villageWarriorSpell.GetCooldown()));
+//             var _fairyDustSpell = Resources.Load<Spell>("FairyDustArrow");
+//             _spells.Add(_fairyDustSpell.GetKeyCode(),(_fairyDustSpell,_fairyDustSpell.GetCooldown()));
+//             var _divineArrow = Resources.Load<Spell>("DivineArrow");
+//             _spells.Add(_divineArrow.GetKeyCode(),(_divineArrow,_divineArrow.GetCooldown()));
+//         }
+//
+//
+//   
+//         
+//         public void TryToCastSpell(KeyCode keyCode,Vector3 startingPosition, Quaternion rotation)
+//         {
+//             bool casted = CastSpellIfReady(keyCode,rotation,startingPosition); 
+//             
+//             // need to cast event when casted !
+//             
+//             // if (casted)
+//             // {
+//             //     if (GameManager.Instance.GetRunTutorial() && spell.GetFirstCast())
+//             //     {
+//             //         // TutorialManager.Instance.RunSpellTutorial(GetKeyFromMap(spell),_castManagerPlayerUI.GetUIPosition(spell));
+//             //         spell.SetFirstCast();
+//             //     }
+//             //     _castManagerPlayerUI.DisplaySpellCd(spell);
+//             // }
+//         }
+//
+//         // private KeyCode GetKeyFromMap(Spell spell)
+//         // {
+//         //     foreach (var (keyCode,spell_) in spells)
+//         //     {
+//         //         if (spell_ == spell) return keyCode;
+//         //     }
+//         //     return KeyCode.None;
+//         // }
+//
+//         private bool CastSpellIfReady(KeyCode keycode, Quaternion rotation, Vector3 startingPosition)
+//         {
+//             if (_spellsCooldowns[_spells[keycode].Item1].Elapsed.TotalSeconds >= _spells[keycode].Item2)
+//             {
+//                 Vector3 mousePos = MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+//                 _spells[keycode].Item1.Cast(mousePos,startingPosition, rotation);
+//                 _spellsCooldowns[_spells[keycode].Item1].Restart();
+//                 return true;
+//             }
+//
+//             return false;
+//         }
+//
+//    
+//     
+//     }
+// }
+//
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
+using DefaultNamespace;
+using TMPro;
 using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.UI;
 
-public abstract class CastManager
+namespace Managers
 {
-    
-    public Dictionary<Spell, DateTime> _spellCooldowns = new Dictionary<Spell, DateTime>();
+    public class CastManager
+    {
+        public static CastManager Instance;
+        private Dictionary<KeyCode, ValueTuple<Spell, float>> _spells = new Dictionary<KeyCode, ValueTuple<Spell, float>>();
+        private Dictionary<Spell, float> _spellsLastCastTime = new Dictionary<Spell, float>();
 
-    public CastManager(List<Spell> spellsList)
-    {
-        InitiallizeData(spellsList);
-    }
-    private void InitiallizeData(List<Spell> spells)
-    {
-        foreach (var spell in spells)
+        public CastManager()
         {
-            _spellCooldowns[spell] = DateTime.UtcNow;
-            spell.Init();
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            LoadSpells();
         }
 
-    }
-
-    // public void UpdateSpellsCooldowns()
-    // {
-    //     List<Spell> keys = new List<Spell>(_spellCooldowns.Keys);
-    //     // Iterate over the list of keys and update the values in the dictionary
-    //     foreach (var key in keys)
-    //     {
-    //         _spellCooldowns[key] = Mathf.Max(0, _spellCooldowns[key] - Time.deltaTime);
-    //     }
-    // }
-
-    public void ChangeSpellsCooldown(float factor)
-    {
-        foreach (var item in _spellCooldowns)
+        private void LoadSpells()
         {
-            item.Key.setCooldown(item.Key.GetCooldown()*factor);
+            var _villageWarriorSpell = Resources.Load<Spell>("VillageWarriorSpell");
+            AddSpell(_villageWarriorSpell);
+            var _fairyDustSpell = Resources.Load<Spell>("FairyDustArrow");
+            AddSpell(_fairyDustSpell);
+            var _divineArrow = Resources.Load<Spell>("DivineArrow");
+            AddSpell(_divineArrow);
         }
-    }
 
-    public void AddSpell(Spell newSpell)
-    {
-        _spellCooldowns[newSpell] = DateTime.UtcNow;
+        private void AddSpell(Spell spell)
+        {
+            if (spell != null)
+            {
+                _spells.Add(spell.GetKeyCode(), (spell, spell.GetCooldown()));
+                _spellsLastCastTime[spell] = -spell.GetCooldown(); // Initialize so it can be cast immediately
+            }
+        }
+
+        public void TryToCastSpell(KeyCode keyCode, Vector3 startingPosition, Quaternion rotation)
+        {
+            bool casted = CastSpellIfReady(keyCode, rotation, startingPosition);
+
+            // need to cast event when casted !
+            // if (casted)
+            // {
+            //     if (GameManager.Instance.GetRunTutorial() && spell.GetFirstCast())
+            //     {
+            //         // TutorialManager.Instance.RunSpellTutorial(GetKeyFromMap(spell),_castManagerPlayerUI.GetUIPosition(spell));
+            //         spell.SetFirstCast();
+            //     }
+            //     _castManagerPlayerUI.DisplaySpellCd(spell);
+            // }
+        }
+
+        private bool CastSpellIfReady(KeyCode keyCode, Quaternion rotation, Vector3 startingPosition)
+        {
+            if (!_spells.ContainsKey(keyCode))
+            {
+                return false;
+            }
+
+            var (spell, cooldown) = _spells[keyCode];
+
+            if (Time.time - _spellsLastCastTime[spell] >= cooldown)
+            {
+                Vector3 mousePos = MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+                spell.Cast(mousePos, startingPosition, rotation);
+                _spellsLastCastTime[spell] = Time.time;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

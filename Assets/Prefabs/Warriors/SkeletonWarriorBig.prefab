@@ -137,7 +137,7 @@ MonoBehaviour:
   baseDirection: {x: -1, y: 0}
   curDirection: {x: -1, y: 0}
   fittedEnemyPosition: 0
-  damageFlash: {fileID: 0}
+  damageFlash: {fileID: -3752691116633559796}
 --- !u!61 &2030147611523352427
 BoxCollider2D:
   m_ObjectHideFlags: 0

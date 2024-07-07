@@ -9,34 +9,61 @@ using Warriors;
 
 namespace Warriors
 {
-
-
     public class Player : Entity
     {
         public static Action<Phase> OnPlayerChangePhase;
         public static Action<Phase> OnTakingDamage;
-        private CastManagerPlayer _castManager;
         private float currentAngle;
         [SerializeField] private GameObject bow;
+        [SerializeField] private Spell basicArrow;
 
-        public void Init(CastManagerPlayer castManager, Transform healthBarUI)
+        public void Init(Transform healthBarUI)
         {
-            _castManager = castManager;
             healthBar = healthBarUI;
+            StartCoroutine(SelfUpdate());
+            StartCoroutine(ShootArrow());
         }
-        
-        void Update()
+
+        private IEnumerator ShootArrow()
         {
-            if (stunned)return;
-            InputManager.Instance.CheckKeyPressed();
-            // _castManager.UpdateSpellsCooldowns();
-            Move();
-            _castManager.TryToShootBasicArrow(bow.transform.rotation, transform.position);
+            while (!isDead)
+            {
+                yield return new WaitForSeconds(basicArrow.GetCooldown());
+                while (stunned) yield return null;  // Wait until not stunned
+                Vector3 mousePos = MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+                basicArrow.Cast(mousePos, transform.position, bow.transform.rotation);
+            }
+        }
+
+        private IEnumerator SelfUpdate()
+        {
+            while (!isDead)
+            {
+                while (stunned) yield return null;  // Wait until not stunned
+                InputManager.Instance.CheckKeyPressed();
+                Move();
+                yield return null;
+            }
+        }
+
+        private void UpgradeBow()
+        {
+            float reductionRate = 0.05f;
+            float minSpellCooldown = 0.3f;
+            basicArrow.setCooldown(Mathf.Max(basicArrow.GetCooldown() - reductionRate,minSpellCooldown));
         }
 
         private void OnEnable()
         {
             InputManager.KeyPressed += ReactToKeyPress;
+            WarriorCrossUpgrade.OnWarriorCross += UpgradeBow;  // this ok??
+
+        }
+        private void OnDisable()
+        {
+            InputManager.KeyPressed -= ReactToKeyPress;
+            WarriorCrossUpgrade.OnWarriorCross -= UpgradeBow;  // this ok??
+
         }
 
         protected override IEnumerator Die()
@@ -68,7 +95,7 @@ namespace Warriors
         {
             Vector3 mousePos =
                 MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
-            _castManager.TryToCastSpell(key,
+            CastManager.Instance.TryToCastSpell(key,
                 new Vector3(Constants.BowPosition.x, mousePos.y, 0),
                 bow.transform.rotation);
         }
@@ -83,9 +110,9 @@ namespace Warriors
             }
 
             Spell spell = col.gameObject.GetComponent<Spell>();
-            print(col.gameObject.name);
             if (spell)
             {
+                print(spell.name);
                 spell.ApllySpellDebuffs(this);
                 Destroy(spell.gameObject);
             }

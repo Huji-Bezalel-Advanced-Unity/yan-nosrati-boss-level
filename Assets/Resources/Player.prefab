@@ -54,6 +54,7 @@ MonoBehaviour:
   isDead: 0
   animator: {fileID: 0}
   bow: {fileID: 603374443168913028}
+  basicArrow: {fileID: 2473076067311038233, guid: 7464824ab7feb3e4fa7d3dfc98a42ee6, type: 3}
 --- !u!61 &3017066487098441342
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -17,8 +17,7 @@ public class WarriorCrossUpgrade : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        print("triggered");
-        print(other.GetComponent<Warrior>());
+
         if (other.GetComponent<Warrior>())
         {
             // Reuse the ElectricLine instance

@@ -56,6 +56,7 @@ MonoBehaviour:
   isDead: 0
   animator: {fileID: 0}
   direction: {x: 0, y: 0}
+  spellsCaster: {fileID: 4165809362542121372, guid: 7ca9c1efe95e9cd4893d97af6f2d1604, type: 3}
   LowHealthSpells: []
   rockThrowSpell: {fileID: 3483097558953757928, guid: 3d19f6b5c6b6f2f4ba8c1d63c7c21851, type: 3}
   _renderer: {fileID: 2591376323237722773}

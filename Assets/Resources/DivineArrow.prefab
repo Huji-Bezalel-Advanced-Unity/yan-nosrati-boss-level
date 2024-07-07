@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 60
-  baseCoolDown: 2
-  coolDown: 2
+  baseCoolDown: 1
+  coolDown: 1
+  keyCode: 114
 --- !u!50 &2861355931164073259
 Rigidbody2D:
   serializedVersion: 4

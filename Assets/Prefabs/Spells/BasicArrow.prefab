@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.62
-  baseCoolDown: 1
+  baseCoolDown: 0.8
   coolDown: 0.79999995
+  keyCode: 0
 --- !u!61 &6094137598874204287
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -112,6 +112,7 @@ MonoBehaviour:
   moveSpeed: 45
   baseCoolDown: 12
   coolDown: 12
+  keyCode: 119
 --- !u!1 &9118188583910080917
 GameObject:
   m_ObjectHideFlags: 0

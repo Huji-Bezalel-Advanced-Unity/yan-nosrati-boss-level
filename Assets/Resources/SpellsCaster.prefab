@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &44187731230341121
+--- !u!1 &615258826093880346
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,44 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9102821440389803317}
-  - component: {fileID: 4491154217939249712}
+  - component: {fileID: 3004298895195187263}
+  - component: {fileID: 4165809362542121372}
   m_Layer: 0
-  m_Name: BigSkeletonWarriorSpell
-  m_TagString: SkeletonSpell
+  m_Name: SpellsCaster
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9102821440389803317
+--- !u!4 &3004298895195187263
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 44187731230341121}
+  m_GameObject: {fileID: 615258826093880346}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.771981, y: 3.2056417, z: -0.06298526}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4491154217939249712
+--- !u!114 &4165809362542121372
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 44187731230341121}
+  m_GameObject: {fileID: 615258826093880346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f646c85a9354c43a9592fccbf9a01e, type: 3}
+  m_Script: {fileID: 11500000, guid: bf3fb6c467fe46f4959e5cd0ce3b0f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  baseCoolDown: 25
-  coolDown: 25
-  keyCode: 0
-  warriorToSummon: {fileID: 5465623450047739788, guid: b7fbae57feb6eee4ea1d9b071142f39a, type: 3}
+  spells:
+  - {fileID: 4491154217939249712, guid: af41f6b9791be6844ad29223dabc1034, type: 3}
+  - {fileID: 692108305392225244, guid: bc32fd7d4848bab45a4944ce3d197414, type: 3}

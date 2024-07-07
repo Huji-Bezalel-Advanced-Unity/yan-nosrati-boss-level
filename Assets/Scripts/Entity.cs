@@ -46,7 +46,7 @@ public abstract class Entity : MonoBehaviour
     
     public void DamageEnemy(Entity unitTakingDamage, int damage)
     {
-        if(unitTakingDamage.isDead) return;
+        if(unitTakingDamage.health == 0) return;
         unitTakingDamage.health = Mathf.Max(0, unitTakingDamage.health - damage);
         float nextScale = (float) unitTakingDamage.health / unitTakingDamage.maxHealth;
         unitTakingDamage.healthBar.transform.localScale =
