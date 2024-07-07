@@ -16,6 +16,6 @@ namespace Spells
         {
             base.Update();
         }
-        
+       
     }
 }

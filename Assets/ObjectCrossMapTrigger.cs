@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
+using Spells;
 using UnityEngine;
 
-public class WarriorCrossUpgrade : MonoBehaviour
+public class ObjectCrossMapTrigger : MonoBehaviour
 {
     public static Action OnWarriorCross;
     [SerializeField] private ElectricLine electricLinePrefab;
@@ -18,15 +19,23 @@ public class WarriorCrossUpgrade : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.GetComponent<Warrior>())
+        Warrior warrior = other.GetComponent<Warrior>();
+
+        if (warrior)
         {
             // Reuse the ElectricLine instance
-            print("called!");
             electricLineInstance.gameObject.SetActive(true); // Activate it
             OnWarriorCross?.Invoke();
-            print("called1");
-            electricLineInstance.Init(other.transform); // Initialize with new end position
-            print("called2");
+            electricLineInstance.Init(other.transform);
+            warrior.gameObject.SetActive(false);
+            ObjectPoolManager.Instance.AddWarriorToPool(warrior);
+        }
+
+        Spell spell = other.GetComponent<Spell>();
+        if (spell != null)
+        {
+            spell.gameObject.SetActive(false);
+            ObjectPoolManager.Instance.AddSpellToPool(spell);
 
         }
     }

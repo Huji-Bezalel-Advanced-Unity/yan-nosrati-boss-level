@@ -14,7 +14,7 @@ public class MainCamera : MonoBehaviour
     private Vector3 _originalPosition;
     
     public static MainCamera Instance { get; private set; }
-    private Camera _camera;
+    public Camera _camera;
 
     private void OnEnable()
     {
@@ -40,7 +40,7 @@ public class MainCamera : MonoBehaviour
     }
     public void TriggerShake(Phase phase)
     {
-        StartCoroutine(Shake(0.5f,0.13f));
+        StartCoroutine(Shake(0.25f,0.1f));
     }
 
     private IEnumerator Shake(float duration, float magnitude)
@@ -60,4 +60,6 @@ public class MainCamera : MonoBehaviour
 
         _cameraTransform.localPosition = _originalPosition;
     }
+    
+    
 }

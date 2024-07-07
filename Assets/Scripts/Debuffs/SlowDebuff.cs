@@ -25,6 +25,5 @@ public class SlowDebuff : Debuff
         entity.moveSpeed = (float)(100 - Slow)/100 * entity.moveSpeed;
         await Task.Delay((int)Duration*1000);
         entity.moveSpeed = speed;
-        Debug.Log(entity.moveSpeed);
     }
 }

@@ -22,6 +22,7 @@ namespace Warriors
             healthBar = healthBarUI;
             StartCoroutine(SelfUpdate());
             StartCoroutine(ShootArrow());
+            basicArrow.Init();
         }
 
         private IEnumerator ShootArrow()
@@ -56,13 +57,13 @@ namespace Warriors
         private void OnEnable()
         {
             InputManager.KeyPressed += ReactToKeyPress;
-            WarriorCrossUpgrade.OnWarriorCross += UpgradeBow;  // this ok??
+            ObjectCrossMapTrigger.OnWarriorCross += UpgradeBow;  // this ok??
 
         }
         private void OnDisable()
         {
             InputManager.KeyPressed -= ReactToKeyPress;
-            WarriorCrossUpgrade.OnWarriorCross -= UpgradeBow;  // this ok??
+            ObjectCrossMapTrigger.OnWarriorCross -= UpgradeBow;  // this ok??
 
         }
 
@@ -96,7 +97,7 @@ namespace Warriors
             Vector3 mousePos =
                 MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
             CastManager.Instance.TryToCastSpell(key,
-                new Vector3(Constants.BowPosition.x, mousePos.y, 0),
+                transform.position,
                 bow.transform.rotation);
         }
 
@@ -106,15 +107,14 @@ namespace Warriors
             if (skeletonWarrior)
             {
                 RemoveHealth(skeletonWarrior.damage);
-                Destroy(skeletonWarrior.gameObject);
+                ObjectPoolManager.Instance.AddWarriorToPool(skeletonWarrior);
             }
 
             Spell spell = col.gameObject.GetComponent<Spell>();
             if (spell)
             {
-                print(spell.name);
                 spell.ApllySpellDebuffs(this);
-                Destroy(spell.gameObject);
+                ObjectPoolManager.Instance.AddSpellToPool(spell);
             }
         }
         
@@ -124,7 +124,7 @@ namespace Warriors
             if (spell)
             {
                 spell.ApllySpellDebuffs(this);
-                Destroy(spell.gameObject);
+                ObjectPoolManager.Instance.AddSpellToPool(spell);
             }
         }
 

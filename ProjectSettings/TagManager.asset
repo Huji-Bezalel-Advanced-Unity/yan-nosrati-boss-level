@@ -12,6 +12,9 @@ TagManager:
   - SkeletonSpell
   - BasicArrow
   - RockSpell
+  - BigSkeletonWarrior
+  - DivineArrowSpell
+  - FairyDustSpell
   layers:
   - Default
   - TransparentFX

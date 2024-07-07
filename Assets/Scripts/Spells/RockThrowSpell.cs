@@ -21,9 +21,13 @@ namespace Spells
         }
 
 
-        public override void Cast(Vector2 direction, Vector3 startingPosition, Quaternion PlayerRotation)
+        public override void Cast(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation)
         {
-            RockThrowSpell rock = Instantiate(this, startingPosition, Quaternion.identity);
+            Spell rock = ObjectPoolManager.Instance.GetSpellFromPool(gameObject.tag);
+            if (!rock)
+            {
+                rock = Instantiate(this, startingPosition, Quaternion.identity);
+            }
             double rand = Random.Range(-6f,6f);
             double[,] matrix = new double[,] {  // some complicated math to calculate a parabolic shape from the player to the boss
                 { startingPosition.x * startingPosition.x, startingPosition.x, 1, startingPosition.y }, 
@@ -35,7 +39,7 @@ namespace Spells
             RockTravel(rock, coefs);
         }
 
-        private async void RockTravel(RockThrowSpell rock, List<double> c)
+        private async void RockTravel(Spell rock, List<double> c)
         {
             while (true)
             {
@@ -51,7 +55,7 @@ namespace Spells
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.GetComponent<BasicArrowSpell>() is not null) Destroy(this.gameObject);
+            if (other.gameObject.GetComponent<BasicArrowSpell>() is not null) ObjectPoolManager.Instance.AddSpellToPool(this);
         }
     }
 }

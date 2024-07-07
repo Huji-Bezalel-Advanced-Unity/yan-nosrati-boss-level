@@ -14,13 +14,14 @@ namespace Bosses
 {
     public class HadesBoss : Boss
     {
-        private float _timeToChangeDirection;
         private Rigidbody2D _rb;
         private float _outOfBoundsTimer;
-        [SerializeField] private RockThrowSpell rockThrowSpell; // will active only in boss Phase.LowHealth
-        [SerializeField] private Renderer _renderer; // will active only in boss Phase.LowHealth
+        private float _timeToChangeDirection;
 
-        void Awake()
+        [SerializeField] private RockThrowSpell rockThrowSpell; // will active only in boss Phase.LowHealth
+        [SerializeField] private Renderer _renderer; 
+
+        void Start()
         {
             direction = Vector2.up;
             _rb = GetComponent<Rigidbody2D>();
@@ -28,10 +29,8 @@ namespace Bosses
             _timeToChangeDirection = Random.value * 3;
             _outOfBoundsTimer = 0.5f;
             currentPhase = Phase.HighHealth;
-            LowHealthSpells = new List<Spell>() { rockThrowSpell };
-            _movementStrategy = new LinearMovementStrategy();
-
-
+            lowHealthSpells = new List<Spell>() { rockThrowSpell };
+            MovementStrategy = new LinearMovementStrategy();
         }
 
         private async void ChangeVisibility(float start, float end, float duration)
@@ -78,14 +77,16 @@ namespace Bosses
             ChangeVisibility(_renderer.material.color.a, 1, duration);
             yield return new WaitForSeconds(duration);
             ChangeVisibility(1, 0, duration);
-
-
         }
-
+        
+        // preventing warriors from spawning on UI
         private Vector3 GetSummonPosition()
         {
-            Vector3 defaultPos = transform.position + Vector3.left * 1.2f;
-            const float almostOutOfBoundsPos = 8f;
+            float summonOffset = 1.2f;
+            float cameraMaxY = MainCamera.Instance._camera.orthographicSize;
+            float almostOutOfBoundsPos = cameraMaxY - summonOffset;
+            Vector3 defaultPos = transform.position + Vector3.left * summonOffset;
+            
             if (transform.position.y < -almostOutOfBoundsPos)
             {
                 defaultPos += Vector3.up * 2;
@@ -103,7 +104,7 @@ namespace Bosses
         {
             _timeToChangeDirection = Mathf.Max(0, _timeToChangeDirection - Time.deltaTime);
             if (_outOfBoundsTimer > 0) return;
-            bool outOfBounds = BossOutOfBounds();
+            bool outOfBounds = IsBossOutOfBounds();
             if (_timeToChangeDirection == 0 || outOfBounds)
             {
                 direction *= -1;
@@ -112,7 +113,7 @@ namespace Bosses
             }
         }
 
-        private bool BossOutOfBounds()
+        private bool IsBossOutOfBounds()
         {
             return transform.position.y < -Constants.OutOfBoundsYPos ||
                    transform.position.y > Constants.OutOfBoundsYPos;
@@ -122,7 +123,7 @@ namespace Bosses
 
         public override void Move()
         {
-            _movementStrategy.Move(this, _rb, transform, direction, moveSpeed);
+            MovementStrategy.Move(this, _rb, transform, direction, moveSpeed);
         }
 
 
@@ -173,11 +174,8 @@ namespace Bosses
             if (currentPhase == Phase.LowHealth)
             {
                 spellsCaster.AddSpell(rockThrowSpell);
-                _movementStrategy = new CircularMovementStrategy();
+                MovementStrategy = new CircularMovementStrategy();
             }
         }
-
-
-
     }
 }

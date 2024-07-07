@@ -24,11 +24,11 @@ public class Tinter : MonoBehaviour
     // Update is called once per frame
     private void OnEnable()
     {
-        WarriorCrossUpgrade.OnWarriorCross += TintBow;
+        ObjectCrossMapTrigger.OnWarriorCross += TintBow;
     }
     private void OnDisable()
     {
-        WarriorCrossUpgrade.OnWarriorCross -= TintBow;
+        ObjectCrossMapTrigger.OnWarriorCross -= TintBow;
     }
 
     private void TintBow()

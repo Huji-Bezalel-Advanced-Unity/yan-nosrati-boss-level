@@ -122,7 +122,8 @@ namespace Managers
             if (spell != null)
             {
                 _spells.Add(spell.GetKeyCode(), (spell, spell.GetCooldown()));
-                _spellsLastCastTime[spell] = -spell.GetCooldown(); // Initialize so it can be cast immediately
+                _spellsLastCastTime[spell] = Time.time;
+                spell.Init();
             }
         }
 
@@ -144,17 +145,12 @@ namespace Managers
 
         private bool CastSpellIfReady(KeyCode keyCode, Quaternion rotation, Vector3 startingPosition)
         {
-            if (!_spells.ContainsKey(keyCode))
-            {
-                return false;
-            }
-
             var (spell, cooldown) = _spells[keyCode];
-
+        
             if (Time.time - _spellsLastCastTime[spell] >= cooldown)
             {
                 Vector3 mousePos = MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
-                spell.Cast(mousePos, startingPosition, rotation);
+                spell.Cast(mousePos , startingPosition, rotation);
                 _spellsLastCastTime[spell] = Time.time;
                 return true;
             }

@@ -39,7 +39,6 @@ namespace Managers
 
         public List<Spell> CastSpellsOffCooldown()
         {
-            print(_spellCooldowns);
             
             List<Spell> spellsToCast = new List<Spell>();
             foreach (var keyValuePair in _spellCooldowns.ToList())
