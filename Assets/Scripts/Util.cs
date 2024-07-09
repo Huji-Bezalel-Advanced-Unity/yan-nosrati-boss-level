@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public static class Util
+public static class Util 
 {
     public static async Task DoFadeLerp(Renderer renderer, float startValue, float endValue, float duration)
     {
@@ -24,17 +25,16 @@ public static class Util
     }
 
     
-    public static async void DoFillLerp(Image imageToFill, float startValue, float endValue, float duration)
+    public static IEnumerator DoFillLerp(Image imageToFill, float startValue, float endValue, float duration)
     {
         float elapsedTime = 0;
         while (elapsedTime < duration)
         {
-            if (!imageToFill)return;
             elapsedTime += Time.deltaTime;
             float precentageCompleted = elapsedTime / duration;
             imageToFill.fillAmount = Mathf.Lerp(startValue, endValue, precentageCompleted);
             // Wait for a small amount of time (adjust as needed)
-            await Task.Yield(); // Yields control back to the calling context, letting other tasks run
+            yield return null; // Yields control back to the calling context, letting other tasks run
         
         }
     }
