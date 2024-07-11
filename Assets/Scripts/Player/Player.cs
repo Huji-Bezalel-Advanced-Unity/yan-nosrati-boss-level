@@ -22,7 +22,6 @@ namespace Warriors
             healthBar = healthBarUI;
             StartCoroutine(SelfUpdate());
             StartCoroutine(ShootArrow());
-            basicArrow.Init();
         }
 
         private IEnumerator ShootArrow()
@@ -57,13 +56,13 @@ namespace Warriors
         private void OnEnable()
         {
             InputManager.KeyPressed += ReactToKeyPress;
-            ObjectCrossMapTrigger.OnWarriorCross += UpgradeBow;  // this ok??
+            WarriorCrossUpgrade.OnWarriorCross += UpgradeBow;  // this ok??
 
         }
         private void OnDisable()
         {
             InputManager.KeyPressed -= ReactToKeyPress;
-            ObjectCrossMapTrigger.OnWarriorCross -= UpgradeBow;  // this ok??
+            WarriorCrossUpgrade.OnWarriorCross -= UpgradeBow;  // this ok??
 
         }
 
@@ -97,7 +96,7 @@ namespace Warriors
             Vector3 mousePos =
                 MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
             CastManager.Instance.TryToCastSpell(key,
-                transform.position,
+                new Vector3(Constants.BowPosition.x, mousePos.y, 0),
                 bow.transform.rotation);
         }
 
@@ -107,14 +106,15 @@ namespace Warriors
             if (skeletonWarrior)
             {
                 RemoveHealth(skeletonWarrior.damage);
-                ObjectPoolManager.Instance.AddWarriorToPool(skeletonWarrior);
+                Destroy(skeletonWarrior.gameObject);
             }
 
             Spell spell = col.gameObject.GetComponent<Spell>();
             if (spell)
             {
+                print(spell.name);
                 spell.ApllySpellDebuffs(this);
-                ObjectPoolManager.Instance.AddSpellToPool(spell);
+                Destroy(spell.gameObject);
             }
         }
         
@@ -124,7 +124,7 @@ namespace Warriors
             if (spell)
             {
                 spell.ApllySpellDebuffs(this);
-                ObjectPoolManager.Instance.AddSpellToPool(spell);
+                Destroy(spell.gameObject);
             }
         }
 

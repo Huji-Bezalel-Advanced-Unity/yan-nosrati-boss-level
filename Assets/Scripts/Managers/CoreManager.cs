@@ -26,19 +26,11 @@ namespace Managers
             var inputManagerTask = LoadInputManager();
             var gameManagerTask = LoadGameManager();
             var castManagerTask = LoadCastManager();
-            var objectPoolManager = LoadObjectPoolManager();
             
-            await Task.WhenAll(inputManagerTask, gameManagerTask,castManagerTask,objectPoolManager);
+            await Task.WhenAll(inputManagerTask, gameManagerTask,castManagerTask);
             
             OnLoadSuccess();
         }
-
-        private async Task LoadObjectPoolManager()
-        {
-            await Task.Delay(1000); // Simulate asynchronous loading
-            new ObjectPoolManager();
-        }
-
         private async Task LoadGameManager()
         {
             await Task.Delay(1000); // Simulate asynchronous loading

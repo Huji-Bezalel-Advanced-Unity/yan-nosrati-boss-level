@@ -23,24 +23,7 @@ public abstract class Spell : MonoBehaviour
     {
         return keyCode;
     }
-
-    public abstract void Cast(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation);
-
-    public Spell GetSpellFromPool(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation,string tag)
-    {
-        Spell spell = ObjectPoolManager.Instance.GetSpellFromPool(tag);
-        if (spell)
-        {
-            spell.gameObject.SetActive(true);
-            spell.transform.position = startingPosition; 
-        }
-        else
-        {
-            spell = Instantiate(this, startingPosition, playerRotation);
-        }
-        return spell;
-
-    }
+    public abstract void Cast(Vector2 direction,Vector3 startingPosition, Quaternion PlayerRotation);
 
 
     public void ApllySpellDebuffs(Entity entity)
