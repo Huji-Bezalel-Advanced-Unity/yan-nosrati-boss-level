@@ -6,8 +6,9 @@ namespace Debuffs
 {
     public class InstantKillDebuff : Debuff
     {
-        private int maxDamage = 10000;  // istant kill
+        private int maxDamage = 10000;
         private int enemyLayer = 6;
+        public InstantKillDebuff() { }
 
         public void Apply(Entity entity)
         {
