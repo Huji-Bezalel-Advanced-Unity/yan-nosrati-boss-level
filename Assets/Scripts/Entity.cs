@@ -14,17 +14,17 @@ public abstract class Entity : MonoBehaviour
     public Transform healthBar;
     public bool isDead;
     public Animator animator;
+    public Renderer renderer;
 
 
-    
-    public virtual void RemoveHealth(int damage)
+    public virtual void ChangeHealth(int damage)
     {
-        if (isDead)return;
+        if (isDead) return;
         health = Mathf.Max(0, health - damage);
-        float nextScale = (float) health / maxHealth;
+        float nextScale = (float)health / maxHealth;
         healthBar.transform.localScale =
             new Vector3(nextScale, healthBar.transform.localScale.y, 0);
-    
+
         if (health == 0)
         {
             StartCoroutine(Die());
@@ -43,22 +43,21 @@ public abstract class Entity : MonoBehaviour
 
     protected abstract IEnumerator Die();
 
-    
     public void DamageEnemy(Entity unitTakingDamage, int damage)
     {
-        if(unitTakingDamage.health == 0) return;
+        if (unitTakingDamage.health == 0) return;
         unitTakingDamage.health = Mathf.Max(0, unitTakingDamage.health - damage);
-        float nextScale = (float) unitTakingDamage.health / unitTakingDamage.maxHealth;
+        float nextScale = (float)unitTakingDamage.health / unitTakingDamage.maxHealth;
         unitTakingDamage.healthBar.transform.localScale =
             new Vector3(nextScale, healthBar.transform.localScale.y, 0);
-    
+
         if (unitTakingDamage.health == 0)
         {
             StartCoroutine(unitTakingDamage.Die());
         }
     }
 
-  
+
     // public void DamageEnemy(Entity unitTakingDamage, int damage)
     // {
     //     unitTakingDamage.health = Mathf.Max(0, unitTakingDamage.health - damage);
@@ -70,10 +69,6 @@ public abstract class Entity : MonoBehaviour
     //     }
     // }
 
-  
-    
-        
-    
 
-     public abstract void Move();
+    public abstract void Move();
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -28,7 +29,7 @@ public abstract class Spell : MonoBehaviour
 
     public Spell GetSpellFromPool(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation,string tag)
     {
-        Spell spell = ObjectPoolManager.Instance.GetSpellFromPool(tag);
+        Spell spell = ObjectPoolManager.Instance.GetObjectFromPool<Spell>(tag);
         if (spell)
         {
             spell.gameObject.SetActive(true);
@@ -75,4 +76,12 @@ public abstract class Spell : MonoBehaviour
     {
         return FirstCast;
     }
+
+    public void ResetSpell()
+    {
+        gameObject.SetActive(false);
+    }
+
+
+
 }

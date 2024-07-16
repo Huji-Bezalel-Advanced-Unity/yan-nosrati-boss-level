@@ -16,7 +16,7 @@ public class RevealDebuff : Debuff
     public void Apply(Entity entity)
     {
         
-       StartFade(entity.GetComponent<Renderer>());
+       StartFade(entity.renderer);
 
     }
 
@@ -24,8 +24,11 @@ public class RevealDebuff : Debuff
     // Example of how to call the async function
     public async void StartFade(Renderer renderer)
     {
+        Debug.Log(renderer);
+        
         if (renderer != null && renderer.material.color.a < 1f)
         {
+            Debug.Log("CaLEED REVEALE");
             await Util.DoFadeLerp(renderer, renderer.material.color.a, 1f, Duration); // Example values for startValue, endValue, and duration
             await Util.DoFadeLerp(renderer, 1f, 0f, Duration);
             

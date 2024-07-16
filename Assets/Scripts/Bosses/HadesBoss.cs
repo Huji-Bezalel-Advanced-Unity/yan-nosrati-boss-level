@@ -19,13 +19,13 @@ namespace Bosses
         private float _timeToChangeDirection;
 
         [SerializeField] private RockThrowSpell rockThrowSpell; // will active only in boss Phase.LowHealth
-        [SerializeField] private Renderer _renderer; 
+
+        [SerializeField] private float summonOffset = 1.2f;
 
         void Start()
         {
             direction = Vector2.up;
             _rb = GetComponent<Rigidbody2D>();
-            animator = GetComponent<Animator>();
             _timeToChangeDirection = Random.value * 3;
             _outOfBoundsTimer = 0.5f;
             currentPhase = Phase.HighHealth;
@@ -35,17 +35,16 @@ namespace Bosses
 
         private async void ChangeVisibility(float start, float end, float duration)
         {
-            await Util.DoFadeLerp(_renderer, start, end, duration);
+            await Util.DoFadeLerp(renderer, start, end, duration);
         }
 
         public override void Init(Transform healthBarUI)
         {
             healthBar = healthBarUI;
-            spellsCaster = Instantiate(spellsCaster, Vector3.zero,Quaternion.identity);
+            spellsCaster = Instantiate(spellsCaster, Vector3.zero, Quaternion.identity);
             spellsCaster.Init();
             ChangeVisibility(1, 0, 10);
             StartCoroutine(SelfUpdate());
-
         }
 
         // this is like a clock that is ticking every 1 second and casting spells that are ready.
@@ -57,7 +56,7 @@ namespace Bosses
                 List<Spell> spellsToCast = spellsCaster.CastSpellsOffCooldown();
                 foreach (var spell in spellsToCast)
                 {
-                    spell.Cast(Vector2.left, GetSummonPosition(), Quaternion.identity);
+                    spell.Cast(Vector2.left, transform.position + Vector3.left * summonOffset, Quaternion.identity);
                     StartCoroutine(RevealShortly());
                 }
             }
@@ -73,32 +72,31 @@ namespace Bosses
 
         private IEnumerator RevealShortly()
         {
-            float duration = (Random.value + 1);
-            ChangeVisibility(_renderer.material.color.a, 1, duration);
+            float duration = 0.25f;
+            ChangeVisibility(renderer.material.color.a, 1, duration);
             yield return new WaitForSeconds(duration);
             ChangeVisibility(1, 0, duration);
         }
-        
+
         // preventing warriors from spawning on UI
-        private Vector3 GetSummonPosition()
-        {
-            float summonOffset = 1.2f;
-            float cameraMaxY = MainCamera.Instance._camera.orthographicSize;
-            float almostOutOfBoundsPos = cameraMaxY - summonOffset;
-            Vector3 defaultPos = transform.position + Vector3.left * summonOffset;
-            
-            if (transform.position.y < -almostOutOfBoundsPos)
-            {
-                defaultPos += Vector3.up * 2;
-            }
-            else if (transform.position.y > almostOutOfBoundsPos)
-            {
-                defaultPos += Vector3.down * 2;
-
-            }
-
-            return defaultPos;
-        }
+        // private Vector3 GetSummonPosition()
+        // {
+        //     float summonOffset = 1.2f;
+        //     float cameraMaxY = MainCamera.Instance._camera.orthographicSize;
+        //     float almostOutOfBoundsPos = cameraMaxY - summonOffset;
+        //     Vector3 defaultPos = transform.position + Vector3.left * summonOffset;
+        //     
+        //     if (transform.position.y < -almostOutOfBoundsPos)
+        //     {
+        //         defaultPos += Vector3.up * 2;
+        //     }
+        //     else if (transform.position.y > almostOutOfBoundsPos)
+        //     {
+        //         defaultPos += Vector3.down * 2;
+        //     }
+        //
+        //     return defaultPos;
+        // }
 
         private void HandleDirectionChange()
         {
@@ -120,13 +118,10 @@ namespace Bosses
         }
 
 
-
         public override void Move()
         {
             MovementStrategy.Move(this, _rb, transform, direction, moveSpeed);
         }
-
-
 
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -145,15 +140,15 @@ namespace Bosses
             else if (collision.gameObject.GetComponent<VillageWarrior>())
             {
                 VillageWarrior warrior = collision.gameObject.GetComponent<VillageWarrior>();
-                RemoveHealth(warrior.damage);
+                ChangeHealth(warrior.damage);
                 Destroy(warrior.gameObject);
                 // create explosion
             }
         }
 
-        public override void RemoveHealth(int damage)
+        public override void ChangeHealth(int damage)
         {
-            base.RemoveHealth(damage);
+            base.ChangeHealth(damage);
             if (currentPhase == Phase.HighHealth && health <= maxHealth / 2)
             {
                 currentPhase = Phase.MediumHealth;

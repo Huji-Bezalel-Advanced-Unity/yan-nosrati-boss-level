@@ -20,17 +20,24 @@ namespace Managers
             LoadManagers();
         }
 
-     
         private async void LoadManagers()
         {
             var inputManagerTask = LoadInputManager();
             var gameManagerTask = LoadGameManager();
             var castManagerTask = LoadCastManager();
             var objectPoolManager = LoadObjectPoolManager();
-            
-            await Task.WhenAll(inputManagerTask, gameManagerTask,castManagerTask,objectPoolManager);
-            
+            var eventSystemManager = LoadEventSystem();
+
+            await Task.WhenAll(inputManagerTask, gameManagerTask, castManagerTask, objectPoolManager,
+                eventSystemManager);
+
             OnLoadSuccess();
+        }
+
+        private async Task LoadEventSystem()
+        {
+            await Task.Delay(1000); // Simulate asynchronous loading
+            new EventManager();
         }
 
         private async Task LoadObjectPoolManager()
@@ -56,6 +63,7 @@ namespace Managers
             await Task.Delay(1000);
             new CastManager();
         }
+
 
         public void OnLoadSuccess()
         {

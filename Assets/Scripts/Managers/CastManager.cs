@@ -82,6 +82,7 @@
 //     }
 // }
 //
+
 using System;
 using System.Collections.Generic;
 using DefaultNamespace;
@@ -95,7 +96,10 @@ namespace Managers
     public class CastManager
     {
         public static CastManager Instance;
-        private Dictionary<KeyCode, ValueTuple<Spell, float>> _spells = new Dictionary<KeyCode, ValueTuple<Spell, float>>();
+
+        private Dictionary<KeyCode, ValueTuple<Spell, float>> _spells =
+            new Dictionary<KeyCode, ValueTuple<Spell, float>>();
+
         private Dictionary<Spell, float> _spellsLastCastTime = new Dictionary<Spell, float>();
 
         public CastManager()
@@ -104,6 +108,7 @@ namespace Managers
             {
                 Instance = this;
             }
+
             LoadSpells();
         }
 
@@ -130,7 +135,10 @@ namespace Managers
         public void TryToCastSpell(KeyCode keyCode, Vector3 startingPosition, Quaternion rotation)
         {
             bool casted = CastSpellIfReady(keyCode, rotation, startingPosition);
-
+            if (casted)
+            {
+                EventManager.Instance.InvokeEvent(EventNames.OnSpellCast, _spells[keyCode].Item1);
+            }
             // need to cast event when casted !
             // if (casted)
             // {
@@ -141,16 +149,19 @@ namespace Managers
             //     }
             //     _castManagerPlayerUI.DisplaySpellCd(spell);
             // }
+
+            // Example invocation for testing purposes
         }
 
         private bool CastSpellIfReady(KeyCode keyCode, Quaternion rotation, Vector3 startingPosition)
         {
             var (spell, cooldown) = _spells[keyCode];
-        
+
             if (Time.time - _spellsLastCastTime[spell] >= cooldown)
             {
-                Vector3 mousePos = MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
-                spell.Cast(mousePos , startingPosition, rotation);
+                Vector3 mousePos =
+                    MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+                spell.Cast(mousePos, startingPosition, rotation);
                 _spellsLastCastTime[spell] = Time.time;
                 return true;
             }

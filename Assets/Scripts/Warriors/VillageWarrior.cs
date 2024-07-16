@@ -99,13 +99,6 @@ namespace Warriors
             _enemyToEngage = null;
             curDirection = baseDirection;
         }
-
-        public void AttackAnimationTriggered()
-        {
-            if (inCombatWith.Count ==0 || inCombatWith.Peek().isDead) return;
-            inCombatWith.Peek().damageFlash.CallFlasher();
-            DamageEnemy(inCombatWith.Peek(),damage);
-        }
     }
 }
 

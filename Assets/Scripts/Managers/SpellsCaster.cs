@@ -10,8 +10,7 @@ namespace Managers
 
         [SerializeField] private List<Spell> spells;
         private Dictionary<Spell,int> _spellCooldowns;
-
-
+        
         public void Init()
         {
             _spellCooldowns = new Dictionary<Spell, int>();

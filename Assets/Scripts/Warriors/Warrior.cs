@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,7 +17,7 @@ public abstract class Warrior : Entity
     public Queue<Warrior> inCombatWith;
     public bool fittedEnemyPosition;
     public DamageFlash damageFlash;
-    
+
 
     private void Awake()
     {
@@ -24,28 +25,32 @@ public abstract class Warrior : Entity
         rb = GetComponent<Rigidbody2D>();
         fittedEnemyPosition = false; // why???????? shuld bef ailse by default
         damageFlash = GetComponent<DamageFlash>();
-
     }
-    
+
     public void FixedUpdate()
     {
-        if (inCombatWith.Count >0 || isDead ) return;
+        if (inCombatWith.Count > 0 || isDead) return;
         Move();
     }
-  
-    private void Start()
+
+    private void OnEnable()
     {
-        animator.SetBool("Move", true);
+        animator.Play("start");
     }
 
-    public override void  Move()
+    private void OnDisable()
     {
-        rb.MovePosition((Vector2)transform.position + curDirection*moveSpeed*Time.deltaTime);
+        animator.SetBool("Move", false);
+    }
+
+    public override void Move()
+    {
+        rb.MovePosition((Vector2)transform.position + curDirection * moveSpeed * Time.deltaTime);
     }
 
     public void EnterBattle(Warrior warriorToBattle)
     {
-        if (inCombatWith.Contains(warriorToBattle))return; 
+        if (inCombatWith.Contains(warriorToBattle)) return;
         inCombatWith.Enqueue(warriorToBattle);
         inCombat = true;
         Fight();
@@ -66,28 +71,40 @@ public abstract class Warrior : Entity
             animator.SetBool("InCombat", false);
             animator.SetBool("Move", true);
         }
-        
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
+    public void ResetWarrior()
+    {
+        curDirection = baseDirection;
+        healthBar.parent.gameObject.SetActive(true);
+        isDead = false;
+        ChangeHealth(-(maxHealth - health)); //restore healthbar
+        gameObject.SetActive(false);
+    }
+    public void AttackAnimationTriggered()
+    {
+        if (inCombatWith.Count == 0 || inCombatWith.Peek().isDead) return;
+        inCombatWith.Peek().damageFlash.CallFlasher();
+        DamageEnemy(inCombatWith.Peek(), damage);
+
+    }
+
     protected override IEnumerator Die()
     {
+        
         isDead = true;
         gameObject.GetComponent<Collider2D>().enabled = false;
+        print("DUEsdsadsa");
         animator.SetTrigger("Die");
         foreach (var warrior in inCombatWith)
         {
             warrior.ExitBattle();
         }
+
         inCombatWith.Clear();
         inCombat = false;
-        // gameObject.SetActive(false);
         healthBar.parent.gameObject.SetActive(false);
-        yield return new WaitForSeconds(2f);
-        Destroy(this.gameObject);
-        yield return null;
+        yield return new WaitForSeconds(2f); // let the body lay on the ground for 2 seconds
+        ObjectPoolManager.Instance.AddObjectToPool(this);
     }
-
-    
-     
 }
