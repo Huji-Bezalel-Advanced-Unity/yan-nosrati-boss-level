@@ -13,10 +13,10 @@ using Update = Unity.VisualScripting.Update;
 
 public abstract class Boss : Entity
 {
-    public Vector2 direction;
-    [SerializeField] public SpellsCaster spellsCaster;
-    public MovementStrategy MovementStrategy;
-    public List<Spell> lowHealthSpells;
+    protected internal Vector2 direction;
+    [SerializeField] protected SpellsCaster spellsCaster;
+    protected MovementStrategy MovementStrategy;
+    protected List<Spell> lowHealthSpells;
 
 
     public abstract void Init(Transform healthBarUI);
@@ -24,6 +24,7 @@ public abstract class Boss : Entity
     protected override IEnumerator Die()
     {
         animator.SetTrigger("Die");
+        GameManager.Instance.WinGame();
         yield return null;
         // end game with win
     }

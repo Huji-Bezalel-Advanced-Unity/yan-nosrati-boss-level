@@ -104,6 +104,8 @@ MonoBehaviour:
   moveSpeed: 5
   baseCoolDown: 7
   coolDown: 7
+  keyCode: 0
+  hitSound: 8
 --- !u!61 &-5046303067796875165
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -157,7 +159,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1336347793405194054}
   serializedVersion: 8
-  lengthInSec: 3
+  lengthInSec: 9.7
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -232,7 +234,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 5.39
       minScalar: 5
       maxCurve:
         serializedVersion: 2

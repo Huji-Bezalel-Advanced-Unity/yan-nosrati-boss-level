@@ -35,17 +35,15 @@ namespace Warriors
         private void CheckForSpellHit(GameObject collision2D)
         {
             Spell spell = collision2D.gameObject.GetComponent<Spell>();
-            if (spell) spell.ApllySpellDebuffs(this);
+            if (spell)
+            {
+                spell.ApllySpellDebuffs(this);
+                AudioManager.Instance.PlaySound(spell.hitSound);
+            }
             
         }
 
-        public void AttackAnimationTriggered()
-        {
-            if (inCombatWith.Count == 0 || inCombatWith.Peek().isDead) return;
-            inCombatWith.Peek().damageFlash.CallFlasher();
-            DamageEnemy(inCombatWith.Peek(), damage);
-
-        }
+  
 
         public override void ExitBattle()
         {

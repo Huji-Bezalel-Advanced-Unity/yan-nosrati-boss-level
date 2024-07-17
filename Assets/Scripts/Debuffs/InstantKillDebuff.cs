@@ -11,7 +11,7 @@ namespace Debuffs
 
         public void Apply(Entity entity)
         {
-            if (entity.gameObject.layer == enemyLayer) entity.RemoveHealth(maxDamage);
+            if (entity.gameObject.layer == enemyLayer) entity.ChangeHealth(maxDamage);
         }
     }
 }

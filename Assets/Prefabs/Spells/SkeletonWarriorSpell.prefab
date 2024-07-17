@@ -47,4 +47,7 @@ MonoBehaviour:
   moveSpeed: 4
   baseCoolDown: 7
   coolDown: 7
+  keyCode: 0
+  hitSound: 0
   warriorToSummon: {fileID: 5465623450047739788, guid: cfe3bd5a78aed5048b448a5c19777be9, type: 3}
+  soundName: 9

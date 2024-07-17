@@ -4,6 +4,7 @@ using Bosses;
 using Managers;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Warriors;
 
@@ -43,6 +44,10 @@ namespace Warriors
                 while (stunned) yield return null;  // Wait until not stunned
                 InputManager.Instance.CheckKeyPressed();
                 Move();
+                if (Input.GetKey(KeyCode.K))
+                {
+                    Die();
+                }
                 yield return null;
             }
         }
@@ -69,6 +74,7 @@ namespace Warriors
 
         protected override IEnumerator Die()
         {
+            GameManager.Instance.LoseGame();
             yield return null;
         }
 
@@ -106,15 +112,17 @@ namespace Warriors
             SkeletonWarrior skeletonWarrior = col.gameObject.GetComponent<SkeletonWarrior>();
             if (skeletonWarrior)
             {
-                RemoveHealth(skeletonWarrior.damage);
-                ObjectPoolManager.Instance.AddWarriorToPool(skeletonWarrior);
+                ChangeHealth(skeletonWarrior.damage);
+                ObjectPoolManager.Instance.AddObjectToPool(skeletonWarrior);
             }
 
             Spell spell = col.gameObject.GetComponent<Spell>();
             if (spell)
             {
+                print("trigger called");
+                AudioManager.Instance.PlaySound(spell.hitSound);
                 spell.ApllySpellDebuffs(this);
-                ObjectPoolManager.Instance.AddSpellToPool(spell);
+                ObjectPoolManager.Instance.AddObjectToPool(spell);
             }
         }
         
@@ -123,14 +131,16 @@ namespace Warriors
             Spell spell = other.gameObject.GetComponent<Spell>();
             if (spell)
             {
+                print("collision called");
+                AudioManager.Instance.PlaySound(spell.hitSound);
                 spell.ApllySpellDebuffs(this);
-                ObjectPoolManager.Instance.AddSpellToPool(spell);
+                ObjectPoolManager.Instance.AddObjectToPool(spell);
             }
         }
 
-        public override void RemoveHealth(int damage)
+        public override void ChangeHealth(int damage)
         {
-            base.RemoveHealth(damage);
+            base.ChangeHealth(damage);
             if (currentPhase == Phase.HighHealth && health <= maxHealth / 2)
             {
                 currentPhase = Phase.MediumHealth;

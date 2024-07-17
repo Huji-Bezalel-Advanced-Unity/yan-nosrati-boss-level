@@ -1,11 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+// Generously Donated by Eliran
 namespace Managers
 {
     public class EventManager
     {
+        public static EventManager Instance;
+
         private Dictionary<EventNames, List<Action<object>>> _activeListeners = new();
+
+        public EventManager()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+        }
 
         public void AddListener(EventNames eventName, Action<object> listener)
         {
@@ -47,6 +59,8 @@ namespace Managers
     {
         None = 0,
         OnWarriorCrossMap = 1,
-        OnSpellCast
+        OnSpellCast = 2,
+        OnGameOver = 3,
+        OnEndGame = 4,
     }
 }

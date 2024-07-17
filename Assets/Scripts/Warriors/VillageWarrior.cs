@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 // using DefaultNamespace;
 
@@ -100,11 +101,10 @@ namespace Warriors
             curDirection = baseDirection;
         }
 
-        public void AttackAnimationTriggered()
+        public override void ResetWarrior()
         {
-            if (inCombatWith.Count ==0 || inCombatWith.Peek().isDead) return;
-            inCombatWith.Peek().damageFlash.CallFlasher();
-            DamageEnemy(inCombatWith.Peek(),damage);
+            base.ResetWarrior();
+            _enemyToEngage = null;
         }
     }
 }

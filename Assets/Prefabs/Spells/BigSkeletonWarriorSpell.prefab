@@ -48,4 +48,6 @@ MonoBehaviour:
   baseCoolDown: 25
   coolDown: 25
   keyCode: 0
+  hitSound: 0
   warriorToSummon: {fileID: 5465623450047739788, guid: b7fbae57feb6eee4ea1d9b071142f39a, type: 3}
+  soundName: 9

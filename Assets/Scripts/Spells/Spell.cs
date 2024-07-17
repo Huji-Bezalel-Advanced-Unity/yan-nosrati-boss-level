@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,6 +11,7 @@ public abstract class Spell : MonoBehaviour
     [SerializeField] protected float baseCoolDown;
     [SerializeField] protected float coolDown;
     [SerializeField] private KeyCode keyCode;
+    [SerializeField] protected internal SoundName hitSound;
     protected bool FirstCast;
 
     
@@ -26,9 +28,9 @@ public abstract class Spell : MonoBehaviour
 
     public abstract void Cast(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation);
 
-    public Spell GetSpellFromPool(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation,string tag)
+    public Spell GetSpellFromPool(Vector3 startingPosition, Quaternion playerRotation,string tag)
     {
-        Spell spell = ObjectPoolManager.Instance.GetSpellFromPool(tag);
+        Spell spell = ObjectPoolManager.Instance.GetObjectFromPool<Spell>(tag);
         if (spell)
         {
             spell.gameObject.SetActive(true);
@@ -75,4 +77,10 @@ public abstract class Spell : MonoBehaviour
     {
         return FirstCast;
     }
+
+    public virtual void ResetSpell()
+    {
+        gameObject.SetActive(false);
+    }
+
 }
