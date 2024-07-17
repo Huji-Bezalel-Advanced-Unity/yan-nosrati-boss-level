@@ -14,7 +14,7 @@ public abstract class Spell : MonoBehaviour
     [SerializeField] protected internal SoundName hitSound;
     protected bool FirstCast;
 
-    
+
     public void Init()
     {
         coolDown = baseCoolDown;
@@ -28,31 +28,31 @@ public abstract class Spell : MonoBehaviour
 
     public abstract void Cast(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation);
 
-    public Spell GetSpellFromPool(Vector3 startingPosition, Quaternion playerRotation,string tag)
+    public Spell GetSpellFromPool(Vector3 startingPosition, Quaternion playerRotation, string tag)
     {
         Spell spell = ObjectPoolManager.Instance.GetObjectFromPool<Spell>(tag);
         if (spell)
         {
             spell.gameObject.SetActive(true);
-            spell.transform.position = startingPosition; 
+            spell.transform.position = startingPosition;
         }
         else
         {
             spell = Instantiate(this, startingPosition, playerRotation);
         }
-        return spell;
 
+        return spell;
     }
 
 
     public void ApllySpellDebuffs(Entity entity)
     {
-     
         foreach (Debuff debuff in DebuffsList)
         {
             debuff.Apply(entity);
         }
     }
+
     public List<Debuff> GetSpellsDebuffs()
     {
         return DebuffsList;
@@ -82,5 +82,4 @@ public abstract class Spell : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
 }

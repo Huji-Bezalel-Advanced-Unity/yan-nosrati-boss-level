@@ -15,10 +15,12 @@ public class BasicArrowSpell : Spell
 
     protected void Awake()
     {
-        particles = Instantiate(particles, Vector3.zero, Quaternion.identity);
-        particles.gameObject.SetActive(false);
         rb = GetComponent<Rigidbody2D>();
         DebuffsList = new List<Debuff> { new DamageDebuff(10) };
+        
+        particles = Instantiate(particles, Vector3.zero, Quaternion.identity);
+        particles.gameObject.SetActive(false);
+        
     }
 
     public void Update()

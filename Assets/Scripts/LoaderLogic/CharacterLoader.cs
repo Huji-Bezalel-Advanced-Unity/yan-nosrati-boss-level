@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace.Utilities;
 using Managers;
+using player;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -13,7 +14,7 @@ public class CharacterLoader : MonoBehaviour
 {
     private Player _player;
     private Boss _stoneBoss;
-    [SerializeField] private MapManager map;
+    [SerializeField] private MapManager map; // this needs to be instantiated accordinly, not serilized.
     [SerializeField] private Volume _volume;
 
     //HealthBars

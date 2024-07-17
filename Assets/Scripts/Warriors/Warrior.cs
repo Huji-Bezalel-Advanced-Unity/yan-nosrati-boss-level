@@ -84,7 +84,7 @@ public abstract class Warrior : Entity
         curDirection = baseDirection;
         healthBar.parent.gameObject.SetActive(true);
         isDead = false;
-        ChangeHealth(-(maxHealth - health)); //restore healthbar
+        ChangeHealth(this,-(maxHealth - health)); //restore healthbar
         gameObject.SetActive(false);
     }
 
@@ -92,7 +92,7 @@ public abstract class Warrior : Entity
     {
         if (inCombatWith.Count == 0 || inCombatWith.Peek().isDead) return;
         inCombatWith.Peek().damageFlash.CallFlasher();
-        DamageEnemy(inCombatWith.Peek(), damage);
+        ChangeHealth(inCombatWith.Peek(), damage);
     }
 
     protected override IEnumerator Die()

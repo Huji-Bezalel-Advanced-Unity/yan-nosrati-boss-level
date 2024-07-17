@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Bosses;
 using DefaultNamespace.Utilities;
+using player;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -13,10 +14,12 @@ namespace Managers
     public class MapManager : MonoBehaviour
     {
         public static MapManager instance;
+
         [SerializeField] private SpriteRenderer _renderer;
         [SerializeField] private Sprite mediumHealthSprite;
         [SerializeField] private Sprite lowHealthSprite;
         [SerializeField] private AmbienceChanger ambience;
+        
         private Dictionary<Phase, Sprite> _phaseToImageMap;
         private Volume _volume;
 

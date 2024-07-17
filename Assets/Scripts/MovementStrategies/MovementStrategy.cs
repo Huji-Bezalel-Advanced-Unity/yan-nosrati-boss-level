@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DefaultNamespace.MovementStrategies
+namespace MovementStrategies
 {
     public interface MovementStrategy
     {

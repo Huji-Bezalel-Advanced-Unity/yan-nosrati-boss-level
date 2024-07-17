@@ -13,6 +13,6 @@ public class DamageDebuff : Debuff
 
     public void Apply(Entity entity)
     {
-        entity.ChangeHealth(Damage);
+        entity.ChangeHealth(entity,Damage);
     }
 }

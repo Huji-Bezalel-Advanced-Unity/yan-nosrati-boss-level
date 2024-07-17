@@ -8,21 +8,27 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Warriors;
 
-namespace Warriors
+namespace player
 {
     public class Player : Entity
     {
         public static Action<Phase> OnPlayerChangePhase;
         public static Action<Phase> OnTakingDamage;
-        private float currentAngle;
+        
         [SerializeField] private GameObject bow;
         [SerializeField] private Spell basicArrow;
+        
+        private float currentAngle;
+    
 
         public void Init(Transform healthBarUI)
         {
             healthBar = healthBarUI;
+            animator = GetComponent<Animator>();
+            
             StartCoroutine(SelfUpdate());
             StartCoroutine(ShootArrow());
+            
             basicArrow.Init();
         }
 
@@ -62,13 +68,13 @@ namespace Warriors
         private void OnEnable()
         {
             InputManager.KeyPressed += ReactToKeyPress;
-            ObjectCrossMapTrigger.OnWarriorCross += UpgradeBow;  // this ok??
+            ObjectCrossMapTrigger.OnWarriorCross += UpgradeBow; 
 
         }
         private void OnDisable()
         {
             InputManager.KeyPressed -= ReactToKeyPress;
-            ObjectCrossMapTrigger.OnWarriorCross -= UpgradeBow;  // this ok??
+            ObjectCrossMapTrigger.OnWarriorCross -= UpgradeBow; 
 
         }
 
@@ -80,28 +86,19 @@ namespace Warriors
 
         public override void Move()
         {
-            // Get the mouse position in world coordinates
             Vector3 mousePosition = MainCamera.Instance.MatchMouseCoordinatesToCamera(Input.mousePosition);
-
-            // Calculate the direction from the sprite to the mouse position
+            
             Vector3 direction = mousePosition - transform.position;
-            // Calculate the angle between the sprite's current direction and the target direction
             float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            // Clamp the angle between -60 and 60 degrees
             float clampedAngle = Mathf.Clamp(targetAngle, -65f, 65f);
 
-            // Smoothly interpolate towards the clamped angle to retain smooth movement
+            
             currentAngle = Mathf.LerpAngle(currentAngle, clampedAngle, Time.deltaTime * 10f);
-
-            // Apply the rotation to the sprite
             bow.transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
         }
 
         private void ReactToKeyPress(KeyCode key)
         {
-            Vector3 mousePos =
-                MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
             CastManager.Instance.TryToCastSpell(key,
                 transform.position,
                 bow.transform.rotation);
@@ -112,8 +109,9 @@ namespace Warriors
             SkeletonWarrior skeletonWarrior = col.gameObject.GetComponent<SkeletonWarrior>();
             if (skeletonWarrior)
             {
-                ChangeHealth(skeletonWarrior.damage);
+                ChangeHealth(this, skeletonWarrior.damage);
                 ObjectPoolManager.Instance.AddObjectToPool(skeletonWarrior);
+                return;
             }
 
             Spell spell = col.gameObject.GetComponent<Spell>();
@@ -138,9 +136,9 @@ namespace Warriors
             }
         }
 
-        public override void ChangeHealth(int damage)
+        public override void ChangeHealth(Entity unitTakingDamage, int damage)
         {
-            base.ChangeHealth(damage);
+            base.ChangeHealth(this, damage);
             if (currentPhase == Phase.HighHealth && health <= maxHealth / 2)
             {
                 currentPhase = Phase.MediumHealth;

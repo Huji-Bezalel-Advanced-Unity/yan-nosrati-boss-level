@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Bosses;
-using DefaultNamespace.MovementStrategies;
+using MovementStrategies;
 using Managers;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -13,10 +13,11 @@ using Update = Unity.VisualScripting.Update;
 
 public abstract class Boss : Entity
 {
-    protected internal Vector2 direction;
     [SerializeField] protected SpellsCaster spellsCaster;
+    
+    protected Vector2 direction;
     protected MovementStrategy MovementStrategy;
-    protected List<Spell> lowHealthSpells;
+    protected List<Spell> LowHealthSpells;
 
 
     public abstract void Init(Transform healthBarUI);
@@ -26,7 +27,11 @@ public abstract class Boss : Entity
         animator.SetTrigger("Die");
         GameManager.Instance.WinGame();
         yield return null;
-        // end game with win
+    }
+
+    public void SetDirection(Vector2 newDirection)
+    {
+        direction = newDirection;
     }
     
     

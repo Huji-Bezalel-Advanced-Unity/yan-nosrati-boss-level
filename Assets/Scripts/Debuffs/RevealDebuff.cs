@@ -15,9 +15,7 @@ public class RevealDebuff : Debuff
 
     public void Apply(Entity entity)
     {
-        
        StartFade(entity.renderer);
-
     }
 
     
@@ -28,7 +26,6 @@ public class RevealDebuff : Debuff
         
         if (renderer != null && renderer.material.color.a < 1f)
         {
-            Debug.Log("CaLEED REVEALE");
             await Util.DoFadeLerp(renderer, renderer.material.color.a, 1f, Duration); // Example values for startValue, endValue, and duration
             await Util.DoFadeLerp(renderer, 1f, 0f, Duration);
             
