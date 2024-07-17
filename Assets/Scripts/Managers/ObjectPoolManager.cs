@@ -84,6 +84,8 @@
 
 
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -180,13 +182,8 @@ namespace Managers
 
         private void DisableAllObjectsInPool<T>(Dictionary<string, Queue<T>> pool) where T : MonoBehaviour
         {
-            foreach (var kvp in pool)
-            {
-                foreach (var obj in kvp.Value)
-                {
-                    obj.gameObject.SetActive(false);
-                }
-            }
+            _warriorsPool.Clear();
+            _spellsPool.Clear();
         }
     }
 }

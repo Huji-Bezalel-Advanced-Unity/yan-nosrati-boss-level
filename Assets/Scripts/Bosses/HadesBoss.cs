@@ -126,18 +126,17 @@ namespace Bosses
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            Spell spellHit = col.gameObject.GetComponent<Spell>();
-            if (spellHit != null) spellHit.ApllySpellDebuffs(this);
+            ApplySpellIfSpellHit(col.gameObject);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.GetComponent<Spell>() != null)
+            if (ApplySpellIfSpellHit(collision.gameObject))
             {
-                Spell spell = collision.gameObject.GetComponent<Spell>();
-                if (spell) spell.ApllySpellDebuffs(this);
+                return;
             }
-            else if (collision.gameObject.GetComponent<VillageWarrior>())
+
+            if (collision.gameObject.GetComponent<VillageWarrior>())
             {
                 VillageWarrior warrior = collision.gameObject.GetComponent<VillageWarrior>();
                 ChangeHealth(warrior.damage);
@@ -146,16 +145,32 @@ namespace Bosses
             }
         }
 
+        private bool ApplySpellIfSpellHit(GameObject col)
+        {
+            Spell spell = col.GetComponent<Spell>();
+            if (spell != null)
+            {
+                spell.ApllySpellDebuffs(this);
+                AudioManager.Instance.PlaySound(spell.hitSound);
+                return true;
+            }
+
+            return false;
+        }
+
         public override void ChangeHealth(int damage)
         {
             base.ChangeHealth(damage);
-            if (currentPhase == Phase.HighHealth && health <= maxHealth / 2)
+            print(maxHealth * 2f/3f);
+            if (currentPhase == Phase.HighHealth && health <= maxHealth * (2f/3f))
             {
                 currentPhase = Phase.MediumHealth;
                 ChangePhase();
+                print("chnge to medium");
             }
-            else if (currentPhase == Phase.MediumHealth && health <= maxHealth / 4)
+            else if (currentPhase == Phase.MediumHealth && health <= maxHealth * (1f/3f))
             {
+                print("chnge to low");
                 currentPhase = Phase.LowHealth;
                 ChangePhase();
             }

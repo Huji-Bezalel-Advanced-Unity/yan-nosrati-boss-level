@@ -4,6 +4,7 @@ using Bosses;
 using DefaultNamespace.Utilities;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Warriors;
 
@@ -17,6 +18,7 @@ namespace Managers
         [SerializeField] private Sprite lowHealthSprite;
         [SerializeField] private AmbienceChanger ambience;
         private Dictionary<Phase, Sprite> _phaseToImageMap;
+        private Volume _volume;
 
 
         public void Awake()
@@ -29,7 +31,11 @@ namespace Managers
                 { Phase.LowHealth, lowHealthSprite }
             };
         }
-        
+
+        public void Init(Volume volume)
+        {
+            ambience.Init(volume);
+        }
         void OnEnable()
         {
             Player.OnPlayerChangePhase += ChangeMapImage;
@@ -46,11 +52,9 @@ namespace Managers
 
         private void GameOver(object obj)
         {
-            print("called ambiance change");
             print(obj);
             if (obj is Action action)
             {
-                print("object is action");
                 StartCoroutine(ambience.Brighten(action));
             }
         }

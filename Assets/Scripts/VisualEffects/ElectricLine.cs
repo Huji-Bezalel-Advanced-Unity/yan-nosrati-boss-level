@@ -7,8 +7,9 @@ public class ElectricLine: MonoBehaviour
 {
     [SerializeField] VisualEffect electircLine;
     private Transform _endPosition;
-    [SerializeField] private Transform startingPos; // Name of the first exposed Vector2 property
-    [SerializeField] private Transform endingPos; // Name of the first exposed Vector2 property
+    [SerializeField] private Transform startingPos;
+    [SerializeField] private Transform endingPos; 
+    private float effectDuration = 1.3f;
 
 
     // Start is called before the first frame update
@@ -20,10 +21,9 @@ public class ElectricLine: MonoBehaviour
 
     private IEnumerator DisplayLine()
     {
-        startingPos.position = new Vector3(-30,0,0);
-        endingPos.position = _endPosition.position + Vector3.right*5;
         electircLine.enabled = true;
-        yield return new WaitForSeconds(1.3f);
+        AudioManager.Instance.PlaySound(SoundName.BowUpgrade);
+        yield return new WaitForSeconds(effectDuration);
         electircLine.enabled = false;
     }
 

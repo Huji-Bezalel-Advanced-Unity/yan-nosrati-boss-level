@@ -8,14 +8,15 @@ namespace DefaultNamespace.Utilities
 {
     public class AmbienceChanger : MonoBehaviour
     {
-        [SerializeField] private Volume postProcessVolume;
+        private Volume postProcessVolume;
         [SerializeField] private float minThreshold = 0.5f;
         private float brightenDuration = 0.7f;
         private float initialThreshold;
         private Bloom bloom;
 
-        void Start()
+        public void Init(Volume volume)
         {
+            postProcessVolume = volume;
             if (postProcessVolume != null && postProcessVolume.profile != null)
             {
                 if (postProcessVolume.profile.TryGet<Bloom>(out bloom))
@@ -35,6 +36,7 @@ namespace DefaultNamespace.Utilities
 
         public IEnumerator Brighten(Action callback)
         {
+            print("BRIGHTEN");
             float timeElapsed = 0f;
             while (timeElapsed < brightenDuration)
             {

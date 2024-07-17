@@ -105,6 +105,7 @@ MonoBehaviour:
   baseCoolDown: 7
   coolDown: 7
   keyCode: 0
+  hitSound: 8
 --- !u!61 &-5046303067796875165
 BoxCollider2D:
   m_ObjectHideFlags: 0

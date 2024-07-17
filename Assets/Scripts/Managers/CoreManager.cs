@@ -22,11 +22,11 @@ namespace Managers
 
         private async void LoadManagers()
         {
+            var eventSystemManager = LoadEventSystem();
             var inputManagerTask = LoadInputManager();
             var gameManagerTask = LoadGameManager();
             var castManagerTask = LoadCastManager();
             var objectPoolManager = LoadObjectPoolManager();
-            var eventSystemManager = LoadEventSystem();
 
             await Task.WhenAll(inputManagerTask, gameManagerTask, castManagerTask, objectPoolManager,
                 eventSystemManager);

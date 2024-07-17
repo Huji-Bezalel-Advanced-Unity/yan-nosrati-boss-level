@@ -44,6 +44,10 @@ namespace Warriors
                 while (stunned) yield return null;  // Wait until not stunned
                 InputManager.Instance.CheckKeyPressed();
                 Move();
+                if (Input.GetKey(KeyCode.K))
+                {
+                    Die();
+                }
                 yield return null;
             }
         }
@@ -70,7 +74,6 @@ namespace Warriors
 
         protected override IEnumerator Die()
         {
-            print("DIE");
             GameManager.Instance.LoseGame();
             yield return null;
         }
@@ -116,6 +119,8 @@ namespace Warriors
             Spell spell = col.gameObject.GetComponent<Spell>();
             if (spell)
             {
+                print("trigger called");
+                AudioManager.Instance.PlaySound(spell.hitSound);
                 spell.ApllySpellDebuffs(this);
                 ObjectPoolManager.Instance.AddObjectToPool(spell);
             }
@@ -126,6 +131,8 @@ namespace Warriors
             Spell spell = other.gameObject.GetComponent<Spell>();
             if (spell)
             {
+                print("collision called");
+                AudioManager.Instance.PlaySound(spell.hitSound);
                 spell.ApllySpellDebuffs(this);
                 ObjectPoolManager.Instance.AddObjectToPool(spell);
             }

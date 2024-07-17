@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 // using DefaultNamespace;
 
@@ -98,6 +99,12 @@ namespace Warriors
             inCombat = false;
             _enemyToEngage = null;
             curDirection = baseDirection;
+        }
+
+        public override void ResetWarrior()
+        {
+            base.ResetWarrior();
+            _enemyToEngage = null;
         }
     }
 }

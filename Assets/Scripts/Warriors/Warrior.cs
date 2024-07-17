@@ -50,7 +50,7 @@ public abstract class Warrior : Entity
 
     public void EnterBattle(Warrior warriorToBattle)
     {
-        if (inCombatWith.Contains(warriorToBattle)) return;
+        if (inCombatWith.Contains(warriorToBattle) || warriorToBattle.isDead) return;
         inCombatWith.Enqueue(warriorToBattle);
         inCombat = true;
         Fight();
@@ -64,7 +64,11 @@ public abstract class Warrior : Entity
 
     public virtual void ExitBattle()
     {
-        inCombatWith.Dequeue();
+        if (inCombatWith.Count > 0)
+        {
+            inCombatWith.Dequeue();
+        }
+
         if (inCombatWith.Count == 0)
         {
             inCombat = false;
@@ -73,34 +77,33 @@ public abstract class Warrior : Entity
         }
     }
 
-    public void ResetWarrior()
+    public virtual void ResetWarrior()
     {
+        inCombatWith.Clear();
+        inCombat = false;
         curDirection = baseDirection;
         healthBar.parent.gameObject.SetActive(true);
         isDead = false;
         ChangeHealth(-(maxHealth - health)); //restore healthbar
         gameObject.SetActive(false);
     }
+
     public void AttackAnimationTriggered()
     {
         if (inCombatWith.Count == 0 || inCombatWith.Peek().isDead) return;
         inCombatWith.Peek().damageFlash.CallFlasher();
         DamageEnemy(inCombatWith.Peek(), damage);
-
     }
 
     protected override IEnumerator Die()
     {
-        
         isDead = true;
         gameObject.GetComponent<Collider2D>().enabled = false;
-        print("DUEsdsadsa");
         animator.SetTrigger("Die");
         foreach (var warrior in inCombatWith)
         {
             warrior.ExitBattle();
         }
-
         inCombatWith.Clear();
         inCombat = false;
         healthBar.parent.gameObject.SetActive(false);

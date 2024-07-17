@@ -37,6 +37,7 @@ namespace Managers
 
         public void WinGame()
         {
+            AudioManager.Instance.PlaySound(SoundName.WinSound);
             wonGame = true;
             EventManager.Instance.InvokeEvent(EventNames.OnGameOver, EndGame);
 
@@ -44,6 +45,7 @@ namespace Managers
 
         public void LoseGame()
         {
+            AudioManager.Instance.PlaySound(SoundName.LoseSound);
             EventManager.Instance.InvokeEvent(EventNames.OnGameOver, EndGame);
         }
 

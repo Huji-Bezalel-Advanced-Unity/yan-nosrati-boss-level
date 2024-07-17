@@ -35,7 +35,11 @@ namespace Warriors
         private void CheckForSpellHit(GameObject collision2D)
         {
             Spell spell = collision2D.gameObject.GetComponent<Spell>();
-            if (spell) spell.ApllySpellDebuffs(this);
+            if (spell)
+            {
+                spell.ApllySpellDebuffs(this);
+                AudioManager.Instance.PlaySound(spell.hitSound);
+            }
             
         }
 

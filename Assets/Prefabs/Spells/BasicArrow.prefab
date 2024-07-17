@@ -49,8 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.62
   baseCoolDown: 0.8
-  coolDown: 0.75
+  coolDown: 0.8
   keyCode: 0
+  hitSound: 2
+  particles: {fileID: 3593558640601374604, guid: 1d39bcecbb916894eb11a1a16b543a46, type: 3}
 --- !u!61 &6094137598874204287
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -122,7 +124,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &8402866630983829200
 GameObject:
   m_ObjectHideFlags: 0

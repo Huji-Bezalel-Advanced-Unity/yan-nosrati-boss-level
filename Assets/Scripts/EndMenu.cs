@@ -10,7 +10,10 @@ namespace DefaultNamespace
     {
         [SerializeField] private Image lostImage;
         [SerializeField] private Image wonImage;
+
+        private Image activeImage;
         private Animator animator;
+
         private void Awake()
         {
             GameManager.Instance.EndGame += OpenEndMenu;
@@ -27,22 +30,28 @@ namespace DefaultNamespace
             if (GameManager.Instance.wonGame)
             {
                 wonImage.gameObject.SetActive(true);
+                activeImage = wonImage;
             }
             else
             {
                 lostImage.gameObject.SetActive(true);
+                activeImage = lostImage;
             }
+
             animator.SetTrigger("Appear");
         }
 
         public void RestartGame()
         {
+            // maybe
         }
+
         // will be called from a button press
         public void ExitToMainMenu()
         {
-            print("CALLED MAIN MENU");
-            SceneManager.LoadScene("MainMenu");
+            activeImage.gameObject.SetActive(false);
+            GameManager.Instance.ResumeTime();
+            SceneManager.LoadScene("CharacterLoader");
         }
 
         // will be called as an animation event
@@ -50,6 +59,5 @@ namespace DefaultNamespace
         {
             GameManager.Instance.StopTime();
         }
-        
     }
 }

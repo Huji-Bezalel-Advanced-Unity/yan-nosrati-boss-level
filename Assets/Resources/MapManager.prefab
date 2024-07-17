@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8814230912579254608}
   - component: {fileID: -8299201168269073640}
   - component: {fileID: 840356025093289421}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MapManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1eb6b5c8e4d46ba90095326534d8d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 4883785832526597987, guid: a22968b0c1ccde94e86c874afedff7fa, type: 3}
   _renderer: {fileID: 840356025093289421}
   mediumHealthSprite: {fileID: 21300000, guid: 145159e4c2eca0541af10a59a13db713, type: 3}
   lowHealthSprite: {fileID: 21300000, guid: 53ae3f97aa8b15240ac4f35909aa33a3, type: 3}
+  ambience: {fileID: 1857184712444026561, guid: 5027b19f72eae1645942ef1f0a236743, type: 3}
 --- !u!212 &840356025093289421
 SpriteRenderer:
   m_ObjectHideFlags: 0

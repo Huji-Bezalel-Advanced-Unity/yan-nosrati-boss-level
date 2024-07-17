@@ -13,13 +13,7 @@ using Warriors;
 public class GameLoader : MonoBehaviour
 {
     [SerializeField] private GameLoaderUI loaderUI;
-    private Player _player;
-    private Boss _boss;
-
-    //HealthBars
-    private GameObject playerHealthBarUI;
-    private GameObject bossHealthBarUI;
-
+  
     private void Start()
     {
         StartLoadingAsync();
@@ -44,7 +38,7 @@ public class GameLoader : MonoBehaviour
         {
             loaderUI.AddProgress(20);
 
-            StartCoroutine(LoadMainScene());
+            StartCoroutine(LoadCharactersLoader());
         }
         else
         {
@@ -53,7 +47,7 @@ public class GameLoader : MonoBehaviour
     }
 
 
-    private IEnumerator LoadMainScene()
+    private IEnumerator LoadCharactersLoader()
     {
         int count = 0;
         while (count < 30)
@@ -63,42 +57,20 @@ public class GameLoader : MonoBehaviour
             count++;
         }
 
-        SceneManager.sceneLoaded += OnMainSceneLoaded;
-        SceneManager.LoadScene("Main");
+        SceneManager.sceneLoaded += OnCharacterLoadSceneLoaded;
+        SceneManager.LoadScene("CharacterLoader");
     }
 
-    private void OnMainSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnCharacterLoadSceneLoaded
+        (Scene scene, LoadSceneMode mode)
     {
-        SceneManager.sceneLoaded -= OnMainSceneLoaded;
-        LoadPlayer();
-        LoadBoss();
+        SceneManager.sceneLoaded -= OnCharacterLoadSceneLoaded;
         loaderUI.AddProgress(30);
         OnLoadComplete(); //dummy coroutine
     }
-
-    private void LoadBoss()
-    {
-        var bossHealthBar = Resources.Load<GameObject>("HealthBarMain");
-        bossHealthBarUI = Instantiate(bossHealthBar, new Vector3(8, 9.5f, 0), Quaternion.identity);
-        var boss = Resources.Load<Boss>("HadesBoss");
-        _boss = Instantiate(boss, new Vector2(Constants.StartingBossXPossition, 0), Quaternion.identity);
-        _boss.Init(bossHealthBarUI.transform.GetChild(2));
-    }
-
-    private void LoadPlayer()
-    {
-        var playerHealthBar = Resources.Load<GameObject>("HealthBarMain");
-
-        playerHealthBarUI = Instantiate(playerHealthBar, new Vector3(8, -9.5f, 0), Quaternion.identity);
-        var originalPlayer = Resources.Load<Player>("Player");
-        _player = Instantiate(originalPlayer, Constants.BowPosition, Quaternion.identity);
-        _player.Init(playerHealthBarUI.transform.GetChild(2));
-    }
     
-
     private void OnLoadComplete()
     {
-        
         Destroy(loaderUI.transform.root.gameObject);
         Destroy(this.gameObject);
     }
