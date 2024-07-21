@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spells:
-  - {fileID: 4491154217939249712, guid: af41f6b9791be6844ad29223dabc1034, type: 3}
-  - {fileID: 692108305392225244, guid: bc32fd7d4848bab45a4944ce3d197414, type: 3}
+  - {fileID: 2190849157688201200, guid: bc32fd7d4848bab45a4944ce3d197414, type: 3}
+  - {fileID: 359183397386007548, guid: af41f6b9791be6844ad29223dabc1034, type: 3}

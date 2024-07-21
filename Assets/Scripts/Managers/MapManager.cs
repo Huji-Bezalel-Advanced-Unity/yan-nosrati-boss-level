@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bosses;
-using DefaultNamespace.Utilities;
 using player;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using Utilities;
 using Warriors;
 
 namespace Managers
@@ -19,7 +19,7 @@ namespace Managers
         [SerializeField] private Sprite mediumHealthSprite;
         [SerializeField] private Sprite lowHealthSprite;
         [SerializeField] private AmbienceChanger ambience;
-        
+
         private Dictionary<Phase, Sprite> _phaseToImageMap;
         private Volume _volume;
 
@@ -39,23 +39,21 @@ namespace Managers
         {
             ambience.Init(volume);
         }
+
         void OnEnable()
         {
-            Player.OnPlayerChangePhase += ChangeMapImage;
-
+            EventManager.Instance.AddListener(EventNames.OnPlayerChangePhase, ChangeMapImage);
             EventManager.Instance.AddListener(EventNames.OnGameOver, GameOver);
         }
 
         private void OnDisable()
         {
-            Player.OnPlayerChangePhase -= ChangeMapImage;
-
+            EventManager.Instance.RemoveListener(EventNames.OnPlayerChangePhase, ChangeMapImage);
             EventManager.Instance.RemoveListener(EventNames.OnGameOver, GameOver);
         }
 
         private void GameOver(object obj)
         {
-            print(obj);
             if (obj is Action action)
             {
                 StartCoroutine(ambience.Brighten(action));
@@ -63,9 +61,12 @@ namespace Managers
         }
 
 
-        public void ChangeMapImage(Phase phase)
+        private void ChangeMapImage(object obj)
         {
-            _renderer.sprite = _phaseToImageMap[phase];
+            if (obj is Phase phase)
+            {
+                _renderer.sprite = _phaseToImageMap[phase];
+            }
         }
     }
 }

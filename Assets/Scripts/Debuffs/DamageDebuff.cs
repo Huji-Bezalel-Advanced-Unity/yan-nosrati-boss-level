@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class DamageDebuff : Debuff
+namespace Debuffs
 {
-    public int Damage { get; private set; }
-
-    public DamageDebuff(int damage)
+    public class DamageDebuff : Debuff
     {
-        Damage = damage;
-    }
+        public int Damage { get; private set; }
 
-    public void Apply(Entity entity)
-    {
-        entity.ChangeHealth(entity,Damage);
+        public DamageDebuff(int damage)
+        {
+            Damage = damage;
+        }
+
+        public void Apply(Entity entity)
+        {
+            entity.ChangeHealth(entity, Damage);
+        }
     }
 }

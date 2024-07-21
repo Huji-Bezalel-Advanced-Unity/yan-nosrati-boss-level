@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Debuffs;
 using Managers;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -10,8 +11,9 @@ using UnityEngine.Serialization;
 
 public class BasicArrowSpell : Spell
 {
-    protected Rigidbody2D rb;
     [SerializeField] private ParticleSystem particles;
+    protected Rigidbody2D rb;
+
 
     protected void Awake()
     {

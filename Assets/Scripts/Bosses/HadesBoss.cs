@@ -7,6 +7,7 @@ using Spells;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utilities;
 using Warriors;
 using Random = UnityEngine.Random;
 
@@ -18,7 +19,7 @@ namespace Bosses
 
         private Rigidbody2D _rb;
         private float _timeToChangeDirection;
-        private float _outOfBoundsTimer = 0.5f;
+        private float minTimeToSwtichDirection = 0.2f;  // this timer helps with boss getting stuck on the edge of the screen 
         private float _summonOffset = 1.2f;
         private float mediumHealth;
         private float lowHealth;
@@ -76,7 +77,7 @@ namespace Bosses
                 }
                 HandleDirectionChange();
                 Move();
-                _outOfBoundsTimer = Mathf.Max(0, _outOfBoundsTimer - Time.deltaTime);
+                minTimeToSwtichDirection = Mathf.Max(0, minTimeToSwtichDirection - Time.deltaTime);
                 yield return null;
             }
         }
@@ -92,7 +93,7 @@ namespace Bosses
         private void HandleDirectionChange()
         {
             _timeToChangeDirection = Mathf.Max(0, _timeToChangeDirection - Time.deltaTime);
-            if (_outOfBoundsTimer > 0) return;
+            if (minTimeToSwtichDirection > 0) return;
 
             bool outOfBounds = IsBossOutOfBounds();
 
@@ -100,7 +101,7 @@ namespace Bosses
             {
                 direction *= -1;
                 _timeToChangeDirection = 1 + Random.value * 3;
-                if (outOfBounds) _outOfBoundsTimer = 0.2f;
+                if (outOfBounds) minTimeToSwtichDirection = 0.2f;
             }
         }
 
@@ -131,7 +132,7 @@ namespace Bosses
             if (collision.gameObject.GetComponent<VillageWarrior>())
             {
                 VillageWarrior warrior = collision.gameObject.GetComponent<VillageWarrior>();
-                ChangeHealth(this, warrior.damage);
+                ChangeHealth(this, warrior.GetDamage());
                 ObjectPoolManager.Instance.AddObjectToPool(warrior);
             }
         }
@@ -168,7 +169,7 @@ namespace Bosses
                 ChangePhase();
             }
         }
-
+        
         private void ChangePhase()
         {
             const float percentChange = 0.2f;

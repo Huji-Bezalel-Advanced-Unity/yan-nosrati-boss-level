@@ -11,8 +11,10 @@ namespace Managers
 
         public Action EndGame;
 
-        public bool wonGame = false;
+        public GameState gameState = GameState.Played;
         
+        
+        private bool _runTutorial = true;
 
         public GameManager()
         {
@@ -22,8 +24,6 @@ namespace Managers
             }
             
         }
-       
-        private bool _runTutorial = true;
         
         public void SetRunTutorial()
         {
@@ -37,14 +37,17 @@ namespace Managers
 
         public void WinGame()
         {
+            gameState = GameState.Won;
+            
             AudioManager.Instance.PlaySound(SoundName.WinSound);
-            wonGame = true;
             EventManager.Instance.InvokeEvent(EventNames.OnGameOver, EndGame);
 
         }
 
         public void LoseGame()
         {
+            gameState = GameState.Lost; 
+            
             AudioManager.Instance.PlaySound(SoundName.LoseSound);
             EventManager.Instance.InvokeEvent(EventNames.OnGameOver, EndGame);
         }
@@ -59,5 +62,22 @@ namespace Managers
             Time.timeScale = 1;
         }
 
+        public GameState GetGameState()
+        {
+            return gameState;
+        }
+        
+        public void SetGameState(GameState newState)
+        {
+            gameState = newState;
+        }
+
+    }
+
+    public enum GameState
+    {
+        Played = 1,
+        Won = 2,
+        Lost = 3,
     }
 }

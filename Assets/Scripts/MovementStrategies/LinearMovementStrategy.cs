@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Bosses;
+using UnityEngine;
 
 namespace MovementStrategies
 {

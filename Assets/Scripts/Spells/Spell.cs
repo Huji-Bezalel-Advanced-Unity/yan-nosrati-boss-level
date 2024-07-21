@@ -6,14 +6,16 @@ using UnityEngine.Serialization;
 
 public abstract class Spell : MonoBehaviour
 {
-    protected List<Debuff> DebuffsList;
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float baseCoolDown;
     [SerializeField] protected float coolDown;
     [SerializeField] private KeyCode keyCode;
     [SerializeField] protected internal SoundName hitSound;
+
+    protected List<Debuff> DebuffsList;
     protected bool FirstCast;
 
+    public abstract void Cast(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation);
 
     public void Init()
     {
@@ -26,7 +28,6 @@ public abstract class Spell : MonoBehaviour
         return keyCode;
     }
 
-    public abstract void Cast(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation);
 
     public Spell GetSpellFromPool(Vector3 startingPosition, Quaternion playerRotation, string tag)
     {
@@ -53,30 +54,16 @@ public abstract class Spell : MonoBehaviour
         }
     }
 
-    public List<Debuff> GetSpellsDebuffs()
-    {
-        return DebuffsList;
-    }
-
     public float GetCooldown()
     {
         return coolDown;
     }
 
-    public void setCooldown(float newCooldown)
+    public void SetCooldown(float newCooldown)
     {
         coolDown = newCooldown;
     }
 
-    public void SetFirstCast()
-    {
-        FirstCast = false;
-    }
-
-    public bool GetFirstCast()
-    {
-        return FirstCast;
-    }
 
     public virtual void ResetSpell()
     {

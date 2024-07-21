@@ -18,21 +18,6 @@ public abstract class Entity : MonoBehaviour
 
     protected abstract IEnumerator Die();
     public abstract void Move();
-
-
-    // public virtual void ChangeHealth(int damage)
-    // {
-    //     if (isDead) return;
-    //     health = Mathf.Max(0, health - damage);
-    //     float nextScale = (float)health / maxHealth;
-    //     healthBar.transform.localScale =
-    //         new Vector3(nextScale, healthBar.transform.localScale.y, 0);
-    //
-    //     if (health == 0)
-    //     {
-    //         StartCoroutine(Die());
-    //     }
-    // }
     
     public virtual void ChangeHealth(Entity unitTakingDamage, int damage)
     {

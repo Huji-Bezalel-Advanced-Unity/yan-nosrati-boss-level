@@ -1,10 +1,7 @@
-﻿namespace Debuffs
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using UnityEngine;
+﻿using System.Threading.Tasks;
 
+namespace Debuffs
+{
     public class StunDebuff : Debuff
     {
         public float Duration;
@@ -23,7 +20,7 @@
         {
             entity.animator.SetTrigger("Stunned");
             entity.stunned = true;
-            await Task.Delay((int)Duration*1000);
+            await Task.Delay((int)Duration * 1000);
             entity.stunned = false;
         }
     }

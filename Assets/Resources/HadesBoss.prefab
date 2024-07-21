@@ -57,7 +57,6 @@ MonoBehaviour:
   renderer: {fileID: 3692989440289922949}
   spellsCaster: {fileID: 4165809362542121372, guid: 7ca9c1efe95e9cd4893d97af6f2d1604, type: 3}
   rockThrowSpell: {fileID: 3483097558953757928, guid: 3d19f6b5c6b6f2f4ba8c1d63c7c21851, type: 3}
-  summonOffset: 1.2
 --- !u!50 &9114427837239447346
 Rigidbody2D:
   serializedVersion: 4

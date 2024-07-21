@@ -10,21 +10,21 @@ using UnityEngine.Serialization;
 public abstract class Warrior : Entity
 {
     [SerializeField] private Rigidbody2D rb;
-    public int damage;
-    public bool inCombat = false;
-    public Vector2 baseDirection;
-    public Vector2 curDirection;
-    public Queue<Warrior> inCombatWith;
-    public bool fittedEnemyPosition;
-    public DamageFlash damageFlash;
-
+    [SerializeField] protected Vector2 baseDirection;
+    [SerializeField] int damage;
+    
+    protected bool inCombat = false;
+    protected Vector2 curDirection;
+    protected Queue<Warrior> inCombatWith;
+    protected DamageFlash damageFlash;
+    
 
     private void Awake()
     {
         inCombatWith = new Queue<Warrior>();
         rb = GetComponent<Rigidbody2D>();
-        fittedEnemyPosition = false; // why???????? shuld bef ailse by default
         damageFlash = GetComponent<DamageFlash>();
+        curDirection = baseDirection;
     }
 
     public void FixedUpdate()
@@ -35,12 +35,17 @@ public abstract class Warrior : Entity
 
     private void OnEnable()
     {
-        animator.Play("start");
+        animator.SetBool("Move",true);
     }
 
     private void OnDisable()
     {
         animator.SetBool("Move", false);
+    }
+
+    public int GetDamage()
+    {
+        return damage;
     }
 
     public override void Move()
@@ -84,7 +89,7 @@ public abstract class Warrior : Entity
         curDirection = baseDirection;
         healthBar.parent.gameObject.SetActive(true);
         isDead = false;
-        ChangeHealth(this,-(maxHealth - health)); //restore healthbar
+        ChangeHealth(this, -(maxHealth - health)); //restore healthbar
         gameObject.SetActive(false);
     }
 
@@ -104,6 +109,7 @@ public abstract class Warrior : Entity
         {
             warrior.ExitBattle();
         }
+
         inCombatWith.Clear();
         inCombat = false;
         healthBar.parent.gameObject.SetActive(false);

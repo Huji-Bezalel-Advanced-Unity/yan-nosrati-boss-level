@@ -1,35 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using DefaultNamespace;
-using UnityEngine;
+﻿using UnityEngine;
+using Utilities;
 
-public class RevealDebuff : Debuff
+namespace Debuffs
 {
-    public int Duration { get; private set; }
-
-    public RevealDebuff(int duration)
+    public class RevealDebuff : Debuff
     {
-        Duration = duration;
-    }
+        public int Duration { get; private set; }
 
-    public void Apply(Entity entity)
-    {
-       StartFade(entity.renderer);
-    }
-
-    
-    // Example of how to call the async function
-    public async void StartFade(Renderer renderer)
-    {
-        Debug.Log(renderer);
-        
-        if (renderer != null && renderer.material.color.a < 1f)
+        public RevealDebuff(int duration)
         {
-            await Util.DoFadeLerp(renderer, renderer.material.color.a, 1f, Duration); // Example values for startValue, endValue, and duration
-            await Util.DoFadeLerp(renderer, 1f, 0f, Duration);
-            
+            Duration = duration;
+        }
+
+        public void Apply(Entity entity)
+        {
+            StartFade(entity.renderer);
+        }
+
+
+        // Example of how to call the async function
+        public async void StartFade(Renderer renderer)
+        {
+            if (renderer != null && renderer.material.color.a < 1f)
+            {
+                await Util.DoFadeLerp(renderer, renderer.material.color.a, 1f,
+                    Duration); 
+                await Util.DoFadeLerp(renderer, 1f, 0f, Duration);
+            }
         }
     }
-
 }

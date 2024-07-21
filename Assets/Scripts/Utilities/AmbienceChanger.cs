@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace DefaultNamespace.Utilities
+namespace Utilities
 {
     public class AmbienceChanger : MonoBehaviour
     {
