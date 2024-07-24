@@ -16,7 +16,7 @@ The Greek god Hades, furious with the sins of a village, descends upon it with h
 - Hades can summon:
   - SkeletonWarriors: Fast-moving, low-health units that deal minor damage.
   - BigSkeletonWarriors: Slow-Moving paced units with high health and damage.
-  - 
+
 -  Hades can throw large rocks at the player when he has low health.
 
 ## Boss Phases
