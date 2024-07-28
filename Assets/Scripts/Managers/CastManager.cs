@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Spells;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;

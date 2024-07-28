@@ -17,12 +17,10 @@ namespace MovementStrategies
             if (angle > Mathf.PI/2)
             {
                 angle = Mathf.PI/2;
-                boss.SetDirection(Vector2.down);
             }
             else if (angle < -Mathf.PI / 2)
             {
                 angle = -Mathf.PI / 2;
-                boss.SetDirection(Vector2.up);
             }
             
         

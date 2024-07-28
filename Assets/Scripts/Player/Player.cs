@@ -29,6 +29,41 @@ namespace player
             basicArrow.Init();
         }
 
+        private void OnEnable()
+        {
+            InputManager.KeyPressed += ReactToKeyPress;
+            ObjectCrossMapTrigger.OnWarriorCross += UpgradeBow;
+        }
+
+        private void OnDisable()
+        {
+            InputManager.KeyPressed -= ReactToKeyPress;
+            ObjectCrossMapTrigger.OnWarriorCross -= UpgradeBow;
+        }
+
+        private IEnumerator SelfUpdate()
+        {
+            while (GameManager.Instance.GetGameState() == GameState.Played)
+            {
+                while (stunned) yield return null; // Wait until not stunned
+                InputManager.Instance.CheckKeyPressed();
+                Move();
+                yield return null;
+            }
+        }
+
+        private IEnumerator ShootArrow()
+        {
+            while (GameManager.Instance.GetGameState() == GameState.Played)
+            {
+                yield return new WaitForSeconds(basicArrow.GetCooldown());
+                while (stunned || isDead ||GameManager.Instance.GetGameState() != GameState.Played) yield return null;
+                Vector3 mousePos =
+                    MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+                basicArrow.Cast(mousePos, transform.position, bow.transform.rotation);
+            }
+        }
+
         public override void Move()
         {
             Vector3 mousePosition = MainCamera.Instance.MatchMouseCoordinatesToCamera(Input.mousePosition);
@@ -59,27 +94,10 @@ namespace player
             EventManager.Instance.InvokeEvent(EventNames.OnPlayerTakingDamage, currentPhase);
         }
 
-        private IEnumerator ShootArrow()
+        protected override IEnumerator Die()
         {
-            while (!isDead)
-            {
-                yield return new WaitForSeconds(basicArrow.GetCooldown());
-                while (stunned || isDead) yield return null;
-                Vector3 mousePos =
-                    MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
-                basicArrow.Cast(mousePos, transform.position, bow.transform.rotation);
-            }
-        }
-
-        private IEnumerator SelfUpdate()
-        {
-            while (!isDead)
-            {
-                while (stunned) yield return null; // Wait until not stunned
-                InputManager.Instance.CheckKeyPressed();
-                Move();
-                yield return null;
-            }
+            GameManager.Instance.LoseGame();
+            yield return null;
         }
 
         private void UpgradeBow()
@@ -90,28 +108,10 @@ namespace player
             basicArrow.SetCooldown(Mathf.Max(basicArrow.GetCooldown() - reductionRate, minSpellCooldown));
         }
 
-        private void OnEnable()
-        {
-            InputManager.KeyPressed += ReactToKeyPress;
-            ObjectCrossMapTrigger.OnWarriorCross += UpgradeBow;
-        }
-
-        private void OnDisable()
-        {
-            InputManager.KeyPressed -= ReactToKeyPress;
-            ObjectCrossMapTrigger.OnWarriorCross -= UpgradeBow;
-        }
-
-        protected override IEnumerator Die()
-        {
-            GameManager.Instance.LoseGame();
-            yield return null;
-        }
-
 
         private void ReactToKeyPress(KeyCode key)
         {
-            CastManager.Instance.TryToCastSpell(key,bow.transform.rotation);
+            CastManager.Instance.TryToCastSpell(key, bow.transform.rotation);
         }
 
         private void OnTriggerEnter2D(Collider2D col)

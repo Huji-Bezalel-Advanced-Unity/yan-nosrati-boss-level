@@ -14,7 +14,7 @@ public abstract class Spell : MonoBehaviour
 
     protected List<Debuff> DebuffsList;
     protected bool FirstCast;
-
+    
     public abstract void Cast(Vector2 direction, Vector3 startingPosition, Quaternion playerRotation);
 
     public void Init()

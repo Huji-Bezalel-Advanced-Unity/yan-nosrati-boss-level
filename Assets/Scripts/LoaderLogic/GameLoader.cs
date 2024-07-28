@@ -24,13 +24,13 @@ namespace LoaderLogic
         private void StartLoadingAsync()
         {
             DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(loaderUI.transform.root.gameObject);
-            StartCoroutine(LoadCoreManager());
+            DontDestroyOnLoad(loaderUI.transform.root.gameObject); 
+            LoadCoreManager();
         }
 
-        private IEnumerator LoadCoreManager()
+        private void LoadCoreManager()
         {
-            yield return new CoreManager(OnCoreManagersLoaded);
+            new CoreManager(OnCoreManagersLoaded);
         }
 
         private void OnCoreManagersLoaded(bool isSuccess)

@@ -19,10 +19,11 @@ namespace Bosses
 
         private Rigidbody2D _rb;
         private float _timeToChangeDirection;
-        private float minTimeToSwtichDirection = 0.2f;  // this timer helps with boss getting stuck on the edge of the screen 
+        private float minTimeToSwtichDirection = 0.35f;  // this timer helps with boss getting stuck on the edge of the screen 
         private float _summonOffset = 1.2f;
         private float mediumHealth;
         private float lowHealth;
+        private Vector2 direction;
         
 
         public override void Init(Transform healthBarUI)
@@ -48,7 +49,7 @@ namespace Bosses
 
         private void ChangeVisibility(float start, float end, float duration)
         {
-            Util.DoFadeLerp(renderer, start, end, duration);
+            StartCoroutine(Util.DoFadeLerp(renderer, start, end, duration, null));
         }
 
 
@@ -101,7 +102,7 @@ namespace Bosses
             {
                 direction *= -1;
                 _timeToChangeDirection = 1 + Random.value * 3;
-                if (outOfBounds) minTimeToSwtichDirection = 0.2f;
+                if (outOfBounds) minTimeToSwtichDirection = 0.35f;
             }
         }
 

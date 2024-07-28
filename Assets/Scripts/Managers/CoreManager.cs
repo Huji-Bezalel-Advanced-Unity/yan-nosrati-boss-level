@@ -1,12 +1,17 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Collections;
+using UnityEngine;
 
 namespace Managers
 {
     public class CoreManager
     {
-        private Action<bool> _onComplete;
         public static CoreManager Instance;
+
+        public MonoRunner MonoBehaviourRunner;
+        private Action<bool> _onComplete;
+        private int _loadCount = 0;
+        private int _totalManagers = 5;
 
         public CoreManager(Action<bool> onComplete)
         {
@@ -17,53 +22,57 @@ namespace Managers
 
             Instance = this;
             _onComplete = onComplete;
-            LoadManagers();
+            MonoBehaviourRunner = new GameObject("CoreManagerRunner").AddComponent<MonoRunner>();
+            MonoBehaviourRunner.StartCoroutine(LoadManagers());
         }
 
-        private async void LoadManagers()
+        private IEnumerator LoadManagers()
         {
-            var eventSystemManager = LoadEventSystem();
-            var inputManagerTask = LoadInputManager();
-            var gameManagerTask = LoadGameManager();
-            var castManagerTask = LoadCastManager();
-            var objectPoolManager = LoadObjectPoolManager();
+            MonoBehaviourRunner.StartCoroutine(LoadEventSystem());
+            MonoBehaviourRunner.StartCoroutine(LoadInputManager());
+            MonoBehaviourRunner.StartCoroutine(LoadGameManager());
+            MonoBehaviourRunner.StartCoroutine(LoadCastManager());
+            MonoBehaviourRunner.StartCoroutine(LoadObjectPoolManager());
 
-            await Task.WhenAll(inputManagerTask, gameManagerTask, castManagerTask, objectPoolManager,
-                eventSystemManager);
+            yield return new WaitUntil(() => _loadCount >= _totalManagers);
 
             OnLoadSuccess();
         }
 
-        private async Task LoadEventSystem()
+        private IEnumerator LoadEventSystem()
         {
-            await Task.Delay(1000); // Simulate asynchronous loading
+            yield return null; // Simulate loading process
             new EventManager();
+            _loadCount++;
         }
 
-        private async Task LoadObjectPoolManager()
+        private IEnumerator LoadObjectPoolManager()
         {
-            await Task.Delay(1000); // Simulate asynchronous loading
+            yield return null; 
             new ObjectPoolManager();
+            _loadCount++;
         }
 
-        private async Task LoadGameManager()
+        private IEnumerator LoadGameManager()
         {
-            await Task.Delay(1000); // Simulate asynchronous loading
+            yield return null; 
             new GameManager();
+            _loadCount++;
         }
 
-        private async Task LoadInputManager()
+        private IEnumerator LoadInputManager()
         {
-            await Task.Delay(1000);
+            yield return null; 
             new InputManager();
+            _loadCount++;
         }
 
-        private async Task LoadCastManager()
+        private IEnumerator LoadCastManager()
         {
-            await Task.Delay(1000);
+            yield return null; 
             new CastManager();
+            _loadCount++;
         }
-
 
         public void OnLoadSuccess()
         {

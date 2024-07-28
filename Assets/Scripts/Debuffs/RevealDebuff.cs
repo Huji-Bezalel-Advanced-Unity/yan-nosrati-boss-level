@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Managers;
+using UnityEngine;
 using Utilities;
 
 namespace Debuffs
@@ -19,14 +20,18 @@ namespace Debuffs
 
 
         // Example of how to call the async function
-        public async void StartFade(Renderer renderer)
+        public void StartFade(Renderer renderer)
         {
             if (renderer != null && renderer.material.color.a < 1f)
             {
-                await Util.DoFadeLerp(renderer, renderer.material.color.a, 1f,
-                    Duration); 
-                await Util.DoFadeLerp(renderer, 1f, 0f, Duration);
+                 CoreManager.Instance.MonoBehaviourRunner.StartCoroutine(Util.DoFadeLerp(renderer, renderer.material.color.a, 1f,
+                    Duration, () =>
+                    {
+                        CoreManager.Instance.MonoBehaviourRunner.StartCoroutine(Util.DoFadeLerp(renderer, 1, 0, Duration, null));
+                    }));
             }
         }
     }
+
+  
 }

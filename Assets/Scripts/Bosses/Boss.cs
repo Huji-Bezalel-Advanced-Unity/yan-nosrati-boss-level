@@ -10,7 +10,6 @@ namespace Bosses
     {
         [SerializeField] protected SpellsCaster spellsCaster;
 
-        protected Vector2 direction;
         protected MovementStrategy MovementStrategy;
         protected List<Spell> LowHealthSpells;
         
@@ -22,10 +21,6 @@ namespace Bosses
             GameManager.Instance.WinGame();
             yield return null;
         }
-
-        public void SetDirection(Vector2 newDirection)
-        {
-            direction = newDirection;
-        }
+        
     }
 }

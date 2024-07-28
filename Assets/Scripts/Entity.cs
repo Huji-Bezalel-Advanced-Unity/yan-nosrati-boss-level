@@ -32,6 +32,4 @@ public abstract class Entity : MonoBehaviour
             StartCoroutine(unitTakingDamage.Die());
         }
     }
-    
-
 }

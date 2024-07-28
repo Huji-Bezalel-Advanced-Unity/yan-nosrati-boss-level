@@ -91,7 +91,7 @@ namespace Managers
             DisableAllObjectsInPool(_warriorsPool);
             DisableAllObjectsInPool(_spellsPool);
         }
-
+        
         private void DisableAllObjectsInPool<T>(Dictionary<string, Queue<T>> pool) where T : MonoBehaviour
         {
             _warriorsPool.Clear();

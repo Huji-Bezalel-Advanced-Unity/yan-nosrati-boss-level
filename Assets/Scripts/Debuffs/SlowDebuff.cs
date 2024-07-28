@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Managers;
 using UnityEngine;
 
 namespace Debuffs
@@ -18,14 +19,14 @@ namespace Debuffs
 
         public void Apply(Entity entity)
         {
-            DoSlowForSeconds(entity);
+            CoreManager.Instance.MonoBehaviourRunner.StartCoroutine(DoSlowForSeconds(entity));
         }
 
-        private async void DoSlowForSeconds(Entity entity)
+        private IEnumerator DoSlowForSeconds(Entity entity)
         {
             float speed = entity.moveSpeed;
             entity.moveSpeed = (float)(100 - Slow) / 100 * entity.moveSpeed;
-            await Task.Delay((int)Duration * 1000);
+            yield return new WaitForSeconds(Duration);
             entity.moveSpeed = speed;
         }
     }

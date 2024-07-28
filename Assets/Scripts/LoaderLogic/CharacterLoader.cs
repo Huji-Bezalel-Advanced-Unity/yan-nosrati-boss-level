@@ -30,17 +30,6 @@ namespace LoaderLogic
             SceneManager.LoadScene("Main");
             
         }
-
-        public void LoadFireBattle()
-        {
-            //todo
-        }
-
-        public void ExitGame()
-        {
-            Application.Quit();
-        }
-
         private void LoadStoneBattleCharacters(Scene scene, LoadSceneMode mode)
         {
             SceneManager.sceneLoaded -= LoadStoneBattleCharacters;
@@ -58,7 +47,17 @@ namespace LoaderLogic
             map = Instantiate(map, Vector3.zero, Quaternion.identity);
             map.Init(volume);
         }
+        
+        public void LoadFireBattle()
+        {
+            //todo
+        }
 
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
+        
 
         private void StartGame()
         {

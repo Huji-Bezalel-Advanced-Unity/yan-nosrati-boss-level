@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Threading.Tasks;
+using Managers;
+using UnityEngine;
 
 namespace Debuffs
 {
@@ -13,14 +16,14 @@ namespace Debuffs
 
         public void Apply(Entity entity)
         {
-            DoStunForSeconds(entity);
+            CoreManager.Instance.MonoBehaviourRunner.StartCoroutine(DoStunForSeconds(entity));
         }
 
-        private async void DoStunForSeconds(Entity entity)
+        private IEnumerator DoStunForSeconds(Entity entity)
         {
             entity.animator.SetTrigger("Stunned");
             entity.stunned = true;
-            await Task.Delay((int)Duration * 1000);
+            yield return new WaitForSeconds(Duration);
             entity.stunned = false;
         }
     }

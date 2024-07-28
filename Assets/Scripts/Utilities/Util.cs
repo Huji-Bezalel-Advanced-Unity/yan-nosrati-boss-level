@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,28 +10,28 @@ namespace Utilities
 {
     public static class Util
     {
-        public static async Task DoFadeLerp(Renderer renderer, float startValue, float endValue, float duration)
+        public static IEnumerator DoFadeLerp(Renderer renderer, float startValue, float endValue, float duration, Action onComplete)
         {
-            if (!renderer) return;
+          
             Color currentColor = renderer.material.color;
             float elapsedTime = 0;
-            while (elapsedTime < duration)
+            while (elapsedTime < duration && GameManager.Instance.GetGameState() == GameState.Played)
             {
-                if (!renderer) return;
-
                 elapsedTime += Time.deltaTime;
                 float percentageCompleted = elapsedTime / duration;
                 currentColor.a = Mathf.Lerp(startValue, endValue, percentageCompleted);
                 renderer.material.color = currentColor;
-                await Task.Yield();
+                yield return null;
             }
+            currentColor.a = endValue;
+            onComplete?.Invoke();
         }
 
 
         public static IEnumerator DoFillLerp(Image imageToFill, float startValue, float endValue, float duration)
         {
             float elapsedTime = 0;
-            while (elapsedTime < duration)
+            while (elapsedTime < duration && GameManager.Instance.GetGameState() == GameState.Played)
             {
                 elapsedTime += Time.deltaTime;
                 float precentageCompleted = elapsedTime / duration;
@@ -38,6 +39,7 @@ namespace Utilities
                 // Wait for a small amount of time (adjust as needed)
                 yield return null; // Yields control back to the calling context, letting other tasks run
             }
+            imageToFill.fillAmount = endValue;
         }
 
         public static List<double> Solve(double[,] matrix)
