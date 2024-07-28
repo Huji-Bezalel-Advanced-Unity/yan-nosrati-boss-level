@@ -7,8 +7,8 @@ namespace Managers
 {
     public class SpellsCaster : MonoBehaviour
     {
-
         [SerializeField] private List<Spell> spells;
+        
         private Dictionary<Spell,int> _spellCooldowns;
         
         public void Init()
@@ -61,7 +61,7 @@ namespace Managers
         {
             foreach (var item in _spellCooldowns)
             {
-                item.Key.setCooldown((int)item.Key.GetCooldown()*precentChange);
+                item.Key.SetCooldown((int)item.Key.GetCooldown()*precentChange);
             }
         }
     }

@@ -62,5 +62,7 @@ namespace Managers
         OnSpellCast = 2,
         OnGameOver = 3,
         OnEndGame = 4,
+        OnPlayerChangePhase = 5,
+        OnPlayerTakingDamage = 6,
     }
 }

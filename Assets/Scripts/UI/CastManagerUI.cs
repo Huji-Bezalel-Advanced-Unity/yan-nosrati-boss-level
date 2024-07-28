@@ -7,12 +7,13 @@ using Managers;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using Utilities;
 
 namespace DefaultNamespace
 {
     public class CastManagerUI : MonoBehaviour
     {
-
+        
         [SerializeField] private GameObject spellsPanel;
         [SerializedDictionary("Spell", "Image")]
         public AYellowpaper.SerializedCollections.SerializedDictionary<Spell, Image> ImageBySpellMap;

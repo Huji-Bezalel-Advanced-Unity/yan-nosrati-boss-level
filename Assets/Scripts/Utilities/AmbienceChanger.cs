@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace DefaultNamespace.Utilities
+namespace Utilities
 {
     public class AmbienceChanger : MonoBehaviour
     {
@@ -23,20 +23,11 @@ namespace DefaultNamespace.Utilities
                 {
                     initialThreshold = bloom.threshold.value;
                 }
-                else
-                {
-                    Debug.LogError("Bloom component not found in Volume profile.");
-                }
-            }
-            else
-            {
-                Debug.LogError("PostProcessVolume or Volume profile is not assigned.");
             }
         }
 
         public IEnumerator Brighten(Action callback)
         {
-            print("BRIGHTEN");
             float timeElapsed = 0f;
             while (timeElapsed < brightenDuration)
             {

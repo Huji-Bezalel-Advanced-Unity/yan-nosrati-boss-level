@@ -5,6 +5,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+///
+/// This class is not used !
+///
+
 namespace Managers
 {
     public class TutorialManager
@@ -16,16 +20,9 @@ namespace Managers
         private Image _image;
         private Dictionary<KeyCode, ValueTuple<int,string>> spellToDescriptionMap;
         private bool _running;
-
-
         
         public TutorialManager(GameObject tutorialPanel)
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-
             _running = false;
             _tutorialPanel = tutorialPanel;
             _image = tutorialPanel.transform.GetChild(0).GetComponent<Image>();

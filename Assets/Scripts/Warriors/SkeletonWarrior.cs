@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 namespace Warriors
@@ -24,7 +25,6 @@ namespace Warriors
                 EnterBattle(warrior);
                 warrior.EnterBattle(this);
             }
-
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -40,10 +40,8 @@ namespace Warriors
                 spell.ApllySpellDebuffs(this);
                 AudioManager.Instance.PlaySound(spell.hitSound);
             }
-            
         }
 
-  
 
         public override void ExitBattle()
         {

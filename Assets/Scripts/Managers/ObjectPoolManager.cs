@@ -1,91 +1,4 @@
-// using System;
-// using System.Collections.Generic;
-// using Spells;
-// using UnityEngine;
-// using Warriors;
-//
-// namespace Managers
-// {
-//     public class ObjectPoolManager
-//     {
-//         public static ObjectPoolManager Instance;
-//
-//         private Dictionary<string, Queue<Warrior>> _warriorsPool;
-//         private Dictionary<string, Queue<Spell>> _spellsPool;
-//
-//         public ObjectPoolManager()
-//         {
-//             if (Instance == null)
-//             {
-//                 Instance = this;
-//             }
-//
-//             _spellsPool = new Dictionary<string, Queue<Spell>>();
-//             _warriorsPool = new Dictionary<string, Queue<Warrior>>();
-//         }
-//
-//         public void AddWarriorToPool(Warrior warrior)
-//         {
-//             warrior.ResetWarrior();
-//             string type = warrior.tag;
-//             if (!_warriorsPool.ContainsKey(type))
-//             {
-//                 _warriorsPool[type] = new Queue<Warrior>();
-//             }
-//
-//             _warriorsPool[type].Enqueue(warrior);
-//         }
-//
-//         public Warrior GetWarriorFromPool(string tag)
-//         {
-//             // foreach (var VARIABLE in _warriorsPool)
-//             // {
-//             //     Debug.Log(VARIABLE.Key);
-//             //     foreach (var a in VARIABLE.Value)
-//             //     {
-//             //         Debug.Log(a);
-//             //     }
-//             // }
-//             if (_warriorsPool.ContainsKey(tag) && _warriorsPool[tag].Count > 0)
-//             {
-//                 Warrior warrior = _warriorsPool[tag].Dequeue();
-//                 warrior.gameObject.SetActive(true);
-//             
-//             }
-//
-//             return null;
-//         }
-//
-//         public void AddSpellToPool(Spell spell)
-//         {
-//             spell.ResetSpell();
-//             string type = spell.tag;
-//             if (!_spellsPool.ContainsKey(type))
-//             {
-//                 _spellsPool[type] = new Queue<Spell>();
-//             }
-//
-//             _spellsPool[type].Enqueue(spell);
-//         }
-//
-//         public Spell GetSpellFromPool(string tag)
-//         {
-//             if (_spellsPool.ContainsKey(tag) && _spellsPool[tag].Count > 0)
-//             {
-//                 Spell spell = _spellsPool[tag].Dequeue();
-//                 spell.gameObject.SetActive(true);
-//                 return spell;
-//             }
-//
-//             return null;
-//         }
-//     }
-// }
-
-
 using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
-using UnityEditor;
 using UnityEngine;
 
 
@@ -97,7 +10,6 @@ namespace Managers
 
         private Dictionary<string, Queue<Warrior>> _warriorsPool;
         private Dictionary<string, Queue<Spell>> _spellsPool;
-        
         
         public ObjectPoolManager()
         {
@@ -138,10 +50,10 @@ namespace Managers
         {
             if (typeof(T) == typeof(Warrior))
             {
-                
                 return GetFromPool(tag, _warriorsPool) as T;
             }
-            else if (typeof(T) == typeof(Spell))
+            
+            if (typeof(T) == typeof(Spell))
             {
                 return GetFromPool(tag, _spellsPool) as T;
             }
@@ -179,7 +91,7 @@ namespace Managers
             DisableAllObjectsInPool(_warriorsPool);
             DisableAllObjectsInPool(_spellsPool);
         }
-
+        
         private void DisableAllObjectsInPool<T>(Dictionary<string, Queue<T>> pool) where T : MonoBehaviour
         {
             _warriorsPool.Clear();
@@ -187,5 +99,3 @@ namespace Managers
         }
     }
 }
-    
-

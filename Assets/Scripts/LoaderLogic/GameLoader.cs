@@ -9,69 +9,71 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Warriors;
 
-
-public class GameLoader : MonoBehaviour
+namespace LoaderLogic
 {
-    [SerializeField] private GameLoaderUI loaderUI;
-  
-    private void Start()
+    public class GameLoader : MonoBehaviour
     {
-        StartLoadingAsync();
-        loaderUI.Init(100);
-    }
+        [SerializeField] private GameLoaderUI loaderUI;
 
-    private void StartLoadingAsync()
-    {
-        DontDestroyOnLoad(gameObject);
-        DontDestroyOnLoad(loaderUI.transform.root.gameObject);
-        StartCoroutine(LoadCoreManager());
-    }
-
-    private IEnumerator LoadCoreManager()
-    {
-        yield return new CoreManager(OnCoreManagersLoaded);
-    }
-
-    private void OnCoreManagersLoaded(bool isSuccess)
-    {
-        if (isSuccess)
+        private void Start()
         {
-            loaderUI.AddProgress(20);
-
-            StartCoroutine(LoadCharactersLoader());
-        }
-        else
-        {
-            Debug.Log(new Exception("CoreManager failed to load"));
-        }
-    }
-
-
-    private IEnumerator LoadCharactersLoader()
-    {
-        int count = 0;
-        while (count < 30)
-        {
-            loaderUI.AddProgress(1);
-            yield return new WaitForSeconds(0.1f);
-            count++;
+            StartLoadingAsync();
+            loaderUI.Init(100);
         }
 
-        SceneManager.sceneLoaded += OnCharacterLoadSceneLoaded;
-        SceneManager.LoadScene("CharacterLoader");
-    }
+        private void StartLoadingAsync()
+        {
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(loaderUI.transform.root.gameObject); 
+            LoadCoreManager();
+        }
 
-    private void OnCharacterLoadSceneLoaded
-        (Scene scene, LoadSceneMode mode)
-    {
-        SceneManager.sceneLoaded -= OnCharacterLoadSceneLoaded;
-        loaderUI.AddProgress(30);
-        OnLoadComplete(); //dummy coroutine
-    }
-    
-    private void OnLoadComplete()
-    {
-        Destroy(loaderUI.transform.root.gameObject);
-        Destroy(this.gameObject);
+        private void LoadCoreManager()
+        {
+            new CoreManager(OnCoreManagersLoaded);
+        }
+
+        private void OnCoreManagersLoaded(bool isSuccess)
+        {
+            if (isSuccess)
+            {
+                loaderUI.AddProgress(20);
+
+                StartCoroutine(LoadCharactersLoader());
+            }
+            else
+            {
+                Debug.Log(new Exception("CoreManager failed to load"));
+            }
+        }
+
+
+        private IEnumerator LoadCharactersLoader()
+        {
+            int count = 0;
+            while (count < 30)  // dummy coroutine for 3 seconds
+            {
+                loaderUI.AddProgress(1);
+                yield return new WaitForSeconds(0.1f);
+                count++;
+            }
+
+            SceneManager.sceneLoaded += OnCharacterLoadSceneLoaded;
+            SceneManager.LoadScene("CharacterLoader");
+        }
+
+        private void OnCharacterLoadSceneLoaded
+            (Scene scene, LoadSceneMode mode)
+        {
+            SceneManager.sceneLoaded -= OnCharacterLoadSceneLoaded;
+            loaderUI.AddProgress(30);
+            OnLoadComplete();
+        }
+
+        private void OnLoadComplete()
+        {
+            Destroy(loaderUI.transform.root.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 }

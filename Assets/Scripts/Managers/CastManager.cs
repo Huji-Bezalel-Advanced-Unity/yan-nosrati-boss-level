@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Spells;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,9 +13,7 @@ namespace Managers
     {
         public static CastManager Instance;
 
-        private Dictionary<KeyCode, ValueTuple<Spell, float>> _spells =
-            new();
-
+        private Dictionary<KeyCode, Spell> _spells = new();
         private Dictionary<Spell, float> _spellsLastCastTime = new();
 
         public CastManager()
@@ -27,58 +26,72 @@ namespace Managers
             LoadSpells();
         }
 
-
-        public void StartCD()
+        public void StartCd()
         {
-            foreach (var kvp in _spells)
+            foreach (var spell in _spells.Values)
             {
-                EventManager.Instance.InvokeEvent(EventNames.OnSpellCast, kvp.Value.Item1);
+                _spellsLastCastTime[spell] = Time.time;
+                EventManager.Instance.InvokeEvent(EventNames.OnSpellCast, spell);
             }
         }
 
-        public void TryToCastSpell(KeyCode keyCode, Vector3 startingPosition, Quaternion rotation)
-        {
-            bool casted = CastSpellIfReady(keyCode, rotation, startingPosition);
+        public void TryToCastSpell(KeyCode keyCode, Quaternion rotation)
+        {   
+            bool casted = CastSpellIfReady(keyCode, rotation);
             if (casted)
             {
-                EventManager.Instance.InvokeEvent(EventNames.OnSpellCast, _spells[keyCode].Item1);
+                EventManager.Instance.InvokeEvent(EventNames.OnSpellCast, _spells[keyCode]);
             }
         }
 
         private void LoadSpells()
         {
-            var _villageWarriorSpell = Resources.Load<Spell>("VillageWarriorSpell");
-            AddSpell(_villageWarriorSpell);
-            var _fairyDustSpell = Resources.Load<Spell>("FairyDustArrow");
-            AddSpell(_fairyDustSpell);
-            var _divineArrow = Resources.Load<Spell>("DivineArrow");
-            AddSpell(_divineArrow);
+            var villageWarriorSpell = Resources.Load<Spell>("VillageWarriorSpell");
+            AddSpell(villageWarriorSpell);
+            var fairyDustSpell = Resources.Load<Spell>("FairyDustArrow");
+            AddSpell(fairyDustSpell);
+            var divineArrow = Resources.Load<Spell>("DivineArrow");
+            AddSpell(divineArrow);
         }
 
         private void AddSpell(Spell spell)
         {
             if (spell != null)
             {
-                _spells.Add(spell.GetKeyCode(), (spell, spell.GetCooldown()));
-                _spellsLastCastTime[spell] = Time.time;
+                _spells.Add(spell.GetKeyCode(), spell);
                 spell.Init();
             }
         }
 
-        private bool CastSpellIfReady(KeyCode keyCode, Quaternion rotation, Vector3 startingPosition)
+        private bool CastSpellIfReady(KeyCode keyCode, Quaternion rotation)
         {
-            var (spell, cooldown) = _spells[keyCode];
-
-            if (Time.time - _spellsLastCastTime[spell] >= cooldown)
+            if (_spells.TryGetValue(keyCode, out Spell spell))
             {
-                Vector3 mousePos =
-                    MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
-                spell.Cast(mousePos, startingPosition, rotation);
-                _spellsLastCastTime[spell] = Time.time;
-                return true;
+                float cooldown = spell.GetCooldown();
+                if (Time.time - _spellsLastCastTime[spell] >= cooldown)
+                {
+                    Vector3 mousePos = 
+                        MainCamera.Instance.MatchMouseCoordinatesToCamera(InputManager.Instance.GetMousePosition());
+                    Vector3 startingPosition = GetSpellStartingPosition(spell, mousePos);
+                 
+                    spell.Cast(mousePos, startingPosition, rotation);
+                    _spellsLastCastTime[spell] = Time.time;
+                    return true;
+                }
             }
-
             return false;
+        }
+
+        private Vector3 GetSpellStartingPosition(Spell spell, Vector3 mousePos)
+        {
+            if (spell is BasicArrowSpell arrow)
+            {
+                return Constants.BowPosition;
+            }
+            else  // is a warrior
+            {
+                return new Vector3(Constants.BowPosition.x, mousePos.y, 0);
+            }
         }
     }
 }

@@ -25,22 +25,6 @@ namespace DefaultNamespace
             GameManager.Instance.EndGame -= OpenEndMenu;
         }
 
-        private void OpenEndMenu()
-        {
-            if (GameManager.Instance.wonGame)
-            {
-                wonImage.gameObject.SetActive(true);
-                activeImage = wonImage;
-            }
-            else
-            {
-                lostImage.gameObject.SetActive(true);
-                activeImage = lostImage;
-            }
-
-            animator.SetTrigger("Appear");
-        }
-
         public void RestartGame()
         {
             // maybe
@@ -58,6 +42,22 @@ namespace DefaultNamespace
         public void MenuAppeared()
         {
             GameManager.Instance.StopTime();
+        }
+
+        private void OpenEndMenu()
+        {
+            if (GameManager.Instance.GetGameState() == GameState.Won)
+            {
+                wonImage.gameObject.SetActive(true);
+                activeImage = wonImage;
+            }
+            else
+            {
+                lostImage.gameObject.SetActive(true);
+                activeImage = lostImage;
+            }
+
+            animator.SetTrigger("Appear");
         }
     }
 }
