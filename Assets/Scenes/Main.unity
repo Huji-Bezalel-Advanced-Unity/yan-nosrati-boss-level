@@ -545,7 +545,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -508}
+  m_AnchoredPosition: {x: 0, y: -592.36}
   m_SizeDelta: {x: 1000, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &976977865
@@ -1212,7 +1212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120b564192cde004193b67b46273166a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  src: {fileID: 1701998015}
   gameSounds:
     _serializedList:
     - Key: 1
@@ -1233,6 +1232,7 @@ MonoBehaviour:
       Value: {fileID: 8300000, guid: 97a559394f83b0f40a5593a0e38dd705, type: 3}
     - Key: 3
       Value: {fileID: 8300000, guid: cd34b584d961f2e419ce670e94b3eef4, type: 3}
+  src: {fileID: 1701998015}
 --- !u!4 &1701998017
 Transform:
   m_ObjectHideFlags: 0

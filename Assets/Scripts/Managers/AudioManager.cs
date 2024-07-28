@@ -5,45 +5,48 @@ using AYellowpaper.SerializedCollections;
 using Managers;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+namespace Managers
 {
-    public static AudioManager Instance;
-
-    [SerializeField] private AudioSource src;
-    [SerializedDictionary("SoundName", "Sound")]
-    public SerializedDictionary<SoundName, AudioClip> gameSounds;
-
-
-    private void Awake()
+    public class AudioManager : MonoBehaviour
     {
-        if (Instance == null)
+        public static AudioManager Instance;
+
+
+        [SerializedDictionary("SoundName", "Sound")]
+        public SerializedDictionary<SoundName, AudioClip> gameSounds;
+        
+        [SerializeField] private AudioSource src;
+
+        private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+        }
+
+        public void PlaySound(SoundName soundName)
+        {
+            if (GameManager.Instance.GetGameState() == GameState.Played &&
+                gameSounds.TryGetValue(soundName, out AudioClip sound))
+            {
+                src.PlayOneShot(sound);
+            }
         }
     }
 
-    public void PlaySound(SoundName soundName)
+    public enum SoundName
     {
-        if (!GameManager.Instance.wonGame && gameSounds.TryGetValue(soundName, out AudioClip sound))
-        {
-            src.PlayOneShot(sound);
-        }
+        None = 0,
+        ArrowShoot = 1,
+        ArrowHit = 2,
+        SpecialArrowHit = 3,
+        WarriorSummon = 4,
+        SwordHit = 5,
+        WinSound = 6,
+        LoseSound = 7,
+        RockHit = 8,
+        SkeletonSummon = 9,
+        BowUpgrade = 10,
     }
-    
-    
-}
-
-public enum SoundName
-{
-    None = 0,
-    ArrowShoot = 1,
-    ArrowHit = 2,
-    SpecialArrowHit = 3,
-    WarriorSummon = 4,
-    SwordHit = 5,
-    WinSound = 6,
-    LoseSound = 7,
-    RockHit = 8,
-    SkeletonSummon = 9,
-    BowUpgrade = 10,
 }
