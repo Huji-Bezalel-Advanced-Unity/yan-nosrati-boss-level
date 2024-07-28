@@ -8,6 +8,8 @@ participant CoreManager
 participant InputManager
 participant CastManager
 participant SoundManager
+participant ObjectPoolManager
+participant EventManager
 entity Scene
 participant Player
 participant Boss
@@ -16,6 +18,8 @@ participant Boss
 Loader -> CoreManager : Initialize
 Loader-> SoundManager :Initialize
 Loader-> InputManager :Initialize
+Loader-> ObjectPoolManager :Initialize
+Loader-> EventManager :Initialize
 Loader->CastManager:Initialize
 CoreManager -> Scene
 Scene->Player:Instantiates
