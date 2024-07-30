@@ -18,7 +18,8 @@ use mouse to aim
 use Q, W, R for spell usage
 
 # Plan
-architecture - https://drive.google.com/file/d/19fQX5iCFoHXjwprKPKEn_8Rg8FS-TKKh/view?usp=sharing                               
+architecture - https://drive.google.com/file/d/1kQe-_NjqL9Ga8__1cHFF0ngbNTJenaH3/view?usp=sharing                                                                                             https://drive.google.com/file/d/19LYntAAL2BfXR06-TABwj9URyQPNToej/view?usp=sharing
+
 Systems -      https://www.canva.com/design/DAGFhT_zlL8/TzasQ9Z8eVaQGl76XoQigg/edit?utm_content=DAGFhT_zlL8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton   
 Loading plan - https://drive.google.com/file/d/11x7_nP6jaarC4sV7S25aUQhFX8pYCp8N/view?usp=sharing
 ## Story
