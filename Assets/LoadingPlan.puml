@@ -10,20 +10,20 @@ participant CastManager
 participant SoundManager
 participant ObjectPoolManager
 participant EventManager
-entity Scene
+entity MainMenu
 participant Player
 participant Boss
 
 
 Loader -> CoreManager : Initialize
-Loader-> SoundManager :Initialize
-Loader-> InputManager :Initialize
-Loader-> ObjectPoolManager :Initialize
-Loader-> EventManager :Initialize
-Loader->CastManager:Initialize
-CoreManager -> Scene
-Scene->Player:Instantiates
-Scene->Boss:Instantiates
+CoreManager-> SoundManager :Initialize
+CoreManager-> InputManager :Initialize
+CoreManager-> ObjectPoolManager :Initialize
+CoreManager-> EventManager :Initialize
+CoreManager->CastManager:Initialize
+MainMenu->Player:Instantiates
+MainMenu->Boss:Instantiates
+MainMenu->MainScene
 Loader->LoaderUI: Updates
 
 
