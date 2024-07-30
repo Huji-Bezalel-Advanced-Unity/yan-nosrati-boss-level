@@ -1,3 +1,12 @@
+# Play Game here !
+https://yanos1.itch.io/blind-defense
+
+# Gameplay Video
+https://www.youtube.com/watch?v=fw_1mnX5VL
+
+# Project explanation
+https://youtu.be/4gx2OHzFmK4
+
 # Blind Defense
 This is a 2D computer game.
 # controls
