@@ -7,7 +7,7 @@ use Q, W, R for spell usage
 # Plan
 architecture - https://drive.google.com/file/d/19fQX5iCFoHXjwprKPKEn_8Rg8FS-TKKh/view?usp=sharing                               
 Systems -      https://www.canva.com/design/DAGFhT_zlL8/TzasQ9Z8eVaQGl76XoQigg/edit?utm_content=DAGFhT_zlL8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton   
-Loading plan - https://github.com/Huji-Bezalel-Advanced-Unity/yan-nosrati-boss-level/edit/main/Assets/LoadingPlan.puml#L10C24
+Loading plan - https://drive.google.com/file/d/11x7_nP6jaarC4sV7S25aUQhFX8pYCp8N/view?usp=sharing
 ## Story
 The Greek god Hades, furious with the sins of a village, descends upon it with his underworld army to exact punishment. As the commander in chief, you are tasked by the king to defend the village entrance with limited resources. Can you navigate through the onslaught and defeat Hades and his army?
 
