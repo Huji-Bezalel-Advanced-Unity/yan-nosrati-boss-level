@@ -2,7 +2,7 @@
 https://yanos1.itch.io/blind-defense
 
 # Gameplay Video
-https://www.youtube.com/watch?v=fw_1mnX5VL
+https://www.youtube.com/watch?v=fw_1mnX5VLU
 
 # Project explanation
 https://youtu.be/4gx2OHzFmK4
